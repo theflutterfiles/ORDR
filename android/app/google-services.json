@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "975937714599",
+    "firebase_url": "https://mindful-lifter.firebaseio.com",
+    "project_id": "mindful-lifter",
+    "storage_bucket": "mindful-lifter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:975937714599:android:43951358e43b05e61fde82",
+        "android_client_info": {
+          "package_name": "com.tinika.flutter_app_mindful_lifting"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "975937714599-io9h2jnh7glmau2qc8fjh3fbu17om3ot.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGndxmpAWGR9MJk6ybKS9pM67SewVG7mM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "975937714599-io9h2jnh7glmau2qc8fjh3fbu17om3ot.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
