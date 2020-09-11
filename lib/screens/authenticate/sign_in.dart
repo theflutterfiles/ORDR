@@ -245,7 +245,7 @@ class _SignInState extends State<SignIn> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color(0xff4BB9AA),
+                  Color(0xfffbe30b),
                   Color(0xff208294),
                   Color(0xff0E5187),
                   Color(0xff0E2352),

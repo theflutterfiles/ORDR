@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +8,11 @@ import 'package:flutter_app_mindful_lifting/models/user.dart';
 
     //private final var to get Firebase Auth instance
    final FirebaseAuth _auth = FirebaseAuth.instance;
+   final Firestore _firestore = Firestore.instance;
 
    //create custom user object based on firebase user
    User _userFromFirebaseUser(FirebaseUser user){
-     return user != null ? User(uid: user.uid) : null;
+     return user != null ? User(uid: user.uid, displayName: user.displayName) : null;
    }
 
    //auth change user stream
@@ -48,10 +50,12 @@ import 'package:flutter_app_mindful_lifting/models/user.dart';
    }
 
     //register with email and password
-   Future registerWitEmailAndPassword(String email, String password) async {
+   Future registerWitEmailAndPassword(String email, String password, String displayName) async {
      try{
        AuthResult authResult = await _auth.createUserWithEmailAndPassword(email: email, password: password); //get response from the function
        FirebaseUser user = authResult.user; //store the result in firebase user object
+       String currentUserUid = user.uid;
+       _firestore.collection('users').document(currentUserUid).collection('about').add({'email': email, 'displayName': displayName});
        return _userFromFirebaseUser(user); //convert to custom user with uid
      }catch(e){
        print(e.toString());
@@ -61,13 +65,17 @@ import 'package:flutter_app_mindful_lifting/models/user.dart';
 
     //sign out
   Future<void> signOut() async {
-
      try{
        return await _auth.signOut(); //built into FireBaseAuth library
-
      }catch(e){
        print(e.toString());
        return null;
      }
   }
+
+  Future<String> getCurrentUserUID() async{
+     return (await _auth.currentUser()).uid;
+     //to use in other places = final uid = await Provider.of(context).auth.getCurrentUID();
+  }
+
   }

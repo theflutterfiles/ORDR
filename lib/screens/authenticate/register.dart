@@ -1,4 +1,5 @@
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app_mindful_lifting/screens/home/homeScreen.dart';
@@ -43,14 +44,6 @@ class _RegisterState extends State<Register> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            'Display Name',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'OpenSans',
-            ),
-          ),
           SizedBox(
             height: 10.0,
           ),
@@ -65,7 +58,8 @@ class _RegisterState extends State<Register> {
                   : null, //return null or helper text
               onChanged: (val) {
                 //val is whatever value is in the field, on changed is activated whenever user does absolutely anything in that field
-                setState(() => displayName = val);
+                setState(() => displayName = val
+                );
               },
               onFieldSubmitted: (val) {
                 _formKey.currentState.validate();
@@ -103,14 +97,6 @@ class _RegisterState extends State<Register> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            'Email',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'OpenSans',
-            ),
-          ),
           SizedBox(
             height: 10.0,
           ),
@@ -147,7 +133,7 @@ class _RegisterState extends State<Register> {
                     Icons.email,
                     color: Colors.white,
                   ),
-                  hintText: 'Enter your email',
+                  hintText: 'example@example.com',
                   hintStyle: TextStyle(
                     color: Colors.white54,
                     fontFamily: 'OpenSans',
@@ -165,14 +151,6 @@ class _RegisterState extends State<Register> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            'Password',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'OpenSans',
-            ),
-          ),
           SizedBox(
             height: 10.0,
           ),
@@ -224,14 +202,6 @@ class _RegisterState extends State<Register> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            'Confirm Password',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'OpenSans',
-            ),
-          ),
           SizedBox(
             height: 10.0,
           ),
@@ -282,7 +252,7 @@ class _RegisterState extends State<Register> {
       );
     }
 
-    Widget _buildLoginButton(){
+    Widget _buildSignupButton(){
       return Container(
         padding: EdgeInsets.symmetric(vertical: 25.0, ),
         width: double.infinity,
@@ -296,10 +266,10 @@ class _RegisterState extends State<Register> {
           onPressed: () async{
             if(_formKey.currentState.validate()){
               setState(() => loading = true);
-              dynamic result = await _authService.registerWitEmailAndPassword(email, password);
+              dynamic result = await _authService.registerWitEmailAndPassword(email, password, displayName);
               if(result == null){
                 setState(() => loading = false);
-                setState(() => error = 'User already exists.');
+                setState(() => error = 'User already exists! Please sign in.');
               }else if(result != null){
                 Navigator.push(context, new MaterialPageRoute(builder: (context) => HomePage())
                 );
@@ -314,26 +284,6 @@ class _RegisterState extends State<Register> {
               color: Color(0xff0E2352),
               fontSize: 18.0,
               fontWeight: FontWeight.bold,
-              fontFamily: 'OpenSans',
-            ),
-          ),
-        ),
-      );
-    }
-
-    Widget _buildForgotPasswordBtn(){
-      return Container(
-        alignment: Alignment.centerRight,
-        child: FlatButton(
-          padding: EdgeInsets.only(right: 0.0),
-          onPressed: (){
-            print("forgot password");
-          },
-          child: Text(
-            'Forgot Password?',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 11.0,
               fontFamily: 'OpenSans',
             ),
           ),
@@ -415,12 +365,11 @@ class _RegisterState extends State<Register> {
                           _buildPasswordTextField(),
                           SizedBox(height: 20.0,),
                           _buildConfirmPasswordTextField(),
-                          _buildForgotPasswordBtn(),
                           Text(
                             error,
                             style: TextStyle(color: Colors.red, fontSize: 14.0),
                           ),
-                          _buildLoginButton(),
+                          _buildSignupButton(),
                           Container(
                             height: 30.0,
                             child: GestureDetector(
