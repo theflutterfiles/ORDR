@@ -106,6 +106,7 @@ class _HomePageState extends State<HomePage> {
                               trailing: IconButton(
                                 icon: Icon(Icons.edit),
                               ),
+                              subtitle: Text(snapshot.data[index].data["created"].toString()),
                             );
                         }),
                       );
