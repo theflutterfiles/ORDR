@@ -11,19 +11,13 @@ final Firestore _firestore = Firestore.instance;
 class _AddProjectState extends State<AddProject> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Container(
-                child: Card(),
-
-
-              )
-            ],
-          ),
-        ),
-    );
+    return Scaffold(
+         body: Container(
+           child: Card(
+             color: ,
+           ),
+         ),
+        );
   }
 }
 

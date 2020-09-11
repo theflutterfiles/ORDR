@@ -53,6 +53,7 @@ class _HomePageState extends State<HomePage> {
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
+                Padding(padding: EdgeInsets.only(top: 30.0),),
                 AppBar(
                   elevation: 0.0,
                   backgroundColor: Colors.white,
@@ -62,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                   fontSize: 30.0),
                   ),
                   leading: IconButton(
-                    icon: Icon(Icons.account_circle),
+                    icon: Icon(Icons.add),
                     color: Colors.blueGrey,
                     iconSize: 40.0,
                     onPressed: () {
@@ -83,6 +84,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
                 Container(
+                  margin: EdgeInsets.only(top: 20.0),
                   child: FutureBuilder(
                     future: getProjects(),
                       builder: (context, snapshot){
@@ -97,16 +99,31 @@ class _HomePageState extends State<HomePage> {
                             shrinkWrap: true,
                             itemCount: snapshot.data.length,
                             itemBuilder: (context, index){
-                            return ListTile(
-                              title: Text(snapshot.data[index].data["projectName"]),
-                              leading: CircleAvatar(
-                                backgroundColor: Colors.teal,
-                                child: Text(getInitial(string: snapshot.data[index].data["projectName"], limitTo: 1)),
+                            return Card(
+                              elevation: 8.0,
+                              margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                              child: Container(
+                                decoration: BoxDecoration(color: Colors.white60),
+                                child: ListTile(
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                                    leading: Container(
+                                      padding: EdgeInsets.only(right: 12.0),
+                                      decoration: new BoxDecoration(
+                                          border: new Border(
+                                              right: new BorderSide(width: 1.0, color: Colors.teal))),
+                                      child: CircleAvatar(
+                                        backgroundColor: Colors.teal,
+                                        child: Text(getInitial(string: snapshot.data[index].data["projectName"], limitTo: 1)),
+                                      ),
+                                    ),
+                                    title: Text(snapshot.data[index].data["projectName"],
+                                      style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                                    ),
+                                    // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
+                                    trailing:
+                                    Icon(Icons.keyboard_arrow_right, color: Colors.teal, size: 30.0),
+                                ),
                               ),
-                              trailing: IconButton(
-                                icon: Icon(Icons.edit),
-                              ),
-                              subtitle: Text(snapshot.data[index].data["created"].toString()),
                             );
                         }),
                       );
@@ -118,35 +135,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-
     );
   }
 }
-
-
-class ProjectCard extends StatelessWidget{
-
-  ProjectCard(data, {this.colour});
-
-  Color colour;
-  String data;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Card(
-        elevation: 18.0,
-        child: Text(data),
-
-
-      ),
-      margin: EdgeInsets.all(10.0),
-      decoration: BoxDecoration(
-        color: colour,
-        borderRadius: BorderRadius.circular(15.0),
-      ),
-    );
-  }
-
-}
-

@@ -55,7 +55,10 @@ import 'package:flutter_app_mindful_lifting/models/user.dart';
        AuthResult authResult = await _auth.createUserWithEmailAndPassword(email: email, password: password); //get response from the function
        FirebaseUser user = authResult.user; //store the result in firebase user object
        String currentUserUid = user.uid;
-       _firestore.collection('users').document(currentUserUid).collection('about').add({'email': email, 'displayName': displayName});
+       _firestore.collection('users').document(currentUserUid).collection('about').add(
+           {'email': email, 
+             'displayName': displayName
+           });
        return _userFromFirebaseUser(user); //convert to custom user with uid
      }catch(e){
        print(e.toString());
