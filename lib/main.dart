@@ -20,6 +20,16 @@ class MyApp extends StatelessWidget {
       value: AuthService().user, //accessing the user defined in the Stream function in Stream<User> get <user>
       //we are now listening to this stream provider inside this widget using the stream (value)
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          appBarTheme: AppBarTheme(
+            color: Color(0xFFEBEBEB),
+            elevation: 0,
+          ),
+          scaffoldBackgroundColor: Color(0xFFEBEBEB),
+          canvasColor: Colors.transparent,
+          focusColor: Color(0xFF333333),
+        ),
         //the widgets inside here can access the values provided by stream provider value above e.g. user data from Stream<User> get user
         home: Wrapper(
         ),
@@ -33,7 +43,6 @@ class MyApp extends StatelessWidget {
           //const Locale('aus', ''),
       ],
         ),
-
     );
   }
 }

@@ -7,7 +7,6 @@ import 'package:flutter_app_mindful_lifting/services/auth.dart';
 import 'package:flutter_app_mindful_lifting/shared/loading.dart';
 
 class SignIn extends StatefulWidget {
-
   final Function toggleView; //property
   SignIn({this.toggleView}); //constructor
 
@@ -16,7 +15,6 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  
   final AuthService _authService = new AuthService();
   final _formKey = GlobalKey<FormState>(); //= to global key of form sate
 
@@ -50,16 +48,15 @@ class _SignInState extends State<SignIn> {
             height: 70.0,
             child: TextFormField(
               validator: (val) {
-                if(val.isEmpty)
-                  return "Enter email address";
-                if(EmailValidator.validate(val) == true)
+                if (val.isEmpty) return "Enter email address";
+                if (EmailValidator.validate(val) == true)
                   return null;
                 else
-                return "Enter valid email";
+                  return "Enter valid email";
               },
               //validator: (val) => "Enter Email";
-                  //? "Enter email"
-                  //: null, //return null or helper text
+              //? "Enter email"
+              //: null, //return null or helper text
               onChanged: (val) {
                 //val is whatever value is in the field, on changed is activated whenever user does absolutely anything in that field
                 setState(() => email = val);
@@ -72,7 +69,7 @@ class _SignInState extends State<SignIn> {
                 color: Colors.white,
               ),
               decoration: InputDecoration(
-                focusColor: Color(0xff0E2352),
+                  focusColor: Color(0xff0E2352),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
@@ -93,7 +90,6 @@ class _SignInState extends State<SignIn> {
     }
 
     Widget _buildPasswordTextField() {
-
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -130,7 +126,6 @@ class _SignInState extends State<SignIn> {
               style: TextStyle(
                 color: Colors.white,
               ),
-
               decoration: InputDecoration(
                   focusColor: Color(0xff0E2352),
                   border: OutlineInputBorder(
@@ -152,9 +147,11 @@ class _SignInState extends State<SignIn> {
       );
     }
 
-    Widget _buildLoginButton(){
-     return Container(
-        padding: EdgeInsets.symmetric(vertical: 25.0, ),
+    Widget _buildLoginButton() {
+      return Container(
+        padding: EdgeInsets.symmetric(
+          vertical: 25.0,
+        ),
         width: double.infinity,
         child: RaisedButton(
           color: Colors.white,
@@ -163,16 +160,17 @@ class _SignInState extends State<SignIn> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0),
           ),
-          onPressed: () async{
-            if(_formKey.currentState.validate()){
+          onPressed: () async {
+            if (_formKey.currentState.validate()) {
               setState(() => loading = true);
-              dynamic result = await _authService.signInWitEmailAndPassword(email, password);
-              if(result == null){
+              dynamic result =
+                  await _authService.signInWitEmailAndPassword(email, password);
+              if (result == null) {
                 setState(() => loading = false);
                 setState(() => error = 'Incorrect email/password');
-              }else if(result != null){
-                Navigator.push(context, new MaterialPageRoute(builder: (context) => HomePage())
-                );
+              } else if (result != null) {
+                Navigator.push(context,
+                    new MaterialPageRoute(builder: (context) => HomePage()));
               }
             }
             print(email + " + " + password);
@@ -191,12 +189,12 @@ class _SignInState extends State<SignIn> {
       );
     }
 
-    Widget _buildForgotPasswordBtn(){
-     return Container(
+    Widget _buildForgotPasswordBtn() {
+      return Container(
         alignment: Alignment.centerRight,
         child: FlatButton(
           padding: EdgeInsets.only(right: 0.0),
-          onPressed: (){
+          onPressed: () {
             print("forgot password");
           },
           child: Text(
@@ -211,100 +209,107 @@ class _SignInState extends State<SignIn> {
       );
     }
 
-    Widget _buildSignUpLink(){
+    Widget _buildSignUpLink() {
       return RichText(
-      text: TextSpan(children: [
-      TextSpan(text: 'Don\'t have an account? ',
-      style: TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.w400,
-      fontSize: 12.0,
-      ),
-      ),
-      TextSpan(text: 'Sign Up',
-      style: TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.bold,
-      decoration: TextDecoration.underline,
-      fontSize: 12.0,
-      ),
-      ),
-      ]),
+        text: TextSpan(children: [
+          TextSpan(
+            text: 'Don\'t have an account? ',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w400,
+              fontSize: 12.0,
+            ),
+          ),
+          TextSpan(
+            text: 'Sign Up',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              decoration: TextDecoration.underline,
+              fontSize: 12.0,
+            ),
+          ),
+        ]),
       );
     }
 
-
-    return loading ? Loading() : Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Container(
-            height: double.infinity,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Color(0xfffbe30b),
-                  Color(0xff208294),
-                  Color(0xff0E5187),
-                  Color(0xff0E2352),
-                ],
-                stops: [0.1, 0.4, 0.7, 0.9],
-              ),
-            ),
-          ),
-          Container(
-            height: double.infinity,
-            child: SingleChildScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
-              padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 80.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Sign In',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'OpenSans',
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold,
+    return loading
+        ? Loading()
+        : Scaffold(
+            body: Stack(
+              children: <Widget>[
+                Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color(0xfffbe30b),
+                        Color(0xff208294),
+                        Color(0xff0E5187),
+                        Color(0xff0E2352),
+                      ],
+                      stops: [0.1, 0.4, 0.7, 0.9],
                     ),
                   ),
-                  SizedBox(
-                    height: 30.0,
-                  ),
-                  Container(
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        children: <Widget>[
-                          _buildEmailTextField(),
-                          SizedBox(height: 40.0,),
-                          _buildPasswordTextField(),
-                          _buildForgotPasswordBtn(),
-                          Text(
-                            error,
-                            style: TextStyle(color: Colors.red, fontSize: 14.0),
+                ),
+                Container(
+                  height: double.infinity,
+                  child: SingleChildScrollView(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 40.0, vertical: 80.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'Sign In',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'OpenSans',
+                            fontSize: 30.0,
+                            fontWeight: FontWeight.bold,
                           ),
-                          _buildLoginButton(),
-                          Container(
-                            height: 30.0,
-                            child: GestureDetector(
-                              onTap: widget.toggleView,
-                              child: _buildSignUpLink(),
-                            ) ,
+                        ),
+                        SizedBox(
+                          height: 30.0,
+                        ),
+                        Container(
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              children: <Widget>[
+                                _buildEmailTextField(),
+                                SizedBox(
+                                  height: 40.0,
+                                ),
+                                _buildPasswordTextField(),
+                                _buildForgotPasswordBtn(),
+                                Text(
+                                  error,
+                                  style: TextStyle(
+                                      color: Colors.red, fontSize: 14.0),
+                                ),
+                                _buildLoginButton(),
+                                Container(
+                                  height: 30.0,
+                                  child: GestureDetector(
+                                    onTap: widget.toggleView,
+                                    child: _buildSignUpLink(),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+          );
   }
 }
