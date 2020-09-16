@@ -31,7 +31,7 @@ class _AddProjectFormState extends State<AddProjectForm> {
 
   Widget _buildProjectNameTextField() {
 
-    Project project = new Project();
+    Project project = new Project(null, null, null, null, null, null, null, null, null, null, null, null, null);
     _projectTitleController.text = project.projectName;
     project.projectName = "Name";
 
@@ -77,4 +77,16 @@ class _AddProjectFormState extends State<AddProjectForm> {
     );
   }
 
+}
+
+class DatePicker extends StatefulWidget {
+  @override
+  _DatePickerState createState() => _DatePickerState();
+}
+
+class _DatePickerState extends State<DatePicker> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
 }

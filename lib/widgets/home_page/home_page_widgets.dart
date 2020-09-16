@@ -33,7 +33,7 @@ String getInitial({String string, int limitTo}) {
 
 void _showBottomSheet(context) {
 
-  Project project = new Project();
+  Project project = new Project(null, null, null, null, null, null, null, null, null, null, null, null, null);
 
   showBottomSheet(
       context: (context),

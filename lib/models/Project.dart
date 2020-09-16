@@ -17,16 +17,17 @@ class Project {
    List<Collaborator> collaborators;
 
    //dates
-   Timestamp created;
-   Timestamp lastEdited;
-   Timestamp projectedEndDate;
+   DateTime created;
+   DateTime lastEdited;
+   DateTime startDate;
+   DateTime endDate;
 
   //budget
    double budget;
    List<double> expenses;
 
-  Project({this.tasks, this.collaborators, this.projectedEndDate, this.budget, this.expenses, this.goals, this.mission, this.colour,
-      this.projectName, this.description, this.created, this.lastEdited});
+  Project(this.tasks, this.collaborators, this.startDate, this.endDate, this.budget, this.expenses, this.goals, this.mission, this.colour,
+      this.projectName, this.description, this.created, this.lastEdited);
 
   Project.fromMap(Map<String, dynamic> data){
     projectName = data['projectName'];
@@ -40,8 +41,8 @@ class Project {
 
     created = data['created'];
     lastEdited = data['lastEdited'];
-    tasks = data['tasks'];
-    projectedEndDate = data['projectEndDate'];
+    startDate = data['startDate'];
+    endDate = data['projectEndDate'];
 
     budget = data['budget'];
     expenses = data['expenses'];
