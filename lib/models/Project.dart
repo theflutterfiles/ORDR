@@ -48,4 +48,41 @@ class Project {
     expenses = data['expenses'];
   }
 
+  String convertToString(){
+    return "name: " + this.projectName + "\n"
+        + "mission: " + this.mission + "\n"
+        + "created: " + this.created.toString() + "\n"
+        + "start: " + this.startDate.toString() + "\n"
+        + "last edited: " + this.lastEdited.toString() + "\n"
+        + "budget: " + this.budget.toString();
+  }
+
+  Map<String, dynamic> toJson() => {
+
+    'projectName' : projectName,
+    'mision' : mission,
+    'description' : description,
+    'goals' : {
+
+    },
+    'colour' : colour,
+    'tasks' : {
+
+    },
+    'collaborators' : {
+
+    },
+    'created' : created,
+    'startDate' : startDate,
+    'endDate' : endDate,
+    'lastEdited' : lastEdited,
+
+    'budget' : budget,
+    'expenses' : {
+
+    },
+  };
+
+
+
 }

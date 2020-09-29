@@ -163,10 +163,10 @@
             </list>
           </value>
         </entry>
-        <entry key="flutter_colorpicker">
+        <entry key="flutter_hsvcolor_picker">
           <value>
             <list>
-              <option value="$USER_HOME$/Desktop/TechincalApps/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_colorpicker-0.3.4/lib" />
+              <option value="$USER_HOME$/Desktop/TechincalApps/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_hsvcolor_picker-0.0.1/lib" />
             </list>
           </value>
         </entry>
@@ -454,7 +454,7 @@
       <root url="file://$USER_HOME$/Desktop/TechincalApps/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.4.5/lib" />
       <root url="file://$USER_HOME$/Desktop/TechincalApps/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core_platform_interface-1.0.4/lib" />
       <root url="file://$USER_HOME$/Desktop/TechincalApps/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core_web-0.1.1+2/lib" />
-      <root url="file://$USER_HOME$/Desktop/TechincalApps/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_colorpicker-0.3.4/lib" />
+      <root url="file://$USER_HOME$/Desktop/TechincalApps/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_hsvcolor_picker-0.0.1/lib" />
       <root url="file://$USER_HOME$/Desktop/TechincalApps/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_spinkit-4.1.2+1/lib" />
       <root url="file://$USER_HOME$/Desktop/TechincalApps/flutter/.pub-cache/hosted/pub.dartlang.org/google_fonts-1.1.0/lib" />
       <root url="file://$USER_HOME$/Desktop/TechincalApps/flutter/.pub-cache/hosted/pub.dartlang.org/http-0.12.2/lib" />

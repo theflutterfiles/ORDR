@@ -16,12 +16,13 @@ class Wrapper extends StatelessWidget {
     final AuthService _auth = new AuthService();
 
     final user = Provider.of<User>(context); //access user data from provider the type of data is User as specified in MyApp build method e.g. StreamProvider<User>
-    print(user);
+    //print(user.displayName + " - " + user.uid);
 
     if(user == null){
-      print("user signed out");
+      print("user signed out: " +  " - " + user.uid);
       return new Authenticate();
     }else{
+      print("user signed in: " + user.displayName + " - " + user.uid);
       return HomePage();
     }
   }

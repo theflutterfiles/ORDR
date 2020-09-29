@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/models/Project.dart';
 import 'package:flutter_app_mindful_lifting/screens/add_project_views/add_project_modal.dart';
+import 'package:flutter_app_mindful_lifting/screens/individual_project_views/ProjectView.dart';
 import 'package:flutter_app_mindful_lifting/services/auth.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
@@ -10,26 +11,25 @@ import 'package:google_fonts/google_fonts.dart';
 
 final AuthService _auth = new AuthService();
 
-Future getProjects() async {
+Stream<QuerySnapshot> getProjectsSnapshot(BuildContext context) async* { //* allows data to contsantly be open, always open stream
+
   final Firestore _firestore = Firestore.instance;
   final currentUserUID = await _auth.getCurrentUserUID();
-  QuerySnapshot querySnapshot = await _firestore
+  yield* _firestore
       .collection('users')
       .document(currentUserUID)
       .collection('projects')
-      .getDocuments();
-  return querySnapshot.documents;
+      .snapshots();
 }
+
 String getInitial({String string, int limitTo}) {
   var buffer = StringBuffer();
   var split = string.split(' ');
   for (var i = 0; i < (limitTo ?? split.length); i++) {
     buffer.write(split[i][0]);
   }
-  return buffer.toString();
+  return buffer.toString().toUpperCase();
 }
-
-
 
 void _showBottomSheet(context) {
 
@@ -39,7 +39,8 @@ void _showBottomSheet(context) {
       context: (context),
       builder: (BuildContext context) {
         return AddProjectModal(project: project,);
-      });
+      }
+      );
 }
 
 class MenuIcon extends StatelessWidget {
@@ -120,8 +121,8 @@ class ProjectsList extends StatelessWidget {
               height: 0.55 * screenHeight,
               width: 0.9 * screenWidth,
               decoration: AppThemeColours.BlueGreenGradientBox,
-              child: FutureBuilder(
-                  future: getProjects(),
+              child: StreamBuilder(
+                  stream: getProjectsSnapshot(context),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
@@ -135,8 +136,11 @@ class ProjectsList extends StatelessWidget {
                         child: ListView.builder(
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
-                          itemCount: snapshot.data.length,
+                          itemCount: snapshot.data.documents.length,
                           itemBuilder: (context, index) {
+                            List<String> projects = new List<String>();
+                            projects.add(snapshot.data.documents[index]
+                                .data["projectName"],);
                             return InkWell(
                               onTap: () {
                                 //Navigator.push(context, PageRouteBuilder)
@@ -147,6 +151,10 @@ class ProjectsList extends StatelessWidget {
                                 ),
                                 color: Color(0xFFEBEBEB),
                                 child: ListTile(
+                                  onTap: () async {
+                                    Navigator.push(context,
+                                        new MaterialPageRoute(builder: (context) => ProjectView(projectName: projects[index],)));
+                                  },
                                   leading: Container(
                                     padding: EdgeInsets.only(right: 12.0),
                                     decoration: new BoxDecoration(
@@ -159,14 +167,14 @@ class ProjectsList extends StatelessWidget {
                                       foregroundColor: Colors.white,
                                       child: Text(
                                         getInitial(
-                                            string: snapshot.data[index]
+                                            string: snapshot.data.documents[index]
                                                 .data["projectName"],
                                             limitTo: 1),
                                       ),
                                     ),
                                   ),
                                   title: Text(
-                                    snapshot.data[index].data["projectName"],
+                                    snapshot.data.documents[index].data["projectName"],
                                     style: GoogleFonts.workSans(
                                         textStyle: AppThemes.listText),
                                   ),
