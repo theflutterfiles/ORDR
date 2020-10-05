@@ -15,7 +15,6 @@ class Task {
   //attachment
   List<String> attachments;
 
-  Firestore _firestore = Firestore.instance;
 
   Task(
     this.status,

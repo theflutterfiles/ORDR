@@ -1,9 +1,7 @@
 import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_app_mindful_lifting/screens/account.dart';
 import 'package:flutter_app_mindful_lifting/screens/home/homeScreen.dart';
-import 'package:intl/intl.dart' as intl;
 
 class Calendar extends StatefulWidget {
   @override
@@ -101,7 +99,7 @@ class _CalendarState extends State<Calendar> {
                   Navigator.push(context,
                       new MaterialPageRoute(builder: (context) => HomePage()));
                 },),
-              title: Text('')
+            
           ),
           BottomNavigationBarItem(
             icon: IconButton(icon: Icon(Icons.calendar_today), color: Color(0xff19343e),
@@ -109,7 +107,7 @@ class _CalendarState extends State<Calendar> {
                 Navigator.push(context,
                     new MaterialPageRoute(builder: (context) => Calendar()));
               },),
-            title: Text(''),
+           
           ),
           BottomNavigationBarItem(
             icon: IconButton(icon: Icon(Icons.person_outline), color: Color(0xff19343e),
@@ -117,7 +115,7 @@ class _CalendarState extends State<Calendar> {
                 Navigator.push(context,
                     new MaterialPageRoute(builder: (context) => Account()));
               },),
-            title: Text(''),
+       
           ),
         ],
       ),

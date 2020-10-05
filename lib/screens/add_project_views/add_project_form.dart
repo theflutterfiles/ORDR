@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/models/Project.dart';
-import 'package:flutter_app_mindful_lifting/screens/add_project_views/add_project_form.dart';
 
 class AddProjectForm extends StatefulWidget {
 

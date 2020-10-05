@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class AddProject extends StatefulWidget {
@@ -6,7 +5,6 @@ class AddProject extends StatefulWidget {
   _AddProjectState createState() => _AddProjectState();
 }
 
-final Firestore _firestore = Firestore.instance;
 
 class _AddProjectState extends State<AddProject> {
   @override
