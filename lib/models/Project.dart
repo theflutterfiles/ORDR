@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app_mindful_lifting/models/Collaborator.dart';
 import 'package:flutter_app_mindful_lifting/models/Task.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,7 @@ class Project {
     created = data['created'];
     lastEdited = data['lastEdited'];
     startDate = data['startDate'];
-    endDate = data['projectEndDate'];
+    endDate = data['endDate'];
 
     budget = data['budget'];
     expenses = data['expenses'];
@@ -59,7 +60,7 @@ class Project {
   Map<String, dynamic> toJson() => {
 
     'projectName' : projectName,
-    'mision' : mission,
+    'mission' : mission,
     'description' : description,
     'goals' : {
 
@@ -82,6 +83,21 @@ class Project {
     },
   };
 
+// creating a Trip object from a firebase snapshot
+  Project.fromSnapshot(DocumentSnapshot snapshot) :
+    projectName = snapshot['projectName'],
+    description = snapshot['description'],
+    mission = snapshot['mission'],
+    goals = null,
+    colour = snapshot['colour'],
 
+    tasks = null,
+    collaborators = null,
+    created = snapshot['created'].toDate(),
+    //lastEdited = snapshot['lastEdited'].toDate(),
+    //startDate = snapshot['startDate'].toDate(),
+    endDate = snapshot['endDate'].toDate(),
 
+    budget = snapshot['budget'],
+    expenses = null;
 }

@@ -32,4 +32,27 @@ class AppThemes {
     letterSpacing: 1.2,
   );
 
+  static const TextStyle navigationListText = TextStyle(
+    fontSize: 20,
+    color: Color(0xFFEBEBEB),
+    fontWeight: FontWeight.w500,
+    letterSpacing: 1.2,
+  );
+
+  static const TextStyle navigationListTextSelected = TextStyle(
+    fontSize: 20,
+    color: Colors.white,
+    fontWeight: FontWeight.bold,
+    letterSpacing: 1.2,
+  );
+
+  static const TextStyle avatarListText = TextStyle(
+    fontSize: 20,
+    //fontFamily: 'WorkSans',
+    color: Color(0xFFEBEBEB),
+    fontWeight: FontWeight.w500,
+    letterSpacing: 1.2,
+  );
+
+  
 }

@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/models/Project.dart';
 import 'package:flutter_app_mindful_lifting/screens/add_project_views/add_project_modal.dart';
+import 'package:flutter_app_mindful_lifting/screens/individual_project_views/ProjectView.dart';
 import 'package:flutter_app_mindful_lifting/services/auth.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
+import 'package:flutter_app_mindful_lifting/widgets/shared/shared_methods.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -23,14 +25,6 @@ Stream<QuerySnapshot> getProjectsSnapshot(BuildContext context) async* {
       .snapshots();
 }
 
-String getInitial({String string, int limitTo}) {
-  var buffer = StringBuffer();
-  var split = string.split(' ');
-  for (var i = 0; i < (limitTo ?? split.length); i++) {
-    buffer.write(split[i][0]);
-  }
-  return buffer.toString().toUpperCase();
-}
 
 void _showBottomSheet(context) {
   Project project = new Project(null, null, null, null, null, null, null, null,
@@ -110,6 +104,7 @@ class HeadingText extends StatelessWidget {
 }
 
 class ProjectsList extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -142,7 +137,7 @@ class ProjectsList extends StatelessWidget {
                             itemCount: snapshot.data.documents.length,
                             itemBuilder: (BuildContext context, int index) =>
                                 _buildProjectCard(
-                                    context, snapshot.data.documents[index])));
+                                    context, snapshot.data.documents[index])));           
                   }
                 }),
           ),
@@ -152,7 +147,17 @@ class ProjectsList extends StatelessWidget {
   }
 }
 
-Widget _buildProjectCard(BuildContext context, DocumentSnapshot project) {
+
+
+Widget _buildProjectCard(BuildContext context, DocumentSnapshot projectDocument) {
+
+DateTime created;
+DateTime startDate;
+DateTime endDate;
+DateTime lastEdited;
+
+final Project project = Project.fromSnapshot(projectDocument);
+
   return Card(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(20.0),
@@ -160,7 +165,10 @@ Widget _buildProjectCard(BuildContext context, DocumentSnapshot project) {
     color: Color(0xFFEBEBEB),
     child: InkWell(
       child: ListTile(
-        onTap: () async => {},
+        onTap: () async => {
+          Navigator.push(context, 
+          MaterialPageRoute(builder: (context) => ProjectDetailView(project: project))),
+        },
         leading: Container(
           padding: EdgeInsets.only(right: 12.0),
           decoration: new BoxDecoration(
@@ -169,18 +177,18 @@ Widget _buildProjectCard(BuildContext context, DocumentSnapshot project) {
           child: CircleAvatar(
             backgroundColor: Color(0xFF333333),
             foregroundColor: Colors.white,
-            child: Text(""
-                //getInitial(string: project['projectName'], limitTo: 1),
+            child: Text(
+                getInitial(string: projectDocument['projectName'], limitTo: 1),
                 ),
           ),
         ),
         title: Text(
-          project['projectName'],
+          projectDocument['projectName'],
           style:
               GoogleFonts.workSans(textStyle: AppThemes.listText, fontSize: 20),
         ),
         subtitle: Text(
-          "Last Edited: ${DateFormat('dd MMM yyyy').format(project['lastEdited'].toDate()).toString()}",
+          "Last Edited: ${DateFormat('dd MMM yyyy').format(projectDocument['lastEdited'].toDate()).toString()}",
           style: TextStyle(fontSize: 13),
         ),
         trailing: Icon(Icons.keyboard_arrow_right,
