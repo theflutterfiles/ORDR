@@ -39,7 +39,7 @@ Stream<QuerySnapshot> getAboutSnapshot(BuildContext context) async* {
     
     super.initState();
     _animationController = new AnimationController(vsync: this, duration: Duration(milliseconds: 150),);
-    widthAnimation = Tween<double>(begin: 250, end: 90).animate(_animationController);
+    widthAnimation = Tween<double>(begin: 250, end: 0).animate(_animationController);
   }
 
   @override
@@ -57,28 +57,30 @@ Stream<QuerySnapshot> getAboutSnapshot(BuildContext context) async* {
     return Container(
       width: widthAnimation.value,
       decoration: new BoxDecoration(
-        color: Color(0xFF333344),
-        
-        //borderRadius: BorderRadius.circular(10),
+        color: AppThemeColours.NavigationBarColor,
               border: new Border(
                   //right: new BorderSide(width: 1.0, color: Colors.white)
-                  
                   ),
-                  
-                  //borderRadius: BorderRadius.circular(35)
+                  //borderRadius: BorderRadius.circular(35), 
+                  boxShadow: [
+            BoxShadow(
+                color: Color(0xFFc4c4c4),
+                blurRadius: 1.0,
+                spreadRadius: 0.0,
+                offset: Offset(1.0, 1.0), // shadow direction: bottom right
+            )
+        ],
                   ),
-      
-      //color: Color(0xFF333333),
       child: Column(
         children: [
-          Padding(
+          /*Padding (
             padding: const EdgeInsets.only(top: 48.0),
             child: Align(
             alignment: (widthAnimation.value >= 220) ? Alignment.topRight : Alignment.center,
             child: InkWell(
               child: Icon(
                 Icons.more_vert, 
-                color: Color(0xFFC4C4C4), 
+                color: AppThemeColours.NavigationBarIconColor, 
                 size: 40,),
                 onTap: () {
                   setState(() {
@@ -88,7 +90,7 @@ Stream<QuerySnapshot> getAboutSnapshot(BuildContext context) async* {
                 },
                 ),
         ),
-          ),
+          ), */
           Container(
             child: StreamBuilder(
                 stream: getAboutSnapshot(context),
@@ -102,7 +104,7 @@ Stream<QuerySnapshot> getAboutSnapshot(BuildContext context) async* {
                     );
                   } else {
                     return Padding(
-                      padding: const EdgeInsets.only(left:20.0),
+                      padding: const EdgeInsets.only(left:1.5),
                       child: Container(
                           child: ListView.builder(
                               scrollDirection: Axis.vertical,
@@ -114,17 +116,17 @@ Stream<QuerySnapshot> getAboutSnapshot(BuildContext context) async* {
                   }
                 }),
           ),
-          Divider(height: 14, color: Color(0xFFEBEBEB),),
+          Divider(height: 10, color: AppThemeColours.NavigationBarIconColor,),
           Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
+                    padding: const EdgeInsets.only(left: 20.0),
                     child: ListView.builder(itemBuilder: (context, index){
               return Padding(
                 padding: const EdgeInsets.only(left: 5.0, bottom: 20.0),
                 child: CollapsingListTitle(
                   onTap: (){
                     switch (index){
-                      case 0 : {Navigator.pop(context);} break;
+                      case 0 : Navigator.pop(context); break;
                       case 1 : 
                     }
                   },

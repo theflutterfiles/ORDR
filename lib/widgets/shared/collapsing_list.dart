@@ -27,7 +27,7 @@ class _CollapsingListTitleState extends State<CollapsingListTitle> {
   @override
   void initState() {
     super.initState();
-    _widthAnimation = Tween<double>(begin: 250, end: 90).animate(widget.animationController);
+    _widthAnimation = Tween<double>(begin: 250, end: 0).animate(widget.animationController);
   }
 
   @override
@@ -36,22 +36,22 @@ class _CollapsingListTitleState extends State<CollapsingListTitle> {
       onTap: widget.onTap,
           child: Container(
             alignment: Alignment.center,
-            margin: EdgeInsets.only(right: 18),
-            padding: EdgeInsets.only(top: 10, left: 7, bottom: 10),
+            padding: EdgeInsets.only(top: 10, bottom: 10, left: 20),
+            margin: EdgeInsets.only(right: 20),
             decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(16),),
-            color: (widget.isSelected) ? Colors.transparent.withOpacity(0.3) : Colors.transparent
+            color: (widget.isSelected) ? Colors.transparent.withOpacity(1) : Colors.transparent,
             ),
             child: Row(
         children: [
-            Icon(widget.icon, color: widget.isSelected ? AppThemeColours.NavigationSelectedColor :Color(0xFFC4C4C4) ,size: 35,),
-            SizedBox(width: 10,),
+            Icon(widget.icon, color: widget.isSelected ? AppThemeColours.NavigationBarIconColor : AppThemeColours.NavigationBarIconColor ,size: 30,),
+            SizedBox(width: 5,),
             (_widthAnimation.value >= 220 ) 
             ? Text(widget.title, 
             style: TextStyle(
               fontSize: 20,
               color: (widget.isSelected) 
-              ? Colors.white 
-              : AppThemeColours.NavigationSelectedBackgroundColor),)
+              ? AppThemeColours.NavigationSelectedColor
+              : AppThemeColours.NavigationBarIconColor),)
               : Container()
         ],
       ),
@@ -79,29 +79,34 @@ class _AvatarListTitleState extends State<AvatarListTitle> {
   @override
   void initState() {
     super.initState();
-    _widthAnimation = Tween<double>(begin: 250, end: 90).animate(widget.animationController);
+    _widthAnimation = Tween<double>(begin: 250, end: 0).animate(widget.animationController);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: CircleAvatar(
-              backgroundColor: AppThemeColours.NavigationSelectedColor,
-              foregroundColor: Color(0xFF333333),
-              child: Text(
-                  getInitial(string: widget.displayName, limitTo: 1),
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                  ),
-            ),
-        ),
-        SizedBox(width: 10,),
-        (_widthAnimation.value >= 220 ) 
-        ? Text(widget.displayName, style: AppThemes.avatarListText)
-        : Container(),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(left: 20.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            
+            child: CircleAvatar(
+                backgroundColor: AppThemeColours.GreenHighlight,
+                foregroundColor: Color(0xFF333333),
+                child: Text(
+                    getInitial(string: widget.displayName, limitTo: 1),
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                    ),
+              ),
+          ),
+          SizedBox(width: 6,),
+          (_widthAnimation.value >= 220 ) 
+          ? Text(widget.displayName, style: AppThemes.avatarListText)
+          : Container(),
+        ],
+      ),
     );
   }
 }

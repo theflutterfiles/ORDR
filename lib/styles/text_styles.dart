@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 
 class AppThemes {
 
@@ -49,10 +50,44 @@ class AppThemes {
   static const TextStyle avatarListText = TextStyle(
     fontSize: 20,
     //fontFamily: 'WorkSans',
-    color: Color(0xFFEBEBEB),
-    fontWeight: FontWeight.w500,
+    color: AppThemeColours.NavigationBarIconColor,
+    fontWeight: FontWeight.bold,
     letterSpacing: 1.2,
   );
+
+   static const TextStyle DashboardCardContentText = TextStyle(
+    fontSize: 40,
+    //fontFamily: 'WorkSans',
+    color: AppThemeColours.NavigationBarIconColor,
+    fontWeight: FontWeight.bold,
+    letterSpacing: 1.2,
+  );
+  static const TextStyle DashboardCardTitleText = TextStyle(
+    fontSize: 20,
+    //fontFamily: 'WorkSans',
+    color: AppThemeColours.NavigationBarIconColor,
+    fontWeight: FontWeight.bold,
+    letterSpacing: 1.2,
+  );
+  static const TextStyle DashboardCardBudgetNumber = TextStyle(
+    fontSize: 25,
+    //fontFamily: 'WorkSans',
+    color: AppThemeColours.NavigationBarIconColor,
+    fontWeight: FontWeight.bold,
+    letterSpacing: 1.2,
+  );
+
+  static const TextStyle DateSubtitle = TextStyle(
+    fontSize: 15,
+    fontFamily: 'WorkSans',
+    color: AppThemeColours.DarkPurple,
+    fontStyle: FontStyle.italic,
+    letterSpacing: 1.2,
+  );
+
+
+  
+  
 
   
 }
