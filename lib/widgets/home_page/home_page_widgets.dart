@@ -25,7 +25,6 @@ Stream<QuerySnapshot> getProjectsSnapshot(BuildContext context) async* {
       .snapshots();
 }
 
-
 void _showBottomSheet(context) {
   Project project = new Project(null, null, null, null, null, null, null, null,
       null, null, null, null, null);
@@ -104,7 +103,6 @@ class HeadingText extends StatelessWidget {
 }
 
 class ProjectsList extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -137,7 +135,7 @@ class ProjectsList extends StatelessWidget {
                             itemCount: snapshot.data.documents.length,
                             itemBuilder: (BuildContext context, int index) =>
                                 _buildProjectCard(
-                                    context, snapshot.data.documents[index])));           
+                                    context, snapshot.data.documents[index])));
                   }
                 }),
           ),
@@ -147,16 +145,14 @@ class ProjectsList extends StatelessWidget {
   }
 }
 
+Widget _buildProjectCard(
+    BuildContext context, DocumentSnapshot projectDocument) {
+  DateTime created;
+  DateTime startDate;
+  DateTime endDate;
+  DateTime lastEdited;
 
-
-Widget _buildProjectCard(BuildContext context, DocumentSnapshot projectDocument) {
-
-DateTime created;
-DateTime startDate;
-DateTime endDate;
-DateTime lastEdited;
-
-final Project project = Project.fromSnapshot(projectDocument);
+  final Project project = Project.fromSnapshot(projectDocument);
 
   return Card(
     shape: RoundedRectangleBorder(
@@ -166,8 +162,10 @@ final Project project = Project.fromSnapshot(projectDocument);
     child: InkWell(
       child: ListTile(
         onTap: () async => {
-          Navigator.push(context, 
-          MaterialPageRoute(builder: (context) => ProjectDetailView(project: project))),
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ProjectDetailView(project: project))),
         },
         leading: Container(
           padding: EdgeInsets.only(right: 12.0),
@@ -178,8 +176,8 @@ final Project project = Project.fromSnapshot(projectDocument);
             backgroundColor: Color(0xFF333333),
             foregroundColor: Colors.white,
             child: Text(
-                getInitial(string: projectDocument['projectName'], limitTo: 1),
-                ),
+              getInitial(string: projectDocument['projectName'], limitTo: 1),
+            ),
           ),
         ),
         title: Text(

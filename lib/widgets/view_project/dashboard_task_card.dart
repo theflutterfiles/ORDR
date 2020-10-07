@@ -1,46 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
 
-class CustomDashboardCard extends StatelessWidget {
+class CustomDashboardTaskCard extends StatelessWidget {
+
   final String title;
   final Icon icon;
   //final Action onNavigationSelection;
   final String content;
-  final LinearGradient gradient;
+  final Color colour;
 
-  const CustomDashboardCard(
+  const CustomDashboardTaskCard(
       {Key key,
       @required this.title,
       this.icon,
       @required this.content,
-      @required this.gradient})
+      @required this.colour})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        margin: EdgeInsets.all(10),
+        //margin: EdgeInsets.all(0),
         decoration: BoxDecoration(
-          gradient: gradient,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey,
-              blurRadius: 2.0,
-              spreadRadius: 0.0,
-              offset: Offset(2.0, 2.0), // shadow direction: bottom right
-            )
-          ],
-        ),
+            color: colour, borderRadius: BorderRadius.circular(20),
+            ),
         child: Column(
           children: [
             Expanded(
               child: Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 20.0, left: 16),
+                    padding: const EdgeInsets.only(top: 20.0, left: 10),
                     child: icon,
                   ),
                 ],
@@ -63,7 +54,7 @@ class CustomDashboardCard extends StatelessWidget {
               child: Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 16, bottom: 16),
+                    padding: const EdgeInsets.only(left: 16),
                     child: Text(
                       content,
                       style: (content.contains("\$")

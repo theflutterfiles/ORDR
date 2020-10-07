@@ -67,7 +67,6 @@ class Project {
     },
     'colour' : colour,
     'tasks' : {
-
     },
     'collaborators' : {
 
