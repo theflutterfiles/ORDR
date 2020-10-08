@@ -60,7 +60,7 @@ class AppThemes {
   );
 
   static const TextStyle DashboardCardContentText = TextStyle(
-    fontSize: 35,
+    fontSize: 32,
     //fontFamily: 'WorkSans',
     color: AppThemeColours.DashboardWhite,
     fontWeight: FontWeight.bold,
@@ -74,14 +74,14 @@ class AppThemes {
     letterSpacing: 1.2,
   );
   static const TextStyle DashboardProgressText = TextStyle(
-    fontSize: 20,
+    fontSize: 17,
     //fontFamily: 'WorkSans',
     color: AppThemeColours.NavigationBarColor,
     //fontWeight: FontWeight.bold,
     letterSpacing: 1.2,
   );
   static const TextStyle DashboardCardBudgetNumber = TextStyle(
-    fontSize: 20,
+    fontSize: 25,
     //fontFamily: 'WorkSans',
     color: AppThemeColours.DashboardWhite,
     fontWeight: FontWeight.bold,
@@ -92,7 +92,7 @@ class AppThemes {
     fontSize: 15,
     fontFamily: 'WorkSans',
     color: AppThemeColours.NavigationBarColor,
-    fontStyle: FontStyle.italic,
+    //fontStyle: FontStyle.italic,
     letterSpacing: 1.2,
   );
 }

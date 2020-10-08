@@ -26,39 +26,40 @@ class ProgressBarCard extends StatelessWidget {
                 //color: AppThemeColours.DarkPurple,
                 borderRadius: BorderRadius.circular(20)),
             child: Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                        child: Text(
-                      title,
-                      style: AppThemes.DashboardProgressText,
-                    )),
-                    Container(
-                      child: Text(
-                        completionPercentage.toString() + "%",
-                        textAlign: TextAlign.left,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                          child: Text(
+                        title,
                         style: AppThemes.DashboardProgressText,
+                      )),
+                      Container(
+                        child: Text(
+                          completionPercentage.toString() + "%",
+                          textAlign: TextAlign.left,
+                          style: AppThemes.DashboardProgressText,
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                    ),
-                  ],
-                ),
-                Container(
-                  height: 40,
-                  child: LinearPercentIndicator(
-                    backgroundColor: Color(0xFFEBEBEB),
-                    lineHeight: 10,
-                    linearStrokeCap: LinearStrokeCap.butt,
-                    progressColor: AppThemeColours.GreenHighlight,
-                    percent: completionPercentage / 100,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                  Container(
+                    height: 40,
+                    child: LinearPercentIndicator(
+                      backgroundColor: Color(0xFFebebeb),
+                      lineHeight: 10,
+                      linearStrokeCap: LinearStrokeCap.butt,
+                      progressColor: AppThemeColours.OrangeColour,
+                      percent: completionPercentage / 100,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
+          
         ],
     );
   }

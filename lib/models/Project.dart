@@ -62,24 +62,15 @@ class Project {
     'projectName' : projectName,
     'mission' : mission,
     'description' : description,
-    'goals' : {
-
-    },
+    'goals' : [],
     'colour' : colour,
-    'tasks' : {
-    },
-    'collaborators' : {
-
-    },
+    'collaborators' : [],
     'created' : created,
     'startDate' : startDate,
     'endDate' : endDate,
     'lastEdited' : lastEdited,
-
     'budget' : budget,
-    'expenses' : {
-
-    },
+    'expenses' : [],
   };
 
 // creating a Trip object from a firebase snapshot

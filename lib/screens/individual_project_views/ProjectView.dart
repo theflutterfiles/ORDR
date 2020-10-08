@@ -1,28 +1,44 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/models/Project.dart';
-import 'package:flutter_app_mindful_lifting/models/dashboard_card.dart';
+import 'package:flutter_app_mindful_lifting/models/Task.dart';
+import 'package:flutter_app_mindful_lifting/screens/add_task_views/add_task_modal.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
 import 'package:flutter_app_mindful_lifting/widgets/dashboard/dashboard_icons.dart';
-import 'package:flutter_app_mindful_lifting/widgets/home_page/home_page_widgets.dart';
 import 'package:flutter_app_mindful_lifting/widgets/shared/collapsing_navigation_drawer.dart';
+import 'package:flutter_app_mindful_lifting/widgets/view_project/dashboard_add_task_card.dart';
 import 'package:flutter_app_mindful_lifting/widgets/view_project/dashboard_card.dart';
-import 'package:flutter_app_mindful_lifting/widgets/view_project/dashboard_task_card.dart';
 import 'package:flutter_app_mindful_lifting/widgets/view_project/project_progress_card.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_app_mindful_lifting/models/dashboard_card.dart';
 
-class ProjectDetailView extends StatelessWidget {
-  Project project;
+class ProjectDetailView extends StatefulWidget {
+
+  final Project project;
 
   ProjectDetailView({Key key, @required this.project}) : super(key: key);
 
   @override
+  _ProjectDetailViewState createState() => _ProjectDetailViewState();
+}
+
+class _ProjectDetailViewState extends State<ProjectDetailView> {
+  Task task;
+  final scaffoldState = GlobalKey<ScaffoldState>();
+
+void _showBottomSheet(context) {
+  Task task = new Task(null, null, null, null, null);
+
+  scaffoldState.currentState.showBottomSheet((context) => AddTaskModal(
+          projectName: widget.project.projectName,
+          task: task,
+        ));
+}
+
+  @override
   Widget build(BuildContext context) {
     int _getDaysUntilCompletion() {
-      int diff = project.endDate.difference(DateTime.now()).inDays;
+      int diff = widget.project.endDate.difference(DateTime.now()).inDays;
       if (diff < 0) {
         diff = 0;
       }
@@ -32,21 +48,24 @@ class ProjectDetailView extends StatelessWidget {
     //SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-    //final _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-    String budget = "\$" + project.budget.toString();
+    String budget = "\$" + widget.project.budget.toString();
 
     return Scaffold(
+      key: scaffoldState,
       backgroundColor: AppThemeColours.DashboardWhite,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        //key: _scaffoldKey,
         backgroundColor: AppThemeColours.DashboardWhite,
         leading: Padding(
           padding: EdgeInsets.symmetric(horizontal: 15),
           child: Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.menu_rounded, size: 40, color: AppThemeColours.NavigationBarColor,),
+              icon: Icon(
+                Icons.menu_rounded,
+                size: 40,
+                color: AppThemeColours.NavigationBarColor,
+              ),
               color: Colors.black,
               onPressed: () => Scaffold.of(context).openDrawer(),
             ),
@@ -74,13 +93,16 @@ class ProjectDetailView extends StatelessWidget {
                         RichText(
                           text: TextSpan(children: [
                             TextSpan(
-                              text: " " + project.projectName + "\n",
+                              text: " " + widget.project.projectName + "\n",
                               style: GoogleFonts.poppins(
                                 textStyle: AppThemes.display1,
                               ),
                             ),
-                            
-                            TextSpan(text: "  Started: " + DateFormat("dd MMM yyyy").format(project.created), style: AppThemes.DateSubtitle),
+                            TextSpan(
+                                text: "  Started: " +
+                                    DateFormat("dd MMM yyyy")
+                                        .format(widget.project.created),
+                                style: AppThemes.DateSubtitle),
                           ]),
                         ),
                       ],
@@ -89,68 +111,105 @@ class ProjectDetailView extends StatelessWidget {
                   SizedBox(
                     height: 20,
                   ),
-                  
-                  //SizedBox(height: 50,),
-                  Expanded(
+                  Container(
+                    width: screenWidth,
+                    height: screenHeight * 0.18,
                     child: Row(
                       children: [
+                        Container(
+                          width: screenWidth * 0.35,
+                          height: screenHeight * 0.35,
+                          child: CustomDashboardCard(
+                            title: "Due in",
+                            icon: DashboardIconThemes.TargetCompletionIcon,
+                            gradient: AppThemeColours.BlueGreenLinearGradient,
+                            content: _getDaysUntilCompletion().toString(),
+                          ),
+                        ),
                         CustomDashboardCard(
                           title: "Budget",
                           icon: DashboardIconThemes.BudgetIcon,
-                          gradient: AppThemeColours.dashboardCardGradient,
+                          gradient: AppThemeColours.BlueGreenLinearGradient,
                           content: budget,
-                        ),
-                        CustomDashboardCard(
-                          title: "Due in",
-                          icon: DashboardIconThemes.TargetCompletionIcon,
-                          gradient: AppThemeColours.dashboardCardGradient,
-                          content: _getDaysUntilCompletion().toString(),
                         ),
                       ],
                     ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Divider(
+                    indent: 10,
+                    endIndent: 10,
+                    color: Colors.grey,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 15.0, left: 10),
+                          child: Text(
+                            "Tasks",
+                            style: AppThemes.DashboardCardTitleText.copyWith(
+                                fontSize: 30),
+                          ),
+                        ),
+                      ),
+                      //Container(child: DashboardIconThemes.AddTaskIcon, padding: EdgeInsets.only(top: 15),),
+                    ],
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 4, top: 20),
                     height: 80,
                     child: ProgressBarCard(
-                      title: " Task Progress",
+                      title: "  Progress",
                       completionPercentage: 50.0,
                     ),
                   ),
-                  Expanded(
+                  Container(
+                    width: screenWidth,
+                    height: screenHeight * 0.18,
                     child: Row(
                       children: [
-                        CustomDashboardCard(
-                          title: "Open Tasks",
-                          icon: DashboardIconThemes.OpenTaskIcon,
-                          gradient: AppThemeColours.dashboardCardGradient,
-                          content: "5",
+                        Container(
+                          width: screenWidth * 0.33,
+                          height: screenHeight * 0.35,
+                          child: CustomDashboardCard(
+                            title: "Open",
+                            icon: DashboardIconThemes.TargetCompletionIcon,
+                            gradient: AppThemeColours.BlueGreenLinearGradient,
+                            content: "5",
+                          ),
                         ),
-                        CustomDashboardCard(
-                          title: "Closed Tasks",
-                          icon: DashboardIconThemes.TasksIcon,
-                          gradient: AppThemeColours.dashboardCardGradient,
-                          content: "10",
+                        Container(
+                          width: screenWidth * 0.33,
+                          height: screenHeight * 0.35,
+                          child: CustomDashboardCard(
+                            title: "Closed",
+                            icon: DashboardIconThemes.BudgetIcon,
+                            gradient: AppThemeColours.BlueGreenLinearGradient,
+                            content: "10",
+                          ),
+                        ),
+                        InkWell(
+                          child: Container(
+                            width: screenWidth * 0.2,
+                            height: screenHeight * 0.35,
+                            child: CustomDashboardAddTaskCard2(
+                              icon: DashboardIconThemes.AddTaskIcon,
+                              title: "Add Task",
+                              content: "",
+                              gradient: AppThemeColours.BlueGreenLinearGradient,
+                            ),
+                          ),
+                          onTap: () {
+                            _showBottomSheet(context);
+                          },
                         ),
                       ],
                     ),
                   ),
-                  Expanded(
-                      child: Row(
-                    children: [
-                      CustomDashboardCard(
-                        title: "Tasks",
-                        icon: DashboardIconThemes.TasksIcon,
-                        gradient: AppThemeColours.dashboardCardGradient,
-                        content: "",
-                      ),
-                    ],
-                  )),
-                  Expanded(
-                      child: Container(
-                    width: screenWidth,
-                    height: screenHeight * 0.20,
-                  ))
                 ],
               ),
             ),
@@ -161,47 +220,3 @@ class ProjectDetailView extends StatelessWidget {
   }
 }
 
-class CustomCard extends StatelessWidget {
-  final String cardTitle;
-  final Icon cardIcon;
-  final String cardData;
-
-  const CustomCard(
-      {Key key, @required this.cardTitle, this.cardIcon, this.cardData})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(
-        15.0,
-      ),
-      decoration: AppThemeColours.DashboardCardBox,
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Align(
-                child: IconButton(
-                  icon: cardIcon,
-                  onPressed: null,
-                  iconSize: 40,
-                  color: Color(0xFF333333),
-                ),
-                alignment: Alignment.centerLeft,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 15),
-                child: Text(
-                  cardTitle,
-                  style: TextStyle(fontSize: 20, color: Color(0xFF333333)),
-                ),
-              ),
-            ],
-          ),
-          Text(cardData),
-        ],
-      ),
-    );
-  }
-}

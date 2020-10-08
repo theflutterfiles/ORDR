@@ -2,22 +2,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/models/Project.dart';
+import 'package:flutter_app_mindful_lifting/models/Task.dart';
 import 'package:flutter_app_mindful_lifting/services/auth.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:intl/intl.dart';
 
-class AddProjectModal extends StatefulWidget {
-  final Project project;
+class AddTaskModal extends StatefulWidget {
 
-  AddProjectModal({Key key, @required this.project}) : super(key: key);
+  final Task task;
+  final String projectName;
+
+  AddTaskModal({Key key, @required this.task, @required this.projectName}) : super(key: key);
 
   @override
-  _AddProjectModalState createState() => _AddProjectModalState();
+  _AddTaskModalState createState() => _AddTaskModalState();
 }
 
-class _AddProjectModalState extends State<AddProjectModal> {
+class _AddTaskModalState extends State<AddTaskModal> {
+
   Firestore _firestore = Firestore.instance;
   final AuthService _auth = new AuthService();
 
@@ -56,19 +60,20 @@ class _AddProjectModalState extends State<AddProjectModal> {
                 padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(bottom: 30.0),
                       child: Row(
-                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            "Add Project",
+                            "Add Task",
                             style: GoogleFonts.playfairDisplay(
                               textStyle: AppThemes.display1,
                             ),
                           ),
-                          IconButton(
+                         IconButton(
                               icon: Icon(
                                 Icons.keyboard_arrow_down,
                                 color: Color(0xFF333333),
@@ -76,6 +81,7 @@ class _AddProjectModalState extends State<AddProjectModal> {
                               ),
                               onPressed: () => Navigator.pop(context),
                             ),
+                          
                         ],
                       ),
                     ),
@@ -149,7 +155,7 @@ class _AddProjectModalState extends State<AddProjectModal> {
                                   );
                                   if (datePicked != null) {
                                     setState(() {
-                                      widget.project.startDate = datePicked;
+                                      //widget.task.startDate = datePicked;
                                     });
                                     _startDateTextController.text =
                                         DateFormat('dd/MM/yyyy')
@@ -192,7 +198,7 @@ class _AddProjectModalState extends State<AddProjectModal> {
                                 );
                                 if (datePicked != null) {
                                   setState(() {
-                                    widget.project.endDate = datePicked;
+                                   // widget.project.endDate = datePicked;
                                   });
                                   _endDateTextController.text =
                                       DateFormat('dd/MM/yyyy')
@@ -252,24 +258,16 @@ class _AddProjectModalState extends State<AddProjectModal> {
                       padding: EdgeInsets.only(top: 20.0),
                       child: RaisedButton(
                         onPressed: () async {
-                          widget.project.projectName =
-                              _projectNameTextController.text;
-                          widget.project.mission = _missionTextController.text;
-                          //widget.project.startDate = startDate;
-                          //widget.project.endDate = endDate;
-                          widget.project.created = DateTime.now();
-                          widget.project.lastEdited = DateTime.now();
-                          widget.project.budget =
-                              double.parse(_budgetTextController.text);
+                         
 
-                          final currentUserUID =
-                              await _auth.getCurrentUserUID();
+                          //final currentUserUID =
+                              //await _auth.getCurrentUserUID();
 
-                          await _firestore
+                          /* await _firestore
                               .collection("users")
                               .document(currentUserUID)
                               .collection("projects")
-                              .add(widget.project.toJson());
+                              .add(widget.project.toJson()); */
 
                           Navigator.of(context).pop();
                         },
