@@ -70,4 +70,6 @@ class AppThemeColours {
     begin: Alignment.topRight,
     end: Alignment.bottomLeft,
   );
+
+  static const TextFieldLineColor = Color(0xFF333333);
 }

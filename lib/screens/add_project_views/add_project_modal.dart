@@ -53,7 +53,7 @@ class _AddProjectModalState extends State<AddProjectModal> {
             children: <Widget>[
               Container(
                 width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -64,14 +64,14 @@ class _AddProjectModalState extends State<AddProjectModal> {
                         children: <Widget>[
                           Text(
                             "Add Project",
-                            style: GoogleFonts.playfairDisplay(
+                            style: GoogleFonts.poppins(
                               textStyle: AppThemes.display1,
                             ),
                           ),
                           IconButton(
                               icon: Icon(
                                 Icons.keyboard_arrow_down,
-                                color: Color(0xFF333333),
+                                color: AppThemeColours.TextFieldLineColor,
                                 size: 30,
                               ),
                               onPressed: () => Navigator.pop(context),
@@ -269,13 +269,17 @@ class _AddProjectModalState extends State<AddProjectModal> {
                               .collection("users")
                               .document(currentUserUID)
                               .collection("projects")
-                              .add(widget.project.toJson());
+                              .add(widget.project.toJson()).then((value) => print(value.documentID));
+
+                            
 
                           Navigator.of(context).pop();
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
+                          
                         ),
+                        elevation: 1.0,
                         color: Color(0xFF3cebb6),
                         child: Container(
                           decoration: AppThemeColours.BlueGreenGradientBox,

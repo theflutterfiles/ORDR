@@ -22,9 +22,6 @@ class ProgressBarCard extends StatelessWidget {
     return Column(
         children: [
           Container(
-            decoration: BoxDecoration(
-                //color: AppThemeColours.DarkPurple,
-                borderRadius: BorderRadius.circular(20)),
             child: Column(
                 children: [
                   Row(
@@ -48,6 +45,7 @@ class ProgressBarCard extends StatelessWidget {
                   ),
                   Container(
                     height: 40,
+                    //padding: EdgeInsets.only(right: 10),
                     child: LinearPercentIndicator(
                       backgroundColor: Color(0xFFebebeb),
                       lineHeight: 10,

@@ -95,4 +95,14 @@ class AppThemes {
     //fontStyle: FontStyle.italic,
     letterSpacing: 1.2,
   );
+
+  static const InputDecoration AddTaskFormInputDecoration = InputDecoration(
+
+
+  );
+
+//MODALS
+  static const ModalFieldPadding = EdgeInsets.only(bottom: 15);
+  
+
 }

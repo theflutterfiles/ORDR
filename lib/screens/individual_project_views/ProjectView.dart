@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/models/Project.dart';
 import 'package:flutter_app_mindful_lifting/models/Task.dart';
@@ -13,27 +14,32 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class ProjectDetailView extends StatefulWidget {
-
   final Project project;
+  final String documentReference;
 
-  ProjectDetailView({Key key, @required this.project}) : super(key: key);
+  ProjectDetailView({Key key, @required this.project, @required this.documentReference}) : super(key: key);
 
   @override
   _ProjectDetailViewState createState() => _ProjectDetailViewState();
 }
 
 class _ProjectDetailViewState extends State<ProjectDetailView> {
+
   Task task;
   final scaffoldState = GlobalKey<ScaffoldState>();
 
-void _showBottomSheet(context) {
-  Task task = new Task(null, null, null, null, null);
 
-  scaffoldState.currentState.showBottomSheet((context) => AddTaskModal(
+  void _showBottomSheet(context) {
+    Task task = new Task(null, null, null, null, null);
+
+    print(widget.documentReference);
+
+    scaffoldState.currentState.showBottomSheet((context) => AddTaskModal(
           projectName: widget.project.projectName,
           task: task,
+          documentReference: widget.documentReference,
         ));
-}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,10 +59,10 @@ void _showBottomSheet(context) {
 
     return Scaffold(
       key: scaffoldState,
-      backgroundColor: AppThemeColours.DashboardWhite,
+      backgroundColor: Color(0xFFEbEBEB),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: AppThemeColours.DashboardWhite,
+        backgroundColor: Color(0xFFEbEBEB),
         leading: Padding(
           padding: EdgeInsets.symmetric(horizontal: 15),
           child: Builder(
@@ -126,11 +132,14 @@ void _showBottomSheet(context) {
                             content: _getDaysUntilCompletion().toString(),
                           ),
                         ),
-                        CustomDashboardCard(
-                          title: "Budget",
-                          icon: DashboardIconThemes.BudgetIcon,
-                          gradient: AppThemeColours.BlueGreenLinearGradient,
-                          content: budget,
+                        Container(
+                          width: 229,
+                          child: CustomDashboardCard(
+                            title: "Budget",
+                            icon: DashboardIconThemes.BudgetIcon,
+                            gradient: AppThemeColours.BlueGreenLinearGradient,
+                            content: budget,
+                          ),
                         ),
                       ],
                     ),
@@ -144,7 +153,6 @@ void _showBottomSheet(context) {
                     color: Colors.grey,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
                         child: Padding(
@@ -160,10 +168,10 @@ void _showBottomSheet(context) {
                     ],
                   ),
                   Container(
-                    margin: EdgeInsets.only(left: 4, top: 20),
+                    margin: EdgeInsets.only(left: 10, top: 20),
                     height: 80,
                     child: ProgressBarCard(
-                      title: "  Progress",
+                      title: "Progress",
                       completionPercentage: 50.0,
                     ),
                   ),
@@ -219,4 +227,3 @@ void _showBottomSheet(context) {
     );
   }
 }
-

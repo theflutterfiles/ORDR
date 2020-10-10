@@ -58,7 +58,7 @@ class Project {
   }
 
   Map<String, dynamic> toJson() => {
-
+ 
     'projectName' : projectName,
     'mission' : mission,
     'description' : description,
@@ -71,6 +71,7 @@ class Project {
     'lastEdited' : lastEdited,
     'budget' : budget,
     'expenses' : [],
+    //'tasks' : [],
   };
 
 // creating a Trip object from a firebase snapshot

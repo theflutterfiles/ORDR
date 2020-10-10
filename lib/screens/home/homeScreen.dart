@@ -20,7 +20,8 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Color(0xFFEbEBEB),
       appBar: AppBar(
-        leading: MenuIcon(),
+        leading: MenuIcon(
+        ),
         actions: <Widget>[
           AddIcon(),
           SearchIcon(),

@@ -22,6 +22,7 @@ class CollapsingListTitle extends StatefulWidget {
 }
 
 class _CollapsingListTitleState extends State<CollapsingListTitle> {
+  
   Animation<double> _widthAnimation;
 
   @override

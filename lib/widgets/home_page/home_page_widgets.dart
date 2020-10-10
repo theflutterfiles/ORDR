@@ -42,13 +42,14 @@ class MenuIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(
-        Icons.menu,
-        color: Color(0xFF333333),
-        size: 25.0,
-      ),
-      onPressed: () {},
-    );
+        icon: Icon(
+          Icons.menu,
+          color: Color(0xFF333333),
+          size: 25.0,
+        ),
+        onPressed: () async {
+          await _auth.signOut();
+        });
   }
 }
 
@@ -91,7 +92,7 @@ class HeadingText extends StatelessWidget {
         text: TextSpan(children: [
           TextSpan(
               text: "Geddit",
-              style: GoogleFonts.playfairDisplay(
+              style: GoogleFonts.poppins(
                 textStyle: AppThemes.display1,
               )),
           TextSpan(text: "\n\n"),
@@ -154,6 +155,8 @@ Widget _buildProjectCard(
 
   final Project project = Project.fromSnapshot(projectDocument);
 
+  
+
   return Card(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(20.0),
@@ -162,10 +165,11 @@ Widget _buildProjectCard(
     child: InkWell(
       child: ListTile(
         onTap: () async => {
+          
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => ProjectDetailView(project: project))),
+                  builder: (context) => ProjectDetailView(project: project, documentReference: projectDocument.documentID,))),
         },
         leading: Container(
           padding: EdgeInsets.only(right: 12.0),

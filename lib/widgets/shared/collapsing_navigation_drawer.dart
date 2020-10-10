@@ -166,13 +166,17 @@ class _CollapsingNavigationDrawerState extends State<CollapsingNavigationDrawer>
   }
 
   Widget AccountTile(BuildContext context, DocumentSnapshot accountDetails) {
+
     final Account userAccount = Account.fromSnapshot(accountDetails);
+
     return Column(
       children: [
         AvatarListTitle(
           displayName: accountDetails['displayName'],
           animationController: _animationController,
+        
         ),
+        
       ],
     );
   }

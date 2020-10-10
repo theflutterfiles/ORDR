@@ -27,14 +27,14 @@ class CustomDashboardCard extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: gradient,
               borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey,
-                  blurRadius: 2.0,
-                  spreadRadius: 0.0,
-                  offset: Offset(2.0, 2.0), // shadow direction: bottom right
-                )
-              ],
+              // boxShadow: [
+              //   BoxShadow(
+              //     color: Colors.grey,
+              //     blurRadius: 2.0,
+              //     spreadRadius: 0.0,
+              //     offset: Offset(2.0, 2.0), // shadow direction: bottom right
+              //   )
+              // ],
             ),
             child: Column(
               children: [
