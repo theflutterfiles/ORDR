@@ -10,8 +10,8 @@ class AppThemeColours {
 
   static const LinearGradient BlueGreenLinearGradient = LinearGradient(
     colors: [
-      Color(0xFF5ce1e6),
-      Color(0xFF3cebb6),
+      Color(0xffD5D7F5), //Color(0xFF5ce1e6),
+      Color(0xffD5D7F5), //Color(0xFF3cebb6),
     ],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
@@ -26,8 +26,10 @@ class AppThemeColours {
 
   static const LinearGradient DashboardCardGradient = LinearGradient(
     colors: [
-      Color(0xFF3cebb6),
-      Color(0xFFE1F5E1),
+      Color(0xffB5B8F0),
+      Colors.white,
+      //Color(0xFF3cebb6),
+      //Color(0xFFE1F5E1),
     ],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
@@ -47,11 +49,17 @@ class AppThemeColours {
 
   //static const Color DashboardColor = Colors.white;
 
-  static const Color DashboardWhite =  Color(0xFFFAFAFA);//Color(0xFF242544);
+  static const Color DashboardWhite = Color(0xFFF3F7FB);
 
   static const Color GreenHighlight = Color(0xFF37C39C);
 
   static const Color OrangeColour = Color(0xFFE8740C);
+
+  static const Color Purple = Color(0xFF4E3EC8);
+
+  static const Color DoneGreen = Color(0xFF00A57B);
+
+  static const Color Yellow = Color(0xFFFDCA40);
 
   static const List<Color> DashboardCardColors = [
     Color(0xFFC4D5F0),
@@ -64,8 +72,9 @@ class AppThemeColours {
 
   static const LinearGradient dashboardCardGradient = LinearGradient(
     colors: [
-      GreenHighlight,
-      Color(0xFF58968B),
+      Colors.white, //GreenHighlight,
+      Colors.white,
+      //Color(0xFF58968B),
     ],
     begin: Alignment.topRight,
     end: Alignment.bottomLeft,

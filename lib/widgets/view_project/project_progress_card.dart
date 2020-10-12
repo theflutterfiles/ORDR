@@ -8,43 +8,37 @@ class ProgressBarCard extends StatelessWidget {
   final String title;
   final int tasksRemaining;
   final double completionPercentage;
+  final double radius;
+  final double lineWidth;
+  final String text;
+  final Color colour;
 
   const ProgressBarCard(
       {Key key,
       this.tasksCompleted,
       this.tasksRemaining,
       this.completionPercentage,
-      this.title})
+      this.radius,
+      this.lineWidth,
+      this.title,
+      this.text,
+      this.colour})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        children: [
-          Container(
-            child: Column(
-                children: [
-                  
-                  Container(
-                    //height: 40,
-                    padding: EdgeInsets.only(right: 20),
-                    child: CircularPercentIndicator(
-                      lineWidth: 10.0,
-                      circularStrokeCap: CircularStrokeCap.round,
-                      center: Text("50.0%"),
-                    
-                      backgroundColor: Color(0xFFebebeb),
-                      animateFromLastPercent: true,
-                      
-                      progressColor: AppThemeColours.OrangeColour,
-                      percent: completionPercentage / 100, radius: 100,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          
-        ],
+    return Container(
+      padding: EdgeInsets.only(right: 20, bottom: 20),
+      child: CircularPercentIndicator(
+        lineWidth: lineWidth,
+        circularStrokeCap: CircularStrokeCap.round,
+        center: Text(text),
+        backgroundColor: Color(0xFFebebeb),
+        animateFromLastPercent: true,
+        progressColor: colour,
+        percent: completionPercentage / 100,
+        radius: radius,
+      ),
     );
   }
 }

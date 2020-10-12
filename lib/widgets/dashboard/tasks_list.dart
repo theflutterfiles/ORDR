@@ -4,31 +4,29 @@ import 'package:flutter_app_mindful_lifting/services/auth.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
 import 'package:flutter_app_mindful_lifting/widgets/shared/shared_methods.dart';
+import 'package:flutter_app_mindful_lifting/widgets/view_project/project_progress_card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 final AuthService _auth = new AuthService();
 
-
-
 class TasksList extends StatelessWidget {
-  
-final String documentReference;
+  final String documentReference;
 
-Stream<QuerySnapshot> getTasksSnapshot(BuildContext context) async* {
-  //* allows data to contsantly be open, always open stream
+  Stream<QuerySnapshot> getTasksSnapshot(BuildContext context) async* {
+    //* allows data to contsantly be open, always open stream
 
-  final Firestore _firestore = Firestore.instance;
-  final currentUserUID = await _auth.getCurrentUserUID();
-  yield* _firestore
-      .collection("users")
-      .document(currentUserUID)
-      .collection("projects")
-      .document(this.documentReference)
-      .collection("tasks")
-      .snapshots();
-}
+    final Firestore _firestore = Firestore.instance;
+    final currentUserUID = await _auth.getCurrentUserUID();
+    yield* _firestore
+        .collection("users")
+        .document(currentUserUID)
+        .collection("projects")
+        .document(this.documentReference)
+        .collection("tasks")
+        .snapshots();
+  }
 
   const TasksList({Key key, this.documentReference}) : super(key: key);
 
@@ -39,36 +37,35 @@ Stream<QuerySnapshot> getTasksSnapshot(BuildContext context) async* {
 
     return Stack(
       children: <Widget>[
-        Align(
-          alignment: Alignment.center,
-          child: Container(
-            //padding: EdgeInsets.all(20),
-            height: 0.55 * screenHeight,
-            width: 0.9 * screenWidth,
-            //decoration: AppThemeColours.BlueGreenGradientBox,
-            child: StreamBuilder(
-                stream: getTasksSnapshot(context),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: SpinKitRing(
-                        color: Colors.teal,
-                        size: 50.0,
-                      ),
-                    );
-                  } else {
-                    return Container(
-                        child: ListView.separated(
-                          separatorBuilder: (BuildContext context, int index) => Divider(),
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount: snapshot.data.documents.length,
-                            itemBuilder: (BuildContext context, int index) =>
-                                _buildProjectCard(
-                                    context, snapshot.data.documents[index])));
-                  }
-                }),
-          ),
+        Container(
+          //padding: EdgeInsets.all(20),
+          height: 0.55 * screenHeight,
+          width: 0.9 * screenWidth,
+          //decoration: AppThemeColours.BlueGreenGradientBox,
+          child: StreamBuilder(
+              stream: getTasksSnapshot(context),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: SpinKitRing(
+                      color: Colors.teal,
+                      size: 50.0,
+                    ),
+                  );
+                } else {
+                  return Container(
+                      height: 120,
+                      child: ListView.separated(
+                          separatorBuilder: (BuildContext context, int index) =>
+                              Divider(),
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: snapshot.data.documents.length,
+                          itemBuilder: (BuildContext context, int index) =>
+                              _buildProjectCard(
+                                  context, snapshot.data.documents[index])));
+                }
+              }),
         ),
       ],
     );
@@ -81,41 +78,77 @@ Stream<QuerySnapshot> getTasksSnapshot(BuildContext context) async* {
     DateTime endDate;
     DateTime lastEdited;
 
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      color: Color(0xFFEBEBEB),
-      child: InkWell(
+    return Container(
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        color: Colors.white,
         child: ListTile(
           onTap: () async => {},
-          leading: Container(
-            padding: EdgeInsets.only(right: 12.0),
-            decoration: new BoxDecoration(
-                border: new Border(
-                    right:
-                        new BorderSide(width: 1.0, color: Color(0xFF333333)))),
-            child: CircleAvatar(
-              backgroundColor: Color(0xFF333333),
-              foregroundColor: Colors.white,
+          leading: Padding(
+            padding: const EdgeInsets.only(top: 17.0),
+            child: Container(
+              alignment: Alignment.center,
+              width: 90,
+              height: 30,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: (projectDocument['status']) == true
+                    ? AppThemeColours.Yellow
+                    : AppThemeColours.DoneGreen,
+              ),
               child: Text(
-                getInitial(string: projectDocument['title'], limitTo: 1),
+                (projectDocument['status']) == true ? "In Progress" : "Done",
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+                textAlign: TextAlign.center,
               ),
             ),
           ),
-          title: Text(
-            projectDocument['title'],
-            style: GoogleFonts.workSans(
-                textStyle: AppThemes.listText, fontSize: 20),
+          title: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: projectDocument['title'] + "\n",
+                      style: GoogleFonts.poppins(
+                        textStyle: AppThemes.listText.copyWith(fontSize: 18),
+                      ),
+                    ),
+                    TextSpan(
+                      text:
+                          "Due: ${DateFormat('dd MMM yyyy').format(projectDocument['dueDate'].toDate()).toString()}",
+                      style: TextStyle(
+                          fontSize: 13,
+                          color: AppThemeColours.TextFieldLineColor),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 15.0),
+                child: ProgressBarCard(
+                  completionPercentage:
+                      (projectDocument['status']) == true ? 75.0 : 100,
+                  lineWidth: 3.0,
+                  radius: 50,
+                  text: (projectDocument['status']) == true ? "75%" : "100%",
+                  colour: (projectDocument['status']) == true
+                      ? AppThemeColours.Purple
+                      : AppThemeColours.DoneGreen,
+                ),
+              ),
+            ],
           ),
-          subtitle: Text(
-            "Deadline: ${DateFormat('dd MMM yyyy').format(projectDocument['dueDate'].toDate()).toString()}",
-            style: TextStyle(fontSize: 13),
-          ),
-          trailing: Icon(Icons.keyboard_arrow_right,
-              color: Color(0xFF333333), size: 30.0),
         ),
       ),
+      //trailing: Icon(Icons.circle,
+      //color: (projectDocument['status']) == true ? Colors.green : Colors.red,
     );
   }
 }

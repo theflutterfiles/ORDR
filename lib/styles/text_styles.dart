@@ -3,10 +3,8 @@ import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppThemes {
-
-
   //GoogleFonts.workSans(textStyle: AppThemes.listText, fontSize: 20);
- 
+
   static const TextStyle display1 = TextStyle(
     fontSize: 38,
     color: Color(0xFF333333),
@@ -62,7 +60,7 @@ class AppThemes {
   static const TextStyle DashboardCardContentText = TextStyle(
     fontSize: 32,
     //fontFamily: 'WorkSans',
-    color: AppThemeColours.DashboardWhite,
+    color: Color(0xFF333333),
     fontWeight: FontWeight.bold,
     letterSpacing: 1.2,
   );
@@ -83,7 +81,7 @@ class AppThemes {
   static const TextStyle DashboardCardBudgetNumber = TextStyle(
     fontSize: 25,
     //fontFamily: 'WorkSans',
-    color: AppThemeColours.DashboardWhite,
+    color: Color(0xFF333333),
     fontWeight: FontWeight.bold,
     letterSpacing: 1.2,
   );
@@ -96,13 +94,8 @@ class AppThemes {
     letterSpacing: 1.2,
   );
 
-  static const InputDecoration AddTaskFormInputDecoration = InputDecoration(
-
-
-  );
+  static const InputDecoration AddTaskFormInputDecoration = InputDecoration();
 
 //MODALS
   static const ModalFieldPadding = EdgeInsets.only(bottom: 15);
-  
-
 }

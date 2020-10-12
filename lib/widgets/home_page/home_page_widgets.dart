@@ -155,21 +155,21 @@ Widget _buildProjectCard(
 
   final Project project = Project.fromSnapshot(projectDocument);
 
-  
-
   return Card(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(20.0),
     ),
-    color: Color(0xFFEBEBEB),
+    color: Colors.white,
     child: InkWell(
       child: ListTile(
         onTap: () async => {
-          
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => ProjectDetailView(project: project, documentReference: projectDocument.documentID,))),
+                  builder: (context) => ProjectDetailView(
+                        project: project,
+                        documentReference: projectDocument.documentID,
+                      ))),
         },
         leading: Container(
           padding: EdgeInsets.only(right: 12.0),
@@ -177,7 +177,7 @@ Widget _buildProjectCard(
               border: new Border(
                   right: new BorderSide(width: 1.0, color: Color(0xFF333333)))),
           child: CircleAvatar(
-            backgroundColor: Color(0xFF333333),
+            backgroundColor: AppThemeColours.NavigationBarColor,
             foregroundColor: Colors.white,
             child: Text(
               getInitial(string: projectDocument['projectName'], limitTo: 1),

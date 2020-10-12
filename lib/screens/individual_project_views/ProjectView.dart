@@ -59,10 +59,10 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
 
     return Scaffold(
       key: scaffoldState,
-      backgroundColor: Color(0xFFEbEBEB),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Color(0xFFEbEBEB),
+        backgroundColor: Colors.white,
         leading: Padding(
           padding: EdgeInsets.symmetric(horizontal: 15),
           child: Builder(
@@ -105,6 +105,7 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
                                   text: " " + widget.project.projectName + "\n",
                                   style: GoogleFonts.poppins(
                                     textStyle: AppThemes.display1,
+                                    color: AppThemeColours.Purple,
                                   ),
                                 ),
                                 TextSpan(
@@ -116,11 +117,14 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(left: 10, top: 20, bottom: 20),
-                            
+                            margin:
+                                EdgeInsets.only(left: 10, top: 20, bottom: 20),
                             child: ProgressBarCard(
                               completionPercentage: 50.0,
-                              
+                              lineWidth: 10,
+                              radius: 100,
+                              text: "50%",
+                              colour: AppThemeColours.OrangeColour,
                             ),
                           ),
                         ],
@@ -174,7 +178,6 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
                           ),
                         ),
                       ),
-                      //Container(child: DashboardIconThemes.AddTaskIcon, padding: EdgeInsets.only(top: 15),),
                     ],
                   ),
                   Container(
@@ -187,7 +190,7 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
                           height: screenHeight * 0.35,
                           child: CustomDashboardCard(
                             title: "Open",
-                            icon: DashboardIconThemes.TargetCompletionIcon,
+                            icon: DashboardIconThemes.OpenTaskIcon,
                             gradient: AppThemeColours.BlueGreenLinearGradient,
                             content: "5",
                           ),
@@ -197,7 +200,7 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
                           height: screenHeight * 0.35,
                           child: CustomDashboardCard(
                             title: "Closed",
-                            icon: DashboardIconThemes.BudgetIcon,
+                            icon: DashboardIconThemes.TasksIcon,
                             gradient: AppThemeColours.BlueGreenLinearGradient,
                             content: "10",
                           ),
