@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/models/Project.dart';
 import 'package:flutter_app_mindful_lifting/models/Task.dart';
@@ -6,6 +5,7 @@ import 'package:flutter_app_mindful_lifting/screens/add_task_views/add_task_moda
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
 import 'package:flutter_app_mindful_lifting/widgets/dashboard/dashboard_icons.dart';
+import 'package:flutter_app_mindful_lifting/widgets/dashboard/tasks_list.dart';
 import 'package:flutter_app_mindful_lifting/widgets/shared/collapsing_navigation_drawer.dart';
 import 'package:flutter_app_mindful_lifting/widgets/view_project/dashboard_add_task_card.dart';
 import 'package:flutter_app_mindful_lifting/widgets/view_project/dashboard_card.dart';
@@ -17,17 +17,17 @@ class ProjectDetailView extends StatefulWidget {
   final Project project;
   final String documentReference;
 
-  ProjectDetailView({Key key, @required this.project, @required this.documentReference}) : super(key: key);
+  ProjectDetailView(
+      {Key key, @required this.project, @required this.documentReference})
+      : super(key: key);
 
   @override
   _ProjectDetailViewState createState() => _ProjectDetailViewState();
 }
 
 class _ProjectDetailViewState extends State<ProjectDetailView> {
-
   Task task;
   final scaffoldState = GlobalKey<ScaffoldState>();
-
 
   void _showBottomSheet(context) {
     Task task = new Task(null, null, null, null, null);
@@ -94,28 +94,38 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
                 children: [
                   Container(
                     alignment: Alignment.topLeft,
-                    child: Column(
-                      children: [
-                        RichText(
-                          text: TextSpan(children: [
-                            TextSpan(
-                              text: " " + widget.project.projectName + "\n",
-                              style: GoogleFonts.poppins(
-                                textStyle: AppThemes.display1,
-                              ),
+                    child: Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: " " + widget.project.projectName + "\n",
+                                  style: GoogleFonts.poppins(
+                                    textStyle: AppThemes.display1,
+                                  ),
+                                ),
+                                TextSpan(
+                                    text: "  Started: " +
+                                        DateFormat("dd MMM yyyy")
+                                            .format(widget.project.created),
+                                    style: AppThemes.DateSubtitle),
+                              ],
                             ),
-                            TextSpan(
-                                text: "  Started: " +
-                                    DateFormat("dd MMM yyyy")
-                                        .format(widget.project.created),
-                                style: AppThemes.DateSubtitle),
-                          ]),
-                        ),
-                      ],
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 10, top: 20, bottom: 20),
+                            
+                            child: ProgressBarCard(
+                              completionPercentage: 50.0,
+                              
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 20,
                   ),
                   Container(
                     width: screenWidth,
@@ -168,14 +178,6 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
                     ],
                   ),
                   Container(
-                    margin: EdgeInsets.only(left: 10, top: 20),
-                    height: 80,
-                    child: ProgressBarCard(
-                      title: "Progress",
-                      completionPercentage: 50.0,
-                    ),
-                  ),
-                  Container(
                     width: screenWidth,
                     height: screenHeight * 0.18,
                     child: Row(
@@ -218,6 +220,13 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
                       ],
                     ),
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Expanded(
+                      child: TasksList(
+                    documentReference: widget.documentReference,
+                  )),
                 ],
               ),
             ),

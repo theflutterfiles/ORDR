@@ -24,34 +24,20 @@ class ProgressBarCard extends StatelessWidget {
           Container(
             child: Column(
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                          child: Text(
-                        title,
-                        style: AppThemes.DashboardProgressText,
-                      )),
-                      Container(
-                        child: Text(
-                          completionPercentage.toString() + "%",
-                          textAlign: TextAlign.left,
-                          style: AppThemes.DashboardProgressText,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                      ),
-                    ],
-                  ),
+                  
                   Container(
-                    height: 40,
-                    //padding: EdgeInsets.only(right: 10),
-                    child: LinearPercentIndicator(
+                    //height: 40,
+                    padding: EdgeInsets.only(right: 20),
+                    child: CircularPercentIndicator(
+                      lineWidth: 10.0,
+                      circularStrokeCap: CircularStrokeCap.round,
+                      center: Text("50.0%"),
+                    
                       backgroundColor: Color(0xFFebebeb),
-                      lineHeight: 10,
-                      linearStrokeCap: LinearStrokeCap.butt,
+                      animateFromLastPercent: true,
+                      
                       progressColor: AppThemeColours.OrangeColour,
-                      percent: completionPercentage / 100,
+                      percent: completionPercentage / 100, radius: 100,
                     ),
                   ),
                 ],

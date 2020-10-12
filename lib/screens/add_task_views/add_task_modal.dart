@@ -78,7 +78,10 @@ class _AddTaskModalState extends State<AddTaskModal> {
                                   color: AppThemeColours.TextFieldLineColor,
                                   size: 30,
                                 ),
-                                onPressed: () => Navigator.pop(context),
+                                onPressed: () => {Navigator.pop(context), 
+                                _dueDateTextController.clear(),
+                                textEditingControllers.clear(),
+                                }, 
                               ),
                             ],
                           ),
@@ -157,13 +160,11 @@ class _AddTaskModalState extends State<AddTaskModal> {
                               await _firestore
                                   .collection("users/$currentUserUID/projects")
                                   .document(widget.documentReference)
-                                  .updateData({
-                                "Tasks": {
-                                  "${widget.task.title}": 
-                                      "${widget.task.toJson()}"
-                                }
-                              });
+                                  .collection("tasks").add(widget.task.toJson());
 
+                                  _dueDateTextController.clear();
+                                  textEditingControllers.clear();
+                        
                               Navigator.of(context).pop();
                             },
                             shape: RoundedRectangleBorder(

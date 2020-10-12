@@ -270,9 +270,6 @@ class _AddProjectModalState extends State<AddProjectModal> {
                               .document(currentUserUID)
                               .collection("projects")
                               .add(widget.project.toJson()).then((value) => print(value.documentID));
-
-                            
-
                           Navigator.of(context).pop();
                         },
                         shape: RoundedRectangleBorder(
