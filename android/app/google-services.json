@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "417544983513",
+    "firebase_url": "https://ordr-fcea5.firebaseio.com",
+    "project_id": "ordr-fcea5",
+    "storage_bucket": "ordr-fcea5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:417544983513:android:74d6c568491906ba123fc8",
+        "android_client_info": {
+          "package_name": "com.tinika.flutter_productivity_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "417544983513-0a2buctfr9vlamv5okp14hf65h7c8bsn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxk8eHDbeskM85U1vIgwfaGxAbygsxt4o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "417544983513-0a2buctfr9vlamv5okp14hf65h7c8bsn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

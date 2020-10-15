@@ -1,0 +1,91 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_app_mindful_lifting/services/auth.dart';
+
+import '../account.dart';
+
+class HomePage extends StatelessWidget {
+  final AuthService _auth = AuthService();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Container(
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(left: 25.0, top: 30.0, right: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Image(
+                    image: AssetImage("assets/logo.png"),
+                    alignment: Alignment.topLeft,
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Icon(Icons.arrow_back, color: Color(0xff19343e),),
+                      SizedBox(height: 10.0,),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: EdgeInsets.only(left: 15.0, top: 10.0, right: 15.0),
+                child: Text(
+                  "Hi Alex,\nHow are you today?",
+                  style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w300,
+                      color: Color(0xff19343e)
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              child: SingleChildScrollView(
+                child: Card(
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+                color: Color(0xff19343e),
+              ),
+              title: Text('')),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.calendar_today,
+              color: Color(0xff19343e),
+            ),
+            title: Text(''),
+          ),
+          BottomNavigationBarItem(
+            icon: IconButton(
+              icon: Icon(Icons.person_outline),
+              color: Color(
+                0xff19343e,
+              ),
+              onPressed: () {
+                Navigator.push(context,
+                    new MaterialPageRoute(builder: (context) => Account()));
+              },
+            ),
+            title: Text(''),
+          ),
+        ],
+      ),
+    );
+  }
+}
