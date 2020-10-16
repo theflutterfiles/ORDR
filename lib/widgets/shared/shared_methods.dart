@@ -1,5 +1,4 @@
 
-
 String getInitial({String string, int limitTo}) {
   var buffer = StringBuffer();
   var split = string.split(' ');
