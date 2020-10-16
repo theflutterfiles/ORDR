@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
+import 'package:flutter_app_mindful_lifting/notifiers/menu_drawer_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/project_notifier.dart';
 import 'package:flutter_app_mindful_lifting/screens/authenticate/login.dart';
-import 'package:flutter_app_mindful_lifting/screens/authenticate/register.dart';
-import 'package:flutter_app_mindful_lifting/screens/authenticate/sign_in.dart';
 import 'package:flutter_app_mindful_lifting/screens/home/homeScreen.dart';
 import 'package:flutter_app_mindful_lifting/screens/individual_project_views/TasksView.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'screens/authenticate/authenticate.dart';
 
 void main() => runApp(MultiProvider(
       providers: [
@@ -19,6 +17,8 @@ void main() => runApp(MultiProvider(
         ChangeNotifierProvider(
           create: (context) => AuthNotifier(),
         ),
+        ChangeNotifierProvider<MenuDrawerNorifier>(
+          create: (_) => MenuDrawerNorifier())
       ],
       child: MyApp(),
     ));
@@ -54,9 +54,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "home": (_) => HomePage(),
         "tasks": (_) => TasksView(),
-        "authenticate": (_) => Authenticate(),
-        "register": (_) => Register(),
-        "sign in": (_) => SignIn(),
+        "login": (_) => Login(),
       },
       supportedLocales: [
         const Locale('en', ''),

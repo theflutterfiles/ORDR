@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/models/account.dart';
 import 'package:flutter_app_mindful_lifting/models/navigation_model.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
-import 'package:flutter_app_mindful_lifting/services/auth.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AppThemes {
   //GoogleFonts.workSans(textStyle: AppThemes.listText, fontSize: 20);

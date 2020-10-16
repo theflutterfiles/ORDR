@@ -25,8 +25,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
 
-    AuthNotifier authNotifier = Provider.of<AuthNotifier>(context);
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

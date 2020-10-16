@@ -5,7 +5,6 @@ import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
 import 'package:flutter_app_mindful_lifting/screens/add_project_views/add_project_modal.dart';
 import 'package:flutter_app_mindful_lifting/screens/individual_project_views/ProjectView.dart';
 import 'package:flutter_app_mindful_lifting/services/auth.dart';
-import 'package:flutter_app_mindful_lifting/services/database.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
 import 'package:flutter_app_mindful_lifting/widgets/shared/shared_methods.dart';

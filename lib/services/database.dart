@@ -1,10 +1,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_app_mindful_lifting/models/Project.dart';
-import 'package:flutter_app_mindful_lifting/models/user.dart';
-import 'package:flutter_app_mindful_lifting/services/auth.dart';
-import 'package:provider/provider.dart';
 
 class DatabaseService {
   //collection reference

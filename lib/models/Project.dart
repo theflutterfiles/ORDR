@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app_mindful_lifting/models/Collaborator.dart';
 import 'package:flutter_app_mindful_lifting/models/Task.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_mindful_lifting/services/database.dart';
 
 class Project with ChangeNotifier {
   //info

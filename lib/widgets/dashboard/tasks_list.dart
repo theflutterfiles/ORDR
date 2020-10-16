@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
-import 'package:flutter_app_mindful_lifting/services/auth.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
-import 'package:flutter_app_mindful_lifting/widgets/shared/shared_methods.dart';
 import 'package:flutter_app_mindful_lifting/widgets/view_project/project_progress_card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';

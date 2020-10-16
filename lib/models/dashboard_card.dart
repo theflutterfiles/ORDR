@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
-import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
 
 class DashboardCard{
 
