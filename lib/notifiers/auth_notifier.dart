@@ -6,10 +6,13 @@ class AuthNotifier with ChangeNotifier{
   
   FirebaseUser _user;
 
-  FirebaseUser get user => _user;
+ FirebaseUser get user => _user;
 
   void setUser(FirebaseUser user){
     _user = user;
     notifyListeners();
   }
+
+  
 }
+
