@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/models/Project.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
+import 'package:flutter_app_mindful_lifting/screens/home_view/homeScreen.dart';
+import 'package:flutter_app_mindful_lifting/services/project_api.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
@@ -19,7 +21,7 @@ class AddProjectModal extends StatefulWidget {
 }
 
 class _AddProjectModalState extends State<AddProjectModal> {
-  Firestore _firestore = Firestore.instance;
+  ProjectApi projectApi = new ProjectApi();
 
   TextEditingController _projectNameTextController =
       new TextEditingController();
@@ -254,23 +256,22 @@ class _AddProjectModalState extends State<AddProjectModal> {
                           widget.project.projectName =
                               _projectNameTextController.text;
                           widget.project.mission = _missionTextController.text;
-                          //widget.project.startDate = startDate;
-                          //widget.project.endDate = endDate;
                           widget.project.created = DateTime.now();
                           widget.project.lastEdited = DateTime.now();
                           widget.project.budget =
                               double.parse(_budgetTextController.text);
 
                           final currentUserUID =
-                              Provider.of<AuthNotifier>(context).user.uid;
+                              Provider.of<AuthNotifier>(context, listen: false)
+                                  .user
+                                  .uid;
 
-                          await _firestore
-                              .collection("users")
-                              .document(currentUserUID)
-                              .collection("projects")
-                              .add(widget.project.toJson())
-                              .then((value) => print(value.documentID));
-                          Navigator.of(context).pop();
+                          projectApi.addProject(currentUserUID, widget.project);
+
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) {
+                            return HomePage();
+                          }));
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),

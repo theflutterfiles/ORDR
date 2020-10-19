@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_app_mindful_lifting/models/Collaborator.dart';
-import 'package:flutter_app_mindful_lifting/models/Task.dart';
 import 'package:flutter/material.dart';
 
 class Project with ChangeNotifier {
@@ -9,12 +7,12 @@ class Project with ChangeNotifier {
   String projectName;
   String description;
   String mission;
-  List<String> goals;
-  Color colour;
+  List goals = [];
+  String colour;
 
   //tasks
-  List<Task> tasks;
-  List<Collaborator> collaborators;
+  List tasks = [];
+  List collaborators = [];
 
   //dates
   DateTime created;
@@ -24,7 +22,7 @@ class Project with ChangeNotifier {
 
   //budget
   double budget;
-  List<double> expenses;
+  List expenses = [];
 
   Project(
       {this.tasks,
@@ -48,7 +46,7 @@ class Project with ChangeNotifier {
       projectName: data['projectName'],
       description: data['description'],
       mission: data['mission'],
-      goals: data['goals'],
+      //goals: data['goals'],
       colour: data['colour'],
       tasks: data['tasks'],
       collaborators: data['collaborators'],
@@ -82,6 +80,7 @@ class Project with ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() => {
+        'id' : id,
         'projectName': projectName,
         'mission': mission,
         'description': description,
@@ -94,7 +93,7 @@ class Project with ChangeNotifier {
         'lastEdited': lastEdited,
         'budget': budget,
         'expenses': [],
-        //'tasks' : [],
+        'tasks' : [],
       };
 
 // creating a Trip object from a firebase snapshot
@@ -102,7 +101,7 @@ class Project with ChangeNotifier {
       : projectName = snapshot['projectName'],
         description = snapshot['description'],
         mission = snapshot['mission'],
-        goals = null,
+        //goals = null,
         colour = snapshot['colour'],
         tasks = null,
         collaborators = null,
@@ -115,6 +114,18 @@ class Project with ChangeNotifier {
 
   Project.fromMap(Map<String, dynamic> data) {
     id = data['id'];
-    
+    projectName = data['projectName'];
+    description = data['description'] ?? null;
+    mission = data['mission'];
+    goals = data['goals'] ?? null;
+    colour = data['colour'] ?? null;
+    tasks = data['tasks'] ?? null;
+    collaborators = data['collaborators'] ?? null;
+    created = data['created'].toDate();
+    lastEdited = data['lastEdited'].toDate();
+    startDate = data['startDate'].toDate();
+    endDate = data['endDate'].toDate();
+    budget = data['budget'] ?? null;
+    expenses = data['expenses'] ?? null;
   }
 }

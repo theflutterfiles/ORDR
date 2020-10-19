@@ -32,7 +32,7 @@ class _LoginState extends State<Login> {
     super.initState();
   }
 
-  void _submitForm() {
+  Future<void> _submitForm() async {
     if (!_formKey.currentState.validate()) {
       setState(() {
         setState(() => loading = false);
@@ -49,7 +49,7 @@ class _LoginState extends State<Login> {
     AuthResult _authResult;
 
     if (_authMode == AuthMode.Login) {
-      _authResult = signInWitEmailAndPassword(_user, authNotifier);
+      _authResult = await signInWitEmailAndPassword(_user, authNotifier);
       if (_authResult == null) {
         setState(() {
           setState(() => loading = false);

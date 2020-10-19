@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_mindful_lifting/models/Project.dart';
-import 'package:flutter_app_mindful_lifting/models/Task.dart';
+import 'package:flutter_app_mindful_lifting/notifiers/project_notifier.dart';
 import 'package:flutter_app_mindful_lifting/screens/add_task_views/add_task_modal.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
@@ -12,50 +11,42 @@ import 'package:flutter_app_mindful_lifting/widgets/view_project/dashboard_card.
 import 'package:flutter_app_mindful_lifting/widgets/view_project/project_progress_card.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class ProjectDetailView extends StatefulWidget {
-  final Project project;
-  final String documentReference;
-
-  ProjectDetailView(
-      {Key key, @required this.project, @required this.documentReference})
-      : super(key: key);
 
   @override
   _ProjectDetailViewState createState() => _ProjectDetailViewState();
 }
 
 class _ProjectDetailViewState extends State<ProjectDetailView> {
-  Task task;
+ 
   final scaffoldState = GlobalKey<ScaffoldState>();
 
   void _showBottomSheet(context) {
-    Task task = new Task();
 
-    print(widget.documentReference);
-
-    scaffoldState.currentState.showBottomSheet((context) => AddTaskModal(
-          projectName: widget.project.projectName,
-          task: task,
-          documentReference: widget.documentReference,
-        ));
+    //scaffoldState.currentState.showBottomSheet((context) => AddTaskModal(
+         
+        //));
   }
 
   @override
   Widget build(BuildContext context) {
+
+    ProjectNotifier _projectNotifier = Provider.of<ProjectNotifier>(context, listen: false);
+
     int _getDaysUntilCompletion() {
-      int diff = widget.project.endDate.difference(DateTime.now()).inDays;
+      int diff = _projectNotifier.currentProject.endDate.difference(DateTime.now()).inDays;
       if (diff < 0) {
         diff = 0;
       }
       return diff;
     }
 
-    //SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
-    String budget = "\$" + widget.project.budget.toString();
+    String budget = "\$" + _projectNotifier.currentProject.budget.toString();
 
     return Scaffold(
       key: scaffoldState,
@@ -78,7 +69,7 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
           ),
         ),
       ),
-      drawer: CollapsingNavigationDrawer(),
+      drawer: CollapsingNavigationDrawer("Dashboard"),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -102,7 +93,7 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: " " + widget.project.projectName + "\n",
+                                  text: " " + _projectNotifier.currentProject.projectName + "\n",
                                   style: GoogleFonts.poppins(
                                     textStyle: AppThemes.display1,
                                     color: AppThemeColours.Purple,
@@ -111,7 +102,7 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
                                 TextSpan(
                                     text: "  Started: " +
                                         DateFormat("dd MMM yyyy")
-                                            .format(widget.project.created),
+                                            .format(_projectNotifier.currentProject.created),
                                     style: AppThemes.DateSubtitle),
                               ],
                             ),
@@ -226,10 +217,11 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
                   SizedBox(
                     height: 10,
                   ),
-                  Expanded(
-                      child: TasksList(
-                    documentReference: widget.documentReference,
-                  )),
+                  //Expanded(
+                      //child: TasksList(
+                    //documentReference: widget.documentReference,
+                  //)
+                  //)
                 ],
               ),
             ),

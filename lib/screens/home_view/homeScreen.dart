@@ -5,35 +5,35 @@ import 'package:flutter_app_mindful_lifting/models/Project.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
 import 'package:flutter_app_mindful_lifting/services/auth.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
+import 'package:flutter_app_mindful_lifting/widgets/shared/collapsing_navigation_drawer.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/home_page/home_page_widgets.dart';
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-
-  @override
-  void initState() {
-    AuthNotifier authNotifier = Provider.of<AuthNotifier>(context, listen: false);    super.initState();
-    initializeCurrentUser(authNotifier);
-  }
-
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+    AuthNotifier _authNotifier =
+        Provider.of<AuthNotifier>(context, listen: false);
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: MenuIcon(),
+        leading: IconButton(
+            icon: Icon(
+              Icons.menu,
+              color: Color(0xFF333333),
+              size: 25.0,
+            ),
+            onPressed: () async {
+              await signOut(_authNotifier);
+            }),
         actions: <Widget>[
           AddIcon(),
           SearchIcon(),
         ],
       ),
+      drawer: CollapsingNavigationDrawer("home"),
       body: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(40),
@@ -45,10 +45,7 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               HeadingText(),
               Expanded(
-                child: Provider<Project>(
-                  create: (context) => new Project(),
-                  child: ProjectsList(),
-                  ),
+                child: ProjectsList(),
               ),
             ],
           ),

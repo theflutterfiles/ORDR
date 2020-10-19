@@ -1,6 +1,8 @@
 import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_mindful_lifting/screens/home/homeScreen.dart';
+
+import 'screens/home_view/homeScreen.dart';
+
 
 class Calendar extends StatefulWidget {
   @override

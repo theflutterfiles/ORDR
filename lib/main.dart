@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/menu_drawer_notifier.dart';
-import 'package:flutter_app_mindful_lifting/notifiers/project_notifier.dart';
 import 'package:flutter_app_mindful_lifting/screens/authenticate/login.dart';
-import 'package:flutter_app_mindful_lifting/screens/home/homeScreen.dart';
 import 'package:flutter_app_mindful_lifting/screens/individual_project_views/TasksView.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+
+import 'notifiers/project_notifier.dart';
+import 'screens/home_view/homeScreen.dart';
 
 void main() => runApp(MultiProvider(
       providers: [

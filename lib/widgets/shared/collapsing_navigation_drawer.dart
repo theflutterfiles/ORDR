@@ -3,16 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/models/account.dart';
 import 'package:flutter_app_mindful_lifting/models/navigation_model.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
+import 'package:flutter_app_mindful_lifting/notifiers/menu_drawer_notifier.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'collapsing_list.dart';
 
 class CollapsingNavigationDrawer extends StatefulWidget {
+
+  final String currentPage;
+
+  CollapsingNavigationDrawer(this.currentPage);
+
   @override
   _CollapsingNavigationDrawerState createState() =>
       _CollapsingNavigationDrawerState();
 }
+
+
+
 
 class _CollapsingNavigationDrawerState extends State<CollapsingNavigationDrawer>
     with SingleTickerProviderStateMixin {
@@ -26,7 +35,7 @@ class _CollapsingNavigationDrawerState extends State<CollapsingNavigationDrawer>
     //* allows data to contsantly be open, always open stream
 
     final Firestore _firestore = Firestore.instance;
-    final currentUserUID = Provider.of<AuthNotifier>(context).user.uid;
+    final currentUserUID = Provider.of<AuthNotifier>(context, listen: false).user.uid;
     yield* _firestore
         .collection('users')
         .document(currentUserUID)
@@ -55,6 +64,8 @@ class _CollapsingNavigationDrawerState extends State<CollapsingNavigationDrawer>
   }
 
   Widget getWidget(BuildContext context, Widget widget) {
+
+    var currentDrawer = Provider.of<MenuDrawerNorifier>(context, listen: false);
     return Container(
       width: widthAnimation.value,
       decoration: new BoxDecoration(
@@ -133,15 +144,22 @@ class _CollapsingNavigationDrawerState extends State<CollapsingNavigationDrawer>
                       onTap: () {
                         switch (index) {
                           case 0:
+                            currentDrawer.setCurrentDrawer(0);
                             Navigator.popAndPushNamed(context, "home");
                             break;
                           case 5:
+                          currentDrawer.setCurrentDrawer(5);
                           Navigator.popAndPushNamed(context, "tasks");
+                          print(currentDrawer.getCurrentDrawer);
                         }
                       },
                       isSelected: currentSelectedIndex == index,
                       icon: navigationItems[index].icon,
                       title: navigationItems[index].title,
+                      textStyle: TextStyle(
+                          fontSize: 20,
+                          //color: (currentDrawer == 5 && navigationItems[index].title == 'Tasks') ? AppThemeColours.NavigationSelectedColor : AppThemeColours.NavigationBarIconColor,
+                          ),
                       animationController: _animationController,
                     ),
                   );
