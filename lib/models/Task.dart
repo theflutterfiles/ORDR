@@ -2,24 +2,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Task {
   //info
+  String projectId;
   String title;
   String description;
-  String status;
+  bool status;
   String priority;
   DateTime created;
   DateTime lastEdited;
   DateTime dueDate;
 
-  List<double> expenses;
+  List expenses = [];
 
   //checklist
-  List<String> checklist;
+  List checklist = [];
 
   //attachment
-  List<String> attachments;
+  List attachments = [];
 
   Task({
     this.status,
+    this.projectId,
     this.priority,
     this.dueDate,
     this.checklist,
@@ -31,24 +33,18 @@ class Task {
     this.expenses,
   });
 
-  factory Task.fromMap(DocumentSnapshot documentSnapshot) {
-    Map data = documentSnapshot.data;
-    return Task(
-      title: data['title'] ?? "",
-      description: data['description'] ?? "",
-      status: data['status'] ?? "",
-      priority: data['priority'] ?? "",
-
-      created: data['created'].toDate(),
-      //lastEdited = data['lastEdited'].toDate();
-      dueDate: data['dueDate'].toDate() ?? null,
-
-      checklist: data['checklist'] ?? null,
-
-      attachments: data['attachments'] ?? null,
-
-      expenses: data['expenses'] ?? null,
-    );
+  Task.fromMap(Map<String, dynamic> data) {
+    projectId = data['projectId'];
+    title = data['title'];
+    description = data['description'] ?? null;
+    status = data['status'];
+    priority = data['priority'];
+    created = data['created'].toDate();
+    lastEdited = data['lastEdited'].toDate();
+    dueDate = data['dueDate'].toDate();
+    expenses = data['expenses'] ?? null;
+    checklist = data['checklist'] ?? null;
+    attachments = data['attachments'] ?? null;
   }
 
   Task.fromSnapshot(DocumentSnapshot snapshot)
@@ -64,6 +60,7 @@ class Task {
         expenses = snapshot['expenses'] ?? null;
 
   Map<String, dynamic> toJson() => {
+        'projectId': projectId,
         'title': title,
         'description': description,
         'status': status,

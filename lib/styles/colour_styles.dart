@@ -16,6 +16,8 @@ class AppThemeColours {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
+  
+  static const Color LightPurple = Color(0xffD5D7F5);
 
   static const BoxDecoration DashboardCardBox = BoxDecoration(
     gradient: DashboardCardGradient,

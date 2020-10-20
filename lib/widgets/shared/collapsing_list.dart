@@ -33,7 +33,6 @@ class _CollapsingListTitleState extends State<CollapsingListTitle> {
     super.initState();
     _widthAnimation =
         Tween<double>(begin: 250, end: 0).animate(widget.animationController);
-        MenuDrawerNorifier _menuNotifier = Provider.of<MenuDrawerNorifier>(context, listen: false);
   }
 
   @override
@@ -69,7 +68,12 @@ class _CollapsingListTitleState extends State<CollapsingListTitle> {
               (_widthAnimation.value >= 220)
                   ? Text(
                       widget.title,
-                      style: widget.textStyle,
+                      style: TextStyle(color: (widget.isSelected)
+                      ? AppThemeColours.NavigationSelectedColor
+                      : AppThemeColours.DashboardWhite,
+                      fontSize: 20,
+                      ),
+                      
                     )
                   : Container()
             ],

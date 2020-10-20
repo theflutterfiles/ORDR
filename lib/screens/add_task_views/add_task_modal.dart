@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/models/Task.dart';
 import 'package:flutter_app_mindful_lifting/models/add_task_model.dart';
 import 'package:flutter_app_mindful_lifting/models/user.dart';
+import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
+import 'package:flutter_app_mindful_lifting/notifiers/project_notifier.dart';
+import 'package:flutter_app_mindful_lifting/notifiers/task_notifier.dart';
+import 'package:flutter_app_mindful_lifting/services/task_api.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
 import 'package:flutter_app_mindful_lifting/widgets/shared/add_task_form_list.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,17 +16,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AddTaskModal extends StatefulWidget {
-  final Task task;
-  final String projectName;
-  final String documentReference;
-
-  AddTaskModal(
-      {Key key,
-      @required this.task,
-      @required this.projectName,
-      this.documentReference})
-      : super(key: key);
-
   @override
   _AddTaskModalState createState() => _AddTaskModalState();
 }
@@ -35,7 +28,12 @@ class _AddTaskModalState extends State<AddTaskModal> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
+    TaskNotifier taskNotifier =
+        Provider.of<TaskNotifier>(context, listen: true);
+
     String due = "Due Date";
+
+    Task task = new Task();
 
     return Stack(
       children: [
@@ -87,7 +85,7 @@ class _AddTaskModalState extends State<AddTaskModal> {
                           ),
                         ),
                         Container(
-                          height: 160,
+                          height: 240,
                           width: screenWidth,
                           child: ListView.builder(
                             itemBuilder: (context, index) {
@@ -119,7 +117,7 @@ class _AddTaskModalState extends State<AddTaskModal> {
                             );
                             if (datePicked != null) {
                               setState(() {
-                                widget.task.dueDate = datePicked;
+                                task.dueDate = datePicked;
                               });
                               _dueDateTextController.text =
                                   DateFormat('dd/MM/yyyy').format(datePicked);
@@ -147,24 +145,30 @@ class _AddTaskModalState extends State<AddTaskModal> {
                           padding: EdgeInsets.only(top: 20.0),
                           child: RaisedButton(
                             onPressed: () async {
-                              widget.task.title =
-                                  textEditingControllers[0].text;
-                              widget.task.description =
-                                  textEditingControllers[1].text;
-                              widget.task.created = DateTime.now();
+                              task.title = textEditingControllers[0].text;
+                              task.description = textEditingControllers[1].text;
+                              task.created = DateTime.now();
 
-                              final currentUserUID =
-                                  Provider.of<User>(context, listen: false).uid;
-                              final Firestore _firestore = Firestore.instance;
+                              final currentUserUID = Provider.of<AuthNotifier>(
+                                      context,
+                                      listen: false)
+                                  .user
+                                  .uid;
 
-                              await _firestore
-                                  .collection("users/$currentUserUID/projects")
-                                  .document(widget.documentReference)
-                                  .collection("tasks")
-                                  .add(widget.task.toJson());
+                              final TaskApi taskApi = new TaskApi();
+
+                              final ProjectNotifier projectNotifier =
+                                  Provider.of<ProjectNotifier>(context,
+                                      listen: false);
+
+                              task.projectId =
+                                  projectNotifier.currentProject.id;
 
                               _dueDateTextController.clear();
                               textEditingControllers.clear();
+
+                              taskApi.addTask(
+                                  currentUserUID, task.projectId, task);
 
                               Navigator.of(context).pop();
                             },
@@ -172,11 +176,11 @@ class _AddTaskModalState extends State<AddTaskModal> {
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                             elevation: 1.0,
-                            color: Color(0xFF3cebb6),
+                            color: AppThemeColours.LightPurple,
                             child: Container(
                               height: 50,
                               width: 80,
-                              decoration: AppThemeColours.BlueGreenGradientBox,
+                              color: AppThemeColours.LightPurple,
                               child: Center(
                                 child: Text(
                                   "Add Task",

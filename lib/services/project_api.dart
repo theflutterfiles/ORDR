@@ -24,18 +24,18 @@ class ProjectApi {
     projectListNotifier.projectList = _projectList;
   }
 
-  getTasks(ProjectNotifier projectNotifier, AuthNotifier authNotifier) async {
-    //QuerySnapshot snapshot = await Firestore.instance
-    //.collection("users").document()
-  }
-
   addProject(String uid, Project project) async {
 
-    await Firestore.instance
+    DocumentReference docRef = await Firestore.instance
         .collection("users")
         .document(uid)
         .collection("projects")
         .add(project.toJson());
+
+    project.id = docRef.documentID;
+
+    docRef.setData(project.toJson(), merge: true);
+
   }
 
 

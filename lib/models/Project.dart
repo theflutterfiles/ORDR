@@ -40,25 +40,6 @@ class Project with ChangeNotifier {
       this.created,
       this.lastEdited});
 
-  factory Project.fromFirestore(DocumentSnapshot documentSnapshot) {
-    Map data = documentSnapshot.data;
-    return Project(
-      projectName: data['projectName'],
-      description: data['description'],
-      mission: data['mission'],
-      //goals: data['goals'],
-      colour: data['colour'],
-      tasks: data['tasks'],
-      collaborators: data['collaborators'],
-      created: data['created'],
-      lastEdited: data['lastEdited'],
-      startDate: data['startDate'],
-      endDate: data['endDate'],
-      budget: data['budget'],
-      expenses: data['expenses'],
-    );
-  }
-
   String convertToString() {
     return "name: " +
         this.projectName +

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app_mindful_lifting/models/Project.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
 import 'package:flutter_app_mindful_lifting/services/auth.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';

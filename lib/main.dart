@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/menu_drawer_notifier.dart';
+import 'package:flutter_app_mindful_lifting/notifiers/task_notifier.dart';
 import 'package:flutter_app_mindful_lifting/screens/authenticate/login.dart';
+import 'package:flutter_app_mindful_lifting/screens/individual_project_views/ProjectView.dart';
 import 'package:flutter_app_mindful_lifting/screens/individual_project_views/TasksView.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -19,7 +21,10 @@ void main() => runApp(MultiProvider(
           create: (context) => AuthNotifier(),
         ),
         ChangeNotifierProvider<MenuDrawerNorifier>(
-          create: (_) => MenuDrawerNorifier())
+          create: (_) => MenuDrawerNorifier(),
+        ),
+        ChangeNotifierProvider<TaskNotifier>(
+          create: (_) => TaskNotifier()),
       ],
       child: MyApp(),
     ));
@@ -56,6 +61,7 @@ class MyApp extends StatelessWidget {
         "home": (_) => HomePage(),
         "tasks": (_) => TasksView(),
         "login": (_) => Login(),
+        "dashboard": (_) => ProjectDetailView(),
       },
       supportedLocales: [
         const Locale('en', ''),

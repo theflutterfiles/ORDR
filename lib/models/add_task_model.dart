@@ -18,10 +18,11 @@ List<TextEditingController> textEditingControllers = new List();
 List<AddTaskFormModel> addTaskFormItems = [
   AddTaskFormModel(
     icon: Icons.home_rounded,
-    hintText: "Task Name",
+    hintText: "Task Title",
     controller: new TextEditingController(),
     //readOnly: false
   ),
+
   AddTaskFormModel(
     icon: Icons.drive_file_rename_outline,
     hintText: "Description",

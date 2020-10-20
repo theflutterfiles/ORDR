@@ -68,11 +68,6 @@ import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
           authNotifier.setUser(thisUser);
         }
       }
-
-      // _firestore
-      //     .collection('users')
-      //     .document(currentUserUid)
-      //     .setData({'email': currentUser.email, 'displayName': currentUser.displayName});
   }
 
   //sign out
@@ -89,7 +84,7 @@ import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
     FirebaseUser firebaseUser = await FirebaseAuth.instance.currentUser();
 
     if (firebaseUser != null) {
-      print("INITIALISED CURRENT USER: $firebaseUser");
+      print("INITIALISED CURRENT USER: ${firebaseUser.uid}");
       authNotifier.setUser(firebaseUser);
     }
   }

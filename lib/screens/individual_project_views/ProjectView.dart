@@ -1,4 +1,6 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_mindful_lifting/notifiers/menu_drawer_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/project_notifier.dart';
 import 'package:flutter_app_mindful_lifting/screens/add_task_views/add_task_modal.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
@@ -14,29 +16,36 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ProjectDetailView extends StatefulWidget {
-
   @override
   _ProjectDetailViewState createState() => _ProjectDetailViewState();
 }
 
 class _ProjectDetailViewState extends State<ProjectDetailView> {
- 
   final scaffoldState = GlobalKey<ScaffoldState>();
 
-  void _showBottomSheet(context) {
+  @override
+  void initState() {
+    super.initState();
+  }
 
-    //scaffoldState.currentState.showBottomSheet((context) => AddTaskModal(
-         
-        //));
+  void _showBottomSheet(context) {
+    scaffoldState.currentState.showBottomSheet((context) => AddTaskModal(
+
+    ));
   }
 
   @override
   Widget build(BuildContext context) {
-
-    ProjectNotifier _projectNotifier = Provider.of<ProjectNotifier>(context, listen: false);
+    ProjectNotifier _projectNotifier =
+        Provider.of<ProjectNotifier>(context, listen: false);
+    MenuDrawerNorifier drawerNorifier =
+        Provider.of<MenuDrawerNorifier>(context, listen: false);
+    drawerNorifier.setCurrentDrawer(1);
 
     int _getDaysUntilCompletion() {
-      int diff = _projectNotifier.currentProject.endDate.difference(DateTime.now()).inDays;
+      int diff = _projectNotifier.currentProject.endDate
+          .difference(DateTime.now())
+          .inDays;
       if (diff < 0) {
         diff = 0;
       }
@@ -70,6 +79,7 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
         ),
       ),
       drawer: CollapsingNavigationDrawer("Dashboard"),
+      drawerDragStartBehavior: DragStartBehavior.start,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -84,42 +94,43 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
               child: Column(
                 children: [
                   Container(
-                    alignment: Alignment.topLeft,
-                    child: Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: " " + _projectNotifier.currentProject.projectName + "\n",
-                                  style: GoogleFonts.poppins(
-                                    textStyle: AppThemes.display1,
-                                    color: AppThemeColours.Purple,
-                                  ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: " " +
+                                    _projectNotifier
+                                        .currentProject.projectName +
+                                    "\n",
+                                style: GoogleFonts.poppins(
+                                  textStyle: AppThemes.display1,
+                                  color: AppThemeColours.Purple,
                                 ),
-                                TextSpan(
-                                    text: "  Started: " +
-                                        DateFormat("dd MMM yyyy")
-                                            .format(_projectNotifier.currentProject.created),
-                                    style: AppThemes.DateSubtitle),
-                              ],
-                            ),
+                              ),
+                              TextSpan(
+                                  text: "  Started: " +
+                                      DateFormat("dd MMM yyyy").format(
+                                          _projectNotifier
+                                              .currentProject.created),
+                                  style: AppThemes.DateSubtitle),
+                            ],
                           ),
-                          Container(
-                            margin:
-                                EdgeInsets.only(left: 10, top: 20, bottom: 20),
-                            child: ProgressBarCard(
-                              completionPercentage: 50.0,
-                              lineWidth: 10,
-                              radius: 100,
-                              text: "50%",
-                              colour: AppThemeColours.OrangeColour,
-                            ),
+                        ),
+                        Container(
+                          margin:
+                              EdgeInsets.only(left: 10, top: 20, bottom: 20),
+                          child: ProgressBarCard(
+                            completionPercentage: 50.0,
+                            lineWidth: 10,
+                            radius: 100,
+                            text: "50%",
+                            colour: AppThemeColours.OrangeColour,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                   Container(
@@ -217,11 +228,10 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
                   SizedBox(
                     height: 10,
                   ),
-                  //Expanded(
-                      //child: TasksList(
-                    //documentReference: widget.documentReference,
-                  //)
-                  //)
+                  Expanded(
+                      child: TasksList(
+                    documentReference: _projectNotifier.currentProject.id,
+                  ))
                 ],
               ),
             ),
