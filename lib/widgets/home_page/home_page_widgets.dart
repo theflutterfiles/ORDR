@@ -89,7 +89,6 @@ class _ProjectsListState extends State<ProjectsList> {
         Provider.of<ProjectNotifier>(context, listen: false);
    AuthNotifier _authNotifier = Provider.of<AuthNotifier>(context, listen: false);
    String uid = _authNotifier.user.uid;
-   print(_authNotifier.user.uid.toString());
    
         ProjectApi projectApi = new ProjectApi();
         projectApi.getProjects(_projectNotifier, uid);

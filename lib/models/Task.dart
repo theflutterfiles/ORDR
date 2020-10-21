@@ -37,11 +37,11 @@ class Task {
     projectId = data['projectId'];
     title = data['title'];
     description = data['description'] ?? null;
-    status = data['status'];
-    priority = data['priority'];
+    status = data['status'] ?? null;
+    priority = data['priority'] ?? null;
     created = data['created'].toDate();
-    lastEdited = data['lastEdited'].toDate();
-    dueDate = data['dueDate'].toDate();
+    lastEdited = data['lastEdited'].toDate() ?? null;
+    dueDate = data['dueDate'].toDate() ?? null;
     expenses = data['expenses'] ?? null;
     checklist = data['checklist'] ?? null;
     attachments = data['attachments'] ?? null;

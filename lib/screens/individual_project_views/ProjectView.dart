@@ -1,8 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_mindful_lifting/models/Task.dart';
+import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/menu_drawer_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/project_notifier.dart';
+import 'package:flutter_app_mindful_lifting/notifiers/task_notifier.dart';
 import 'package:flutter_app_mindful_lifting/screens/add_task_views/add_task_modal.dart';
+import 'package:flutter_app_mindful_lifting/services/task_api.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
 import 'package:flutter_app_mindful_lifting/widgets/dashboard/dashboard_icons.dart';
@@ -25,13 +29,18 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
 
   @override
   void initState() {
+    TaskNotifier taskNotifier =
+        Provider.of<TaskNotifier>(context, listen: false);
+    String uid = Provider.of<AuthNotifier>(context, listen: false).user.uid;
+    TaskApi taskApi = new TaskApi();
+    String projectId =
+        Provider.of<ProjectNotifier>(context, listen: false).currentProject.id;
+    taskApi.getTasks(taskNotifier, uid, projectId);
     super.initState();
   }
 
   void _showBottomSheet(context) {
-    scaffoldState.currentState.showBottomSheet((context) => AddTaskModal(
-
-    ));
+    scaffoldState.currentState.showBottomSheet((context) => AddTaskModal());
   }
 
   @override
@@ -41,6 +50,9 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
     MenuDrawerNorifier drawerNorifier =
         Provider.of<MenuDrawerNorifier>(context, listen: false);
     drawerNorifier.setCurrentDrawer(1);
+
+    TaskNotifier taskNotifier =
+        Provider.of<TaskNotifier>(context, listen: false);
 
     int _getDaysUntilCompletion() {
       int diff = _projectNotifier.currentProject.endDate
@@ -228,10 +240,11 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
                   SizedBox(
                     height: 10,
                   ),
-                  Expanded(
-                      child: TasksList(
-                    documentReference: _projectNotifier.currentProject.id,
-                  ))
+                  Expanded(child: Consumer<TaskNotifier>(
+                    builder: (BuildContext context, value, Widget child) {
+                     return TasksList();
+                    },
+                  )),
                 ],
               ),
             ),

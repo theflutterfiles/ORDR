@@ -12,8 +12,6 @@ class ModalList extends StatefulWidget {
 
 class _ModalListState extends State<ModalList> {
 
-  int currentSelectedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return Container(

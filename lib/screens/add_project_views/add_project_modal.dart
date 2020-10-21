@@ -276,13 +276,14 @@ class _AddProjectModalState extends State<AddProjectModal> {
                           borderRadius: BorderRadius.circular(20.0),
                         ),
                         elevation: 1.0,
-                        color: Color(0xFF3cebb6),
+                        color: AppThemeColours.LightPurple,
                         child: Container(
+                          padding: EdgeInsets.all(10),
                           decoration: AppThemeColours.BlueGreenGradientBox,
                           child: Text(
-                            "Lets go!",
+                            "Geddit!",
                             style: TextStyle(
-                              fontFamily: 'OpenSans',
+                              fontFamily: 'OpenSans', fontSize: 20
                             ),
                           ),
                         ),

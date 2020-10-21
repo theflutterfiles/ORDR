@@ -28,7 +28,7 @@ class TaskApi {
 
   addTask(String uid, String projectID, Task task) async {
 
-     DocumentReference docRef = await Firestore.instance
+     await Firestore.instance
         .collection("users")
         .document(uid)
         .collection("projects")
@@ -36,8 +36,5 @@ class TaskApi {
         .collection("tasks")
         .add(task.toJson());
 
-      task.projectId = projectID;
-      
-      docRef.setData(task.toJson(), merge: true);
   }
 }

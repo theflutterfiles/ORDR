@@ -1,9 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/models/Task.dart';
 import 'package:flutter_app_mindful_lifting/models/add_task_model.dart';
-import 'package:flutter_app_mindful_lifting/models/user.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/project_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/task_notifier.dart';
@@ -35,12 +34,21 @@ class _AddTaskModalState extends State<AddTaskModal> {
 
     Task task = new Task();
 
+    final currentUserUID =
+        Provider.of<AuthNotifier>(context, listen: false).user.uid;
+
+    final TaskApi taskApi = new TaskApi();
+
+    final ProjectNotifier projectNotifier =
+        Provider.of<ProjectNotifier>(context, listen: false);
+
     return Stack(
       children: [
         Container(
           height: screenHeight,
           width: screenWidth,
           child: Card(
+            //color: AppThemeColours.DashboardWhite,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(20),
@@ -85,7 +93,7 @@ class _AddTaskModalState extends State<AddTaskModal> {
                           ),
                         ),
                         Container(
-                          height: 240,
+                          height: 140,
                           width: screenWidth,
                           child: ListView.builder(
                             itemBuilder: (context, index) {
@@ -103,6 +111,32 @@ class _AddTaskModalState extends State<AddTaskModal> {
                             itemCount: addTaskFormItems.length,
                           ),
                         ),
+                        SizedBox(height: 20),
+                        Container(
+                            child: CustomRadioButton(
+                          buttonLables: [
+                            "Low",
+                            "Medium",
+                            "High",
+                          ],
+                          buttonValues: [
+                            "low",
+                            "medium",
+                            "high",
+                          ],
+                          radioButtonValue: (values) => task.priority = values,
+                          height: 43,
+                          unSelectedBorderColor: Colors.grey,
+                          enableShape: true,
+                          horizontal: false,
+                          width: screenWidth / 4,
+                          padding: 5,
+                          unSelectedColor: Colors.white,
+                          elevation: 0,
+                          selectedBorderColor: AppThemeColours.OrangeColour,
+                          selectedColor: AppThemeColours.OrangeColour,
+                        )),
+                        SizedBox(height: 20),
                         TextField(
                           controller: _dueDateTextController,
                           readOnly: true,
@@ -116,9 +150,8 @@ class _AddTaskModalState extends State<AddTaskModal> {
                                   DateTime.now().add(Duration(days: -365)),
                             );
                             if (datePicked != null) {
-                              setState(() {
-                                task.dueDate = datePicked;
-                              });
+                              task.dueDate = datePicked;
+
                               _dueDateTextController.text =
                                   DateFormat('dd/MM/yyyy').format(datePicked);
                             } else {
@@ -148,18 +181,7 @@ class _AddTaskModalState extends State<AddTaskModal> {
                               task.title = textEditingControllers[0].text;
                               task.description = textEditingControllers[1].text;
                               task.created = DateTime.now();
-
-                              final currentUserUID = Provider.of<AuthNotifier>(
-                                      context,
-                                      listen: false)
-                                  .user
-                                  .uid;
-
-                              final TaskApi taskApi = new TaskApi();
-
-                              final ProjectNotifier projectNotifier =
-                                  Provider.of<ProjectNotifier>(context,
-                                      listen: false);
+                              task.lastEdited = task.created;
 
                               task.projectId =
                                   projectNotifier.currentProject.id;

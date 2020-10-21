@@ -32,7 +32,7 @@ class TaskNotifier with ChangeNotifier {
     notifyListeners();
   }
 
-  void removeProject(Task task) {
+  void removeTask(Task task) {
     _taskList.remove(task);
     notifyListeners();
   }
