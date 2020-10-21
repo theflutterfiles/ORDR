@@ -22,9 +22,10 @@ class ProjectApi {
       _projectList.add(project);
     });
     projectListNotifier.projectList = _projectList;
+    
   }
 
-  addProject(String uid, Project project) async {
+  addProject(String uid, Project project, ProjectNotifier projectNotifier) async {
 
     DocumentReference docRef = await Firestore.instance
         .collection("users")
@@ -35,6 +36,8 @@ class ProjectApi {
     project.id = docRef.documentID;
 
     docRef.setData(project.toJson(), merge: true);
+
+    projectNotifier.addProject(project);
 
   }
 

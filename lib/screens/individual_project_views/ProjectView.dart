@@ -51,8 +51,7 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
         Provider.of<MenuDrawerNorifier>(context, listen: false);
     drawerNorifier.setCurrentDrawer(1);
 
-    TaskNotifier taskNotifier =
-        Provider.of<TaskNotifier>(context, listen: false);
+    TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context);
 
     int _getDaysUntilCompletion() {
       int diff = _projectNotifier.currentProject.endDate
@@ -103,149 +102,148 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
               padding: EdgeInsets.all(20),
               width: screenWidth,
               height: screenHeight,
-              child: Column(
-                children: [
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: " " +
-                                    _projectNotifier
-                                        .currentProject.projectName +
-                                    "\n",
-                                style: GoogleFonts.poppins(
-                                  textStyle: AppThemes.display1,
-                                  color: AppThemeColours.Purple,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: " " +
+                                      _projectNotifier
+                                          .currentProject.projectName +
+                                      "\n",
+                                  style: GoogleFonts.poppins(
+                                    textStyle: AppThemes.display1,
+                                    color: AppThemeColours.Purple,
+                                  ),
                                 ),
-                              ),
-                              TextSpan(
-                                  text: "  Started: " +
-                                      DateFormat("dd MMM yyyy").format(
-                                          _projectNotifier
-                                              .currentProject.created),
-                                  style: AppThemes.DateSubtitle),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin:
-                              EdgeInsets.only(left: 10, top: 20, bottom: 20),
-                          child: ProgressBarCard(
-                            completionPercentage: 50.0,
-                            lineWidth: 10,
-                            radius: 100,
-                            text: "50%",
-                            colour: AppThemeColours.OrangeColour,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    width: screenWidth,
-                    height: screenHeight * 0.18,
-                    child: Row(
-                      children: [
-                        Container(
-                          width: screenWidth * 0.35,
-                          height: screenHeight * 0.35,
-                          child: CustomDashboardCard(
-                            title: "Due in",
-                            icon: DashboardIconThemes.TargetCompletionIcon,
-                            gradient: AppThemeColours.BlueGreenLinearGradient,
-                            content: _getDaysUntilCompletion().toString(),
-                          ),
-                        ),
-                        Container(
-                          width: 229,
-                          child: CustomDashboardCard(
-                            title: "Budget",
-                            icon: DashboardIconThemes.BudgetIcon,
-                            gradient: AppThemeColours.BlueGreenLinearGradient,
-                            content: budget,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Divider(
-                    indent: 10,
-                    endIndent: 10,
-                    color: Colors.grey,
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 15.0, left: 10),
-                          child: Text(
-                            "Tasks",
-                            style: AppThemes.DashboardCardTitleText.copyWith(
-                                fontSize: 30),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    width: screenWidth,
-                    height: screenHeight * 0.18,
-                    child: Row(
-                      children: [
-                        Container(
-                          width: screenWidth * 0.33,
-                          height: screenHeight * 0.35,
-                          child: CustomDashboardCard(
-                            title: "Open",
-                            icon: DashboardIconThemes.OpenTaskIcon,
-                            gradient: AppThemeColours.BlueGreenLinearGradient,
-                            content: "5",
-                          ),
-                        ),
-                        Container(
-                          width: screenWidth * 0.33,
-                          height: screenHeight * 0.35,
-                          child: CustomDashboardCard(
-                            title: "Closed",
-                            icon: DashboardIconThemes.TasksIcon,
-                            gradient: AppThemeColours.BlueGreenLinearGradient,
-                            content: "10",
-                          ),
-                        ),
-                        InkWell(
-                          child: Container(
-                            width: screenWidth * 0.2,
-                            height: screenHeight * 0.35,
-                            child: CustomDashboardAddTaskCard2(
-                              icon: DashboardIconThemes.AddTaskIcon,
-                              title: "Add Task",
-                              content: "",
-                              gradient: AppThemeColours.BlueGreenLinearGradient,
+                                TextSpan(
+                                    text: "  Started: " +
+                                        DateFormat("dd MMM yyyy").format(
+                                            _projectNotifier
+                                                .currentProject.created),
+                                    style: AppThemes.DateSubtitle),
+                              ],
                             ),
                           ),
-                          onTap: () {
-                            _showBottomSheet(context);
-                          },
+                          Container(
+                            margin:
+                                EdgeInsets.only(left: 10, top: 20, bottom: 20),
+                            child: ProgressBarCard(
+                              completionPercentage: 50.0,
+                              lineWidth: 10,
+                              radius: 100,
+                              text: "50%",
+                              colour: AppThemeColours.OrangeColour,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: screenWidth,
+                      height: screenHeight * 0.18,
+                      child: Row(
+                        children: [
+                          Container(
+                            width: screenWidth * 0.35,
+                            height: screenHeight * 0.35,
+                            child: CustomDashboardCard(
+                              title: "Due in",
+                              icon: DashboardIconThemes.TargetCompletionIcon,
+                              gradient: AppThemeColours.BlueGreenLinearGradient,
+                              content: _getDaysUntilCompletion().toString(),
+                            ),
+                          ),
+                          Container(
+                            width: 229,
+                            child: CustomDashboardCard(
+                              title: "Budget",
+                              icon: DashboardIconThemes.BudgetIcon,
+                              gradient: AppThemeColours.BlueGreenLinearGradient,
+                              content: budget,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Divider(
+                      indent: 10,
+                      endIndent: 10,
+                      color: Colors.grey,
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 15.0, left: 10),
+                            child: Text(
+                              "Tasks",
+                              style: AppThemes.DashboardCardTitleText.copyWith(
+                                  fontSize: 30),
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Expanded(child: Consumer<TaskNotifier>(
-                    builder: (BuildContext context, value, Widget child) {
-                     return TasksList();
-                    },
-                  )),
-                ],
+                    Container(
+                      width: screenWidth,
+                      height: screenHeight * 0.18,
+                      child: Row(
+                        children: [
+                          Container(
+                            width: screenWidth * 0.33,
+                            height: screenHeight * 0.35,
+                            child: CustomDashboardCard(
+                              title: "Open",
+                              icon: DashboardIconThemes.OpenTaskIcon,
+                              gradient: AppThemeColours.BlueGreenLinearGradient,
+                              content: taskNotifier.openTasks.toString(),
+                            ),
+                          ),
+                          Container(
+                            width: screenWidth * 0.33,
+                            height: screenHeight * 0.35,
+                            child: CustomDashboardCard(
+                              title: "Closed",
+                              icon: DashboardIconThemes.TasksIcon,
+                              gradient: AppThemeColours.BlueGreenLinearGradient,
+                              content: taskNotifier.completedTasks.toString(),
+                            ),
+                          ),
+                          InkWell(
+                            child: Container(
+                              width: screenWidth * 0.2,
+                              height: screenHeight * 0.35,
+                              child: CustomDashboardAddTaskCard2(
+                                icon: DashboardIconThemes.AddTaskIcon,
+                                title: "Add Task",
+                                content: "",
+                                gradient:
+                                    AppThemeColours.BlueGreenLinearGradient,
+                              ),
+                            ),
+                            onTap: () {
+                              _showBottomSheet(context);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TasksList(),
+                  ],
+                ),
               ),
             ),
           ],

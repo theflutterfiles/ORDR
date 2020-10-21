@@ -10,12 +10,19 @@ class TaskNotifier with ChangeNotifier {
   Project _currentProject;
   Task _currentTask;
 
+  int _completedTasks = 0;
+  int _openTasks = 0;
+
   UnmodifiableListView<Task> get taskList =>
       UnmodifiableListView(_taskList);
 
   Project get currentProject => _currentProject;
 
   Task get currentTask => _currentTask;
+
+  int get completedTasks => _completedTasks;
+
+  int get openTasks => _openTasks;
 
   set taskList(List<Task> taskList) {
     _taskList = taskList;
@@ -24,6 +31,16 @@ class TaskNotifier with ChangeNotifier {
 
   set currentTask(Task task) {
     _currentTask = task;
+    notifyListeners();
+  }
+
+  void incrementCompletedTasks(){
+    _completedTasks++;
+    notifyListeners();
+  }
+
+  void incrementOpenTasks(){
+    _openTasks++;
     notifyListeners();
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/models/Project.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
+import 'package:flutter_app_mindful_lifting/notifiers/project_notifier.dart';
 import 'package:flutter_app_mindful_lifting/screens/home_view/homeScreen.dart';
 import 'package:flutter_app_mindful_lifting/services/project_api.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
@@ -36,6 +37,8 @@ class _AddProjectModalState extends State<AddProjectModal> {
 
     String start = "Start";
     String end = "End";
+
+    ProjectNotifier projectNotifier = Provider.of<ProjectNotifier>(context, listen:false);
 
     return Container(
       height: screenHeight,
@@ -265,12 +268,14 @@ class _AddProjectModalState extends State<AddProjectModal> {
                                   .user
                                   .uid;
 
-                          projectApi.addProject(currentUserUID, widget.project);
+                          projectApi.addProject(currentUserUID, widget.project, projectNotifier);
+                          
 
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (BuildContext context) {
-                            return HomePage();
-                          }));
+                          // Navigator.of(context).push(MaterialPageRoute(
+                          //     builder: (BuildContext context) {
+                          //   return HomePage();
+                          // }));
+                          Navigator.of(context).pop();
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),

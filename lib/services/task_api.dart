@@ -21,6 +21,11 @@ class TaskApi {
 
     snapshot.documents.forEach((document) {
       Task task = Task.fromMap(document.data);
+      // if(task.status == true){
+      //   taskNotifier.incrementCompletedTasks();
+      // }else if(task.status == false){
+      //   taskNotifier.incrementOpenTasks();
+      // }
       _taskList.add(task);
     });
     taskNotifier.taskList = _taskList;

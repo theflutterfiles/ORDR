@@ -14,7 +14,7 @@ class TasksList extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
 
     TaskNotifier taskNotifier =
-        Provider.of<TaskNotifier>(context, listen: false);
+        Provider.of<TaskNotifier>(context);
 
     return Stack(children: <Widget>[
       Container(

@@ -182,6 +182,8 @@ class _AddTaskModalState extends State<AddTaskModal> {
                               task.description = textEditingControllers[1].text;
                               task.created = DateTime.now();
                               task.lastEdited = task.created;
+                              task.status = false;
+                              taskNotifier.incrementOpenTasks();
 
                               task.projectId =
                                   projectNotifier.currentProject.id;
@@ -191,6 +193,8 @@ class _AddTaskModalState extends State<AddTaskModal> {
 
                               taskApi.addTask(
                                   currentUserUID, task.projectId, task);
+
+                              taskNotifier.addTask(task);
 
                               Navigator.of(context).pop();
                             },
