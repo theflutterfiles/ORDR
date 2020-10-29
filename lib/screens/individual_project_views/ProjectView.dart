@@ -1,8 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_mindful_lifting/models/Task.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
-import 'package:flutter_app_mindful_lifting/notifiers/menu_drawer_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/project_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/task_notifier.dart';
 import 'package:flutter_app_mindful_lifting/screens/add_task_views/add_task_modal.dart';
@@ -12,6 +10,7 @@ import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
 import 'package:flutter_app_mindful_lifting/widgets/dashboard/dashboard_icons.dart';
 import 'package:flutter_app_mindful_lifting/widgets/dashboard/tasks_list.dart';
 import 'package:flutter_app_mindful_lifting/widgets/shared/collapsing_navigation_drawer.dart';
+import 'package:flutter_app_mindful_lifting/widgets/shared/shared_methods.dart';
 import 'package:flutter_app_mindful_lifting/widgets/view_project/dashboard_add_task_card.dart';
 import 'package:flutter_app_mindful_lifting/widgets/view_project/dashboard_card.dart';
 import 'package:flutter_app_mindful_lifting/widgets/view_project/project_progress_card.dart';
@@ -45,23 +44,12 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
 
   @override
   Widget build(BuildContext context) {
-    ProjectNotifier _projectNotifier =
-        Provider.of<ProjectNotifier>(context, listen: false);
-    MenuDrawerNorifier drawerNorifier =
-        Provider.of<MenuDrawerNorifier>(context, listen: false);
-    drawerNorifier.setCurrentDrawer(1);
+    
+    ProjectNotifier _projectNotifier = Provider.of<ProjectNotifier>(context, listen: true);
 
-    TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context);
+    //TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context);
 
-    int _getDaysUntilCompletion() {
-      int diff = _projectNotifier.currentProject.endDate
-          .difference(DateTime.now())
-          .inDays;
-      if (diff < 0) {
-        diff = 0;
-      }
-      return diff;
-    }
+    
 
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
@@ -119,7 +107,7 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
                                       "\n",
                                   style: GoogleFonts.poppins(
                                     textStyle: AppThemes.display1,
-                                    color: AppThemeColours.Purple,
+                                    //color: AppThemeColours.Purple,
                                   ),
                                 ),
                                 TextSpan(
@@ -157,7 +145,10 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
                               title: "Due in",
                               icon: DashboardIconThemes.TargetCompletionIcon,
                               gradient: AppThemeColours.BlueGreenLinearGradient,
-                              content: _getDaysUntilCompletion().toString(),
+                              textWidget: Text(
+                                getDaysUntilCompletion(_projectNotifier.currentProject.endDate).toString(),
+                                style: AppThemes.DashboardCardContentText,
+                              ),
                             ),
                           ),
                           Container(
@@ -166,7 +157,10 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
                               title: "Budget",
                               icon: DashboardIconThemes.BudgetIcon,
                               gradient: AppThemeColours.BlueGreenLinearGradient,
-                              content: budget,
+                              textWidget: Text(
+                                budget,
+                                style: AppThemes.DashboardCardBudgetNumber,
+                              ),
                             ),
                           ),
                         ],
@@ -206,7 +200,15 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
                               title: "Open",
                               icon: DashboardIconThemes.OpenTaskIcon,
                               gradient: AppThemeColours.BlueGreenLinearGradient,
-                              content: taskNotifier.openTasks.toString(),
+                              textWidget: Consumer<ProjectNotifier>(
+                                builder: (context, notifier, child) {
+                                  return Text(
+                                      _projectNotifier.currentProject.openTasks
+                                          .toString(),
+                                      style:
+                                          AppThemes.DashboardCardContentText);
+                                },
+                              ),
                             ),
                           ),
                           Container(
@@ -216,7 +218,11 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
                               title: "Closed",
                               icon: DashboardIconThemes.TasksIcon,
                               gradient: AppThemeColours.BlueGreenLinearGradient,
-                              content: taskNotifier.completedTasks.toString(),
+                              textWidget: Text(
+                                _projectNotifier.currentProject.completedTasks
+                                    .toString(),
+                                style: AppThemes.DashboardCardContentText,
+                              ),
                             ),
                           ),
                           InkWell(
@@ -242,6 +248,7 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
                       height: 10,
                     ),
                     TasksList(),
+                    SizedBox(height: 30),
                   ],
                 ),
               ),

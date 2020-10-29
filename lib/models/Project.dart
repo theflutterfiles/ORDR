@@ -9,6 +9,8 @@ class Project with ChangeNotifier {
   String mission;
   List goals = [];
   String colour;
+  int openTasks;
+  int completedTasks;
 
   //tasks
   List tasks = [];
@@ -31,6 +33,8 @@ class Project with ChangeNotifier {
       this.startDate,
       this.endDate,
       this.budget,
+      this.openTasks = 0,
+      this.completedTasks = 0,
       this.expenses,
       this.goals,
       this.mission,
@@ -66,6 +70,8 @@ class Project with ChangeNotifier {
         'mission': mission,
         'description': description,
         'goals': [],
+        'openTasks' : openTasks,
+        'completedTasks' : completedTasks,
         'colour': colour,
         'collaborators': [],
         'created': created,
@@ -82,6 +88,8 @@ class Project with ChangeNotifier {
       : projectName = snapshot['projectName'],
         description = snapshot['description'],
         mission = snapshot['mission'],
+        openTasks = snapshot['openTasks'],
+        completedTasks = snapshot['completedTasks'],
         //goals = null,
         colour = snapshot['colour'],
         tasks = null,
@@ -99,6 +107,8 @@ class Project with ChangeNotifier {
     description = data['description'] ?? null;
     mission = data['mission'];
     goals = data['goals'] ?? null;
+    openTasks = data['openTasks'] ?? 0;
+    completedTasks = data['completedTasks'] ?? 0;
     colour = data['colour'] ?? null;
     tasks = data['tasks'] ?? null;
     collaborators = data['collaborators'] ?? null;

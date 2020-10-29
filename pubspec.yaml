@@ -37,6 +37,7 @@ dependencies:
   flutter_hsvcolor_picker: ^0.0.1
   percent_indicator: ^2.1.7+4
   custom_radio_grouped_button: ^1.0.6+1
+  slimy_card: ^1.0.4
   flutter_localizations:
     sdk: flutter
 

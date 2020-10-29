@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
+import 'package:flutter_app_mindful_lifting/notifiers/menu_drawer_notifier.dart';
 import 'package:flutter_app_mindful_lifting/services/auth.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:flutter_app_mindful_lifting/widgets/shared/collapsing_navigation_drawer.dart';
@@ -14,25 +16,35 @@ class HomePage extends StatelessWidget {
     SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     AuthNotifier _authNotifier =
         Provider.of<AuthNotifier>(context, listen: false);
+    MenuDrawerNorifier _menuDrawerNotifier =
+        Provider.of<MenuDrawerNorifier>(context, listen: false);
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: IconButton(
-            icon: Icon(
-              Icons.menu,
-              color: Color(0xFF333333),
-              size: 25.0,
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.white,
+        leading: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15),
+          child: Builder(
+            builder: (context) => IconButton(
+              icon: Icon(
+                Icons.menu_rounded,
+                size: 40,
+                color: AppThemeColours.NavigationBarColor,
+              ),
+              color: Colors.black,
+              onPressed: () => Scaffold.of(context).openDrawer(),
             ),
-            onPressed: () async {
-              await signOut(_authNotifier);
-            }),
+          ),
+        ),
         actions: <Widget>[
           AddIcon(),
           SearchIcon(),
         ],
       ),
-      drawer: CollapsingNavigationDrawer("home"),
+      drawer: CollapsingNavigationDrawer("Home"),
+      drawerDragStartBehavior: DragStartBehavior.start,
       body: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(40),

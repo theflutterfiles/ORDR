@@ -31,4 +31,6 @@ class ProjectNotifier with ChangeNotifier {
     _projectList.remove(project);
     notifyListeners();
   }
+
+ 
 }

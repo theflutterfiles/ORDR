@@ -34,15 +34,6 @@ class TaskNotifier with ChangeNotifier {
     notifyListeners();
   }
 
-  void incrementCompletedTasks(){
-    _completedTasks++;
-    notifyListeners();
-  }
-
-  void incrementOpenTasks(){
-    _openTasks++;
-    notifyListeners();
-  }
 
   void addTask(Task task) {
     _taskList.add(task);

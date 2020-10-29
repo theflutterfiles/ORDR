@@ -1,11 +1,13 @@
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_mindful_lifting/models/Project.dart';
 import 'package:flutter_app_mindful_lifting/models/Task.dart';
 import 'package:flutter_app_mindful_lifting/models/add_task_model.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/project_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/task_notifier.dart';
+import 'package:flutter_app_mindful_lifting/services/project_api.dart';
 import 'package:flutter_app_mindful_lifting/services/task_api.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
 import 'package:flutter_app_mindful_lifting/widgets/shared/add_task_form_list.dart';
@@ -183,10 +185,16 @@ class _AddTaskModalState extends State<AddTaskModal> {
                               task.created = DateTime.now();
                               task.lastEdited = task.created;
                               task.status = false;
-                              taskNotifier.incrementOpenTasks();
+                              ProjectApi projectApi = new ProjectApi();
+
+                            
+                              
+                              
 
                               task.projectId =
                                   projectNotifier.currentProject.id;
+
+                                  projectApi.updateOpenTasks(task.projectId, currentUserUID, projectNotifier, projectNotifier.currentProject);
 
                               _dueDateTextController.clear();
                               textEditingControllers.clear();
@@ -196,6 +204,7 @@ class _AddTaskModalState extends State<AddTaskModal> {
 
                               taskNotifier.addTask(task);
 
+                        
                               Navigator.of(context).pop();
                             },
                             shape: RoundedRectangleBorder(

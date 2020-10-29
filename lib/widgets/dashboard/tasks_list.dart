@@ -48,13 +48,13 @@ class TasksList extends StatelessWidget {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 color: (taskNotifier.taskList[index].status) ==
-                                        true
+                                        false
                                     ? AppThemeColours.Yellow
                                     : AppThemeColours.DoneGreen,
                               ),
                               child: Text(
-                                (taskNotifier.taskList[index].status) == true
-                                    ? "In Progress"
+                                (taskNotifier.taskList[index].status) == false
+                                    ? "Open"
                                     : "Done",
                                 style: TextStyle(
                                   color: Colors.black,
@@ -94,20 +94,20 @@ class TasksList extends StatelessWidget {
                                 child: ProgressBarCard(
                                   completionPercentage:
                                       (taskNotifier.taskList[index].status) ==
-                                              true
+                                              false
                                           ? 75.0
                                           : 100,
                                   lineWidth: 3.0,
                                   radius: 50,
                                   text: (taskNotifier.taskList[index].status) ==
-                                          true
+                                          false
                                       ? "75%"
                                       : "100%",
                                   colour:
                                       (taskNotifier.taskList[index].status) ==
                                               true
-                                          ? AppThemeColours.Purple
-                                          : AppThemeColours.DoneGreen,
+                                          ? AppThemeColours.DoneGreen
+                                          : AppThemeColours.Purple,
                                 ),
                               ),
                             ],

@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_mindful_lifting/notifiers/project_notifier.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
+import 'package:provider/provider.dart';
 
 class CustomDashboardCard extends StatelessWidget {
   final String title;
   final Icon icon;
   //final Action onNavigationSelection;
-  final String content;
+
   final LinearGradient gradient;
+  final Widget textWidget;
 
   const CustomDashboardCard(
       {Key key,
       @required this.title,
       this.icon,
-      this.content,
-      this.gradient})
+      this.gradient,
+      this.textWidget})
       : super(key: key);
 
   @override
@@ -65,11 +68,10 @@ class CustomDashboardCard extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 16, bottom: 16),
-                        child: Text(
-                          content,
-                          style: (content.contains("\$")
-                              ? AppThemes.DashboardCardBudgetNumber
-                              : AppThemes.DashboardCardContentText),
+                        child: Consumer<ProjectNotifier>(
+                          builder: (context, notifier, child) {
+                            return textWidget;
+                          },
                         ),
                       ),
                     ],
