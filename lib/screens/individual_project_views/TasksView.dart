@@ -61,6 +61,7 @@ class _TasksViewState extends State<TasksView> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     String budget = "\$" + _projectNotifier.currentProject.budget.toString();
+    bool checked = true;
 
     return Scaffold(
       key: scaffoldState,
@@ -155,7 +156,8 @@ class _TasksViewState extends State<TasksView> {
                 ),
               ),
               TasksListHorizontal(),
-              Text("Hi"),
+              
+             
             ],
           ),
         ),

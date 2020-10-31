@@ -200,7 +200,7 @@ class _AddTaskModalState extends State<AddTaskModal> {
                               textEditingControllers.clear();
 
                               taskApi.addTask(
-                                  currentUserUID, task.projectId, task);
+                                  currentUserUID, task.projectId, task, taskNotifier);
 
                               taskNotifier.addTask(task);
 

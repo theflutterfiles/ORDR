@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_app_mindful_lifting/models/Checklist.dart';
 
 class Task {
   //info
   String projectId;
+  String id;
   String title;
   String description;
   bool status;
@@ -14,13 +16,14 @@ class Task {
   List expenses = [];
 
   //checklist
-  List checklist = [];
+  List<Checklist> checklist;
 
   //attachment
   List attachments = [];
 
   Task({
     this.status,
+    this.id,
     this.projectId,
     this.priority,
     this.dueDate,
@@ -35,6 +38,7 @@ class Task {
 
   Task.fromMap(Map<String, dynamic> data) {
     projectId = data['projectId'];
+    id = data['id'];
     title = data['title'];
     description = data['description'] ?? null;
     status = data['status'] ?? null;
@@ -43,12 +47,13 @@ class Task {
     lastEdited = data['lastEdited'].toDate() ?? null;
     dueDate = data['dueDate'].toDate() ?? null;
     expenses = data['expenses'] ?? null;
-    checklist = data['checklist'] ?? null;
+    checklist = data['checklist'] ?? [];
     attachments = data['attachments'] ?? null;
   }
 
   Task.fromSnapshot(DocumentSnapshot snapshot)
       : title = snapshot['title'] ?? "",
+      id = snapshot['id'],
         description = snapshot['description'] ?? "",
         status = snapshot['status'] ?? "",
         priority = snapshot['priority'] ?? "",
@@ -61,6 +66,7 @@ class Task {
 
   Map<String, dynamic> toJson() => {
         'projectId': projectId,
+        'id' : id,
         'title': title,
         'description': description,
         'status': status,

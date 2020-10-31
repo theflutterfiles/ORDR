@@ -101,7 +101,6 @@ class TaskCard extends StatelessWidget {
                         nMbox.copyWith(borderRadius: BorderRadius.circular(15)),
                     child: Container(
                       alignment: Alignment.center,
-                      
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: (taskNotifier.taskList[index].priority == "low")
