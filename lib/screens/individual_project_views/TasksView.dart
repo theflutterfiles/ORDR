@@ -24,18 +24,6 @@ class TasksView extends StatefulWidget {
 class _TasksViewState extends State<TasksView> {
   final scaffoldState = GlobalKey<ScaffoldState>();
 
-  @override
-  void initState() {
-    TaskNotifier taskNotifier =
-        Provider.of<TaskNotifier>(context, listen: false);
-    String uid = Provider.of<AuthNotifier>(context, listen: false).user.uid;
-    TaskApi taskApi = new TaskApi();
-    String projectId =
-        Provider.of<ProjectNotifier>(context, listen: false).currentProject.id;
-    taskApi.getTasks(taskNotifier, uid, projectId);
-    super.initState();
-  }
-
   void _showBottomSheet(context) {
     scaffoldState.currentState.showBottomSheet((context) => AddTaskModal());
   }
@@ -43,19 +31,19 @@ class _TasksViewState extends State<TasksView> {
   @override
   Widget build(BuildContext context) {
     ProjectNotifier _projectNotifier =
-        Provider.of<ProjectNotifier>(context, listen: true);
+        Provider.of<ProjectNotifier>(context, listen: false);
 
     //TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context);
 
-    int _getDaysUntilCompletion() {
-      int diff = _projectNotifier.currentProject.endDate
-          .difference(DateTime.now())
-          .inDays;
-      if (diff < 0) {
-        diff = 0;
-      }
-      return diff;
-    }
+    // int _getDaysUntilCompletion() {
+    //   int diff = _projectNotifier.currentProject.endDate
+    //       .difference(DateTime.now())
+    //       .inDays;
+    //   if (diff < 0) {
+    //     diff = 0;
+    //   }
+    //   return diff;
+    // }
 
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
@@ -64,7 +52,7 @@ class _TasksViewState extends State<TasksView> {
     bool checked = true;
 
     return Scaffold(
-      key: scaffoldState,
+      //key: scaffoldState,
       backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -155,8 +143,8 @@ class _TasksViewState extends State<TasksView> {
                   ],
                 ),
               ),
-              TasksListHorizontal(),
-              
+               
+              Expanded(child: TasksListHorizontal()),
              
             ],
           ),

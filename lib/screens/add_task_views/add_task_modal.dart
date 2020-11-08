@@ -202,7 +202,7 @@ class _AddTaskModalState extends State<AddTaskModal> {
                               taskApi.addTask(
                                   currentUserUID, task.projectId, task, taskNotifier);
 
-                              taskNotifier.addTask(task);
+                              //taskNotifier.addTask(task);
 
                         
                               Navigator.of(context).pop();

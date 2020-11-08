@@ -6,8 +6,9 @@ import 'package:flutter_app_mindful_lifting/models/Project.dart';
 import 'package:flutter_app_mindful_lifting/models/Task.dart';
 
 class TaskNotifier with ChangeNotifier {
+
   List<Task> _taskList = [];
-  List<Checklist> _checklist = [];
+  List<Checklist> _currentCheckList = [];
 
   Project _currentProject;
   Task _currentTask;
@@ -17,8 +18,7 @@ class TaskNotifier with ChangeNotifier {
 
   UnmodifiableListView<Task> get taskList => UnmodifiableListView(_taskList);
 
-  UnmodifiableListView<Checklist> get checkList =>
-      UnmodifiableListView(_checklist);
+  UnmodifiableListView<Checklist> get currentCheckList => UnmodifiableListView(_currentCheckList);
 
   Project get currentProject => _currentProject;
 
@@ -33,8 +33,8 @@ class TaskNotifier with ChangeNotifier {
     notifyListeners();
   }
 
-  set checklist(List<Checklist> checkList) {
-    _checklist = checkList;
+  set currentCheckList(List<Checklist> checkList) {
+    _currentCheckList = checkList;
     notifyListeners();
   }
 
@@ -54,11 +54,12 @@ class TaskNotifier with ChangeNotifier {
   }
 
   void addChecklist(Checklist checklist) {
-    _checklist.add(checklist);
+    _currentCheckList.add(checklist);
     notifyListeners();
   }
+
   void removeChecklist(Checklist checklist) {
-    _checklist.remove(checklist);
+    _currentCheckList.remove(checklist);
     notifyListeners();
   }
 }

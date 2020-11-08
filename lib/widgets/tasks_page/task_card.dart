@@ -18,9 +18,10 @@ class TaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context);
+    TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context, listen: false);
 
     return Container(
+      color: Colors.white,
       child: Column(
         children: [
           Row(

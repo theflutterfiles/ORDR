@@ -16,7 +16,7 @@ class Task {
   List expenses = [];
 
   //checklist
-  List<Checklist> checklist;
+  List<Object> checklist;
 
   //attachment
   List attachments = [];
@@ -70,7 +70,7 @@ class Task {
         'title': title,
         'description': description,
         'status': status,
-        'piority': priority,
+        'priority': priority,
         'created': created,
         'lastEdited': lastEdited,
         'dueDate': dueDate,
