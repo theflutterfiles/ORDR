@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
+import 'package:flutter_app_mindful_lifting/notifiers/checklist_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/menu_drawer_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/task_notifier.dart';
 import 'package:flutter_app_mindful_lifting/screens/authenticate/login.dart';
@@ -25,6 +26,8 @@ void main() => runApp(MultiProvider(
         ),
         ChangeNotifierProvider<TaskNotifier>(
           create: (_) => TaskNotifier()),
+        ChangeNotifierProvider<ChecklistNotifier>(
+            create: (_) => ChecklistNotifier()),
       ],
       child: MyApp(),
     ));

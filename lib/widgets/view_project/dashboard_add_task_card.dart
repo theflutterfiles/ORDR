@@ -90,7 +90,7 @@ class CustomDashboardAddTaskCard2 extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 25.0, left: 10),
                       child: Text(
-                        "Add\nTask",
+                        "Show\nTasks",
                         style: AppThemes.DashboardCardTitleText.copyWith(fontSize: 20),
                       ),
                     ),

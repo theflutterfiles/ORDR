@@ -24,6 +24,8 @@ class TasksView extends StatefulWidget {
 class _TasksViewState extends State<TasksView> {
   final scaffoldState = GlobalKey<ScaffoldState>();
 
+  
+
   void _showBottomSheet(context) {
     scaffoldState.currentState.showBottomSheet((context) => AddTaskModal());
   }

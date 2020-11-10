@@ -16,7 +16,7 @@ class Task {
   List expenses = [];
 
   //checklist
-  List<Object> checklist;
+  List checklist = [];
 
   //attachment
   List attachments = [];
@@ -47,7 +47,7 @@ class Task {
     lastEdited = data['lastEdited'].toDate() ?? null;
     dueDate = data['dueDate'].toDate() ?? null;
     expenses = data['expenses'] ?? null;
-    checklist = data['checklist'] ?? [];
+    checklist = data['checklist'] ?? null;
     attachments = data['attachments'] ?? null;
   }
 
@@ -77,5 +77,6 @@ class Task {
         'expenses': expenses,
         'checklist': checklist,
         'attachments': attachments,
+        
       };
 }

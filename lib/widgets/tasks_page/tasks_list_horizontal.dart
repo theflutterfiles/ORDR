@@ -1,20 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/models/Checklist.dart';
-import 'package:flutter_app_mindful_lifting/models/add_task_model.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
+import 'package:flutter_app_mindful_lifting/notifiers/checklist_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/project_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/task_notifier.dart';
-import 'package:flutter_app_mindful_lifting/screens/add_task_views/add_task_modal.dart';
+import 'package:flutter_app_mindful_lifting/services/checklistApi.dart';
 import 'package:flutter_app_mindful_lifting/services/task_api.dart';
-import 'package:flutter_app_mindful_lifting/styles/box_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
-import 'package:flutter_app_mindful_lifting/widgets/tasks_page/slimy_task_list.dart';
 import 'package:flutter_app_mindful_lifting/widgets/tasks_page/task_card.dart';
-import 'package:flutter_app_mindful_lifting/widgets/view_project/project_progress_card.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:slide_popup_dialog/slide_popup_dialog.dart' as slideDialog;
 import 'package:slimy_card/slimy_card.dart';
@@ -24,9 +18,24 @@ class TasksListHorizontal extends StatefulWidget {
   _TasksListHorizontalState createState() => _TasksListHorizontalState();
 }
 
+
 TextEditingController textEditingController = new TextEditingController();
 
+
 class _TasksListHorizontalState extends State<TasksListHorizontal> {
+
+@override
+  void initState() {
+    TaskNotifier taskNotifier =
+        Provider.of<TaskNotifier>(context, listen: false);
+    String uid = Provider.of<AuthNotifier>(context, listen: false).user.uid;
+    TaskApi taskApi = new TaskApi();
+    String projectId =
+        Provider.of<ProjectNotifier>(context, listen: false).currentProject.id;
+    taskApi.getTasks(taskNotifier, uid, projectId);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -43,7 +52,7 @@ class _TasksListHorizontalState extends State<TasksListHorizontal> {
 
   Widget _buildCarousel(BuildContext context, int carouselIndex) {
     TaskNotifier taskNotifier =
-        Provider.of<TaskNotifier>(context, listen: false);
+        Provider.of<TaskNotifier>(context, listen: true);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -69,11 +78,10 @@ class _TasksListHorizontalState extends State<TasksListHorizontal> {
 
   Widget _buildCarouselItem(BuildContext context, int carouselIndex,
       int itemIndex, TaskNotifier taskNotifier) {
-    String currenUserUID =
-        Provider.of<AuthNotifier>(context, listen: false).user.uid;
-    TaskApi taskApi = new TaskApi();
-
     var screenWidth = MediaQuery.of(context).size.width;
+
+    TaskNotifier taskNotifier =
+        Provider.of<TaskNotifier>(context, listen: true);
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 4.0),
@@ -109,39 +117,44 @@ class _TasksListHorizontalState extends State<TasksListHorizontal> {
               Expanded(
                 child: Consumer<TaskNotifier>(
                   builder: (BuildContext context, value, Widget child) {
-                    _getChecklist(
-                        taskNotifier, taskApi, currenUserUID, itemIndex);                       
-                    return ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: taskNotifier
-                          .currentCheckList.length,
-                      itemBuilder: (BuildContext context, int i) {
-                        String completed =
-                            taskNotifier.currentCheckList[i].checked.toString();
-                        var checked =
-                            completed.toLowerCase() == "true" ? true : false;
+                    return taskNotifier.taskList[itemIndex].checklist.length ==
+                            0
+                        ? Container(child: Text("No checklist items yet"))
+                        : ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: taskNotifier
+                                .taskList[itemIndex].checklist.length,
+                            itemBuilder: (BuildContext context, int i) {
+                              String completed = taskNotifier
+                                  .taskList[itemIndex].checklist[i].checked
+                                  .toString();
+                              var checked = completed.toLowerCase() == "true"
+                                  ? true
+                                  : false;
 
-                        return CheckboxListTile(
-                          title: Consumer<TaskNotifier>(builder:
-                              (BuildContext context, value, Widget child) {
-                            return Text(
-                                taskNotifier.currentCheckList[i].title.toString());
-                          }),
-                          value: checked,
-                          onChanged: (bool value) {
-                            setState(() {
-                              checked = value;
-                              if (value == true) {
-                                checked = value;
-                              } else {
-                                checked = value;
-                              }
-                            });
-                          },
-                        );
-                      },
-                    );
+                              return CheckboxListTile(
+                                title: Consumer<TaskNotifier>(builder:
+                                    (BuildContext context, value,
+                                        Widget child) {
+                                  return Text(taskNotifier
+                                      .taskList[itemIndex].checklist[i].title
+                                      .toString());
+                                }),
+                                value: checked,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    checked = value;
+                                    if (value == true) {
+                                      checked = value;
+                                    } else {
+                                      checked = value;
+                                    }
+                                  });
+                                },
+                              );
+                            },
+                          );
                   },
                 ),
               ),
@@ -149,17 +162,6 @@ class _TasksListHorizontalState extends State<TasksListHorizontal> {
           ),
         ),
       ),
-    );
-  }
-
-
-  _getChecklist(TaskNotifier taskNotifier, TaskApi taskApi,
-      String currenUserUID, int itemIndex) async {
-  return await taskApi.getChecklists(
-      taskNotifier,
-      currenUserUID,
-      taskNotifier.taskList[itemIndex].projectId,
-      taskNotifier.taskList[itemIndex].id,
     );
   }
 
@@ -206,6 +208,7 @@ class _TasksListHorizontalState extends State<TasksListHorizontal> {
                           .uid;
                   TaskNotifier taskNotifier =
                       Provider.of<TaskNotifier>(context, listen: false);
+                  
 
                   TaskApi taskApi = new TaskApi();
 
@@ -215,9 +218,13 @@ class _TasksListHorizontalState extends State<TasksListHorizontal> {
                       taskNotifier.taskList[itemIndex],
                       checklist,
                       taskNotifier.taskList[itemIndex].id,
-                      taskNotifier);
+                      taskNotifier,
+                      itemIndex);
 
                   Navigator.of(context).pop();
+                  setState(() {
+                    taskApi.getTasks(taskNotifier, currentUserUID, taskNotifier.taskList[itemIndex].projectId);
+                  });
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),

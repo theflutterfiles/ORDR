@@ -48,7 +48,6 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
     ProjectNotifier _projectNotifier = Provider.of<ProjectNotifier>(context, listen: true);
 
     //TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context);
-
     
 
     final screenHeight = MediaQuery.of(context).size.height;
@@ -230,8 +229,8 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
                               width: screenWidth * 0.2,
                               height: screenHeight * 0.35,
                               child: CustomDashboardAddTaskCard2(
-                                icon: DashboardIconThemes.AddTaskIcon,
-                                title: "Add Task",
+                                icon: Icon(Icons.arrow_drop_down_circle),
+                                title: "Show Tasks",
                                 content: "",
                                 gradient:
                                     AppThemeColours.BlueGreenLinearGradient,

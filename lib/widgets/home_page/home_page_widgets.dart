@@ -67,7 +67,7 @@ class HeadingText extends StatelessWidget {
                 style: GoogleFonts.poppins(
                   textStyle: AppThemes.display1,
                 )),
-            TextSpan(text: "\n\n"),
+            TextSpan(text: "\n\n\n\n\n"),
             TextSpan(text: "Projects", style: AppThemes.display2),
           ]),
         ),

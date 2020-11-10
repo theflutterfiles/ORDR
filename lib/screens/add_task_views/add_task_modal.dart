@@ -185,6 +185,7 @@ class _AddTaskModalState extends State<AddTaskModal> {
                               task.created = DateTime.now();
                               task.lastEdited = task.created;
                               task.status = false;
+                              task.checklist = [];
                               ProjectApi projectApi = new ProjectApi();
 
                             
