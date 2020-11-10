@@ -147,9 +147,12 @@ class _TasksViewState extends State<TasksView> {
               ),
                
               Expanded(child: TasksListHorizontal()),
+              
+               
              
             ],
           ),
+          
         ),
       ),
     );

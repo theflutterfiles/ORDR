@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_app_mindful_lifting/models/Checklist.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
-import 'package:flutter_app_mindful_lifting/notifiers/checklist_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/project_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/task_notifier.dart';
-import 'package:flutter_app_mindful_lifting/services/checklistApi.dart';
 import 'package:flutter_app_mindful_lifting/services/task_api.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
@@ -18,13 +17,10 @@ class TasksListHorizontal extends StatefulWidget {
   _TasksListHorizontalState createState() => _TasksListHorizontalState();
 }
 
-
 TextEditingController textEditingController = new TextEditingController();
 
-
 class _TasksListHorizontalState extends State<TasksListHorizontal> {
-
-@override
+  @override
   void initState() {
     TaskNotifier taskNotifier =
         Provider.of<TaskNotifier>(context, listen: false);
@@ -133,25 +129,41 @@ class _TasksListHorizontalState extends State<TasksListHorizontal> {
                                   ? true
                                   : false;
 
-                              return CheckboxListTile(
-                                title: Consumer<TaskNotifier>(builder:
-                                    (BuildContext context, value,
-                                        Widget child) {
-                                  return Text(taskNotifier
+                              return StatefulBuilder(
+                                builder: (context, setState) =>
+                                    CheckboxListTile(
+                                  title: Text(taskNotifier
                                       .taskList[itemIndex].checklist[i].title
-                                      .toString());
-                                }),
-                                value: checked,
-                                onChanged: (bool value) {
-                                  setState(() {
-                                    checked = value;
-                                    if (value == true) {
+                                      .toString()),
+                                  value: checked,
+                                  selected: false,
+                                  onChanged: (bool value) {
+                                    setState(() {
                                       checked = value;
-                                    } else {
-                                      checked = value;
-                                    }
-                                  });
-                                },
+                                      TaskApi taskApi = new TaskApi();
+                                      String currentUserUID =
+                                          Provider.of<AuthNotifier>(context,
+                                                  listen: false)
+                                              .user
+                                              .uid;
+                                      taskNotifier.taskList[itemIndex]
+                                          .checklist[i].checked = true;
+                                      taskApi.checkListItem(
+                                          currentUserUID,
+                                          taskNotifier
+                                              .taskList[itemIndex].projectId,
+                                          taskNotifier.taskList[itemIndex],
+                                          taskNotifier,
+                                          itemIndex,
+                                          checked,
+                                          i);
+                                          // taskApi.getTasks(taskNotifier, currentUserUID, taskNotifier
+                                          //     .taskList[itemIndex].projectId);
+                                    });
+                                  },
+                                  activeColor: Colors.green,
+                                  checkColor: Colors.black,
+                                ),
                               );
                             },
                           );
@@ -208,7 +220,6 @@ class _TasksListHorizontalState extends State<TasksListHorizontal> {
                           .uid;
                   TaskNotifier taskNotifier =
                       Provider.of<TaskNotifier>(context, listen: false);
-                  
 
                   TaskApi taskApi = new TaskApi();
 
@@ -223,7 +234,8 @@ class _TasksListHorizontalState extends State<TasksListHorizontal> {
 
                   Navigator.of(context).pop();
                   setState(() {
-                    taskApi.getTasks(taskNotifier, currentUserUID, taskNotifier.taskList[itemIndex].projectId);
+                    taskApi.getTasks(taskNotifier, currentUserUID,
+                        taskNotifier.taskList[itemIndex].projectId);
                   });
                 },
                 shape: RoundedRectangleBorder(

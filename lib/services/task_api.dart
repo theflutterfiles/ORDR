@@ -123,8 +123,14 @@ class TaskApi {
     taskNotifier.taskList[itemIndex].checklist = checklist2;
   }
 
-  checkListItem(String uid, String projectID, Task task,
-      TaskNotifier taskNotifier, int index, String flag) async {
+  checkListItem(
+      String uid,
+      String projectID,
+      Task task,
+      TaskNotifier taskNotifier,
+      int index,
+      bool flag,
+      int checklistIndex) async {
     DocumentReference docRef = Firestore.instance
         .collection("users")
         .document(uid)
@@ -133,10 +139,16 @@ class TaskApi {
         .collection("tasks")
         .document(task.id);
 
-    print(docRef.documentID);
+    Task taskClone = new Task();
+    taskClone.checklist = task.checklist;
 
-    docRef.updateData({
-      "checklist": {"completed": flag}
+    List checklistList = [];
+    taskClone.checklist.toList().forEach((element) {
+      checklistList.add(element.toJson());
     });
+
+    taskClone.checklist = checklistList;
+
+    docRef.setData(taskClone.toJson(), merge: true);
   }
 }

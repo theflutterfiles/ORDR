@@ -91,6 +91,10 @@ class _CollapsingNavigationDrawerState extends State<CollapsingNavigationDrawer>
                             currentDrawer.setCurrentDrawer(1);
                             Navigator.popAndPushNamed(context, "dashboard");
                             break;
+                          case 4:
+                            currentDrawer.setCurrentDrawer(4);
+                            Navigator.popAndPushNamed(context, "collaborators");
+                            break;
                           case 5:
                             currentDrawer.setCurrentDrawer(5);
                             Navigator.popAndPushNamed(context, "tasks");

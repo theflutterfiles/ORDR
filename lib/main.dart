@@ -4,6 +4,7 @@ import 'package:flutter_app_mindful_lifting/notifiers/checklist_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/menu_drawer_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/task_notifier.dart';
 import 'package:flutter_app_mindful_lifting/screens/authenticate/login.dart';
+import 'package:flutter_app_mindful_lifting/screens/individual_project_views/CollaboratorsView.dart';
 import 'package:flutter_app_mindful_lifting/screens/individual_project_views/ProjectView.dart';
 import 'package:flutter_app_mindful_lifting/screens/individual_project_views/TasksView.dart';
 import 'package:flutter/services.dart';
@@ -24,8 +25,7 @@ void main() => runApp(MultiProvider(
         ChangeNotifierProvider<MenuDrawerNorifier>(
           create: (_) => MenuDrawerNorifier(),
         ),
-        ChangeNotifierProvider<TaskNotifier>(
-          create: (_) => TaskNotifier()),
+        ChangeNotifierProvider<TaskNotifier>(create: (_) => TaskNotifier()),
         ChangeNotifierProvider<ChecklistNotifier>(
             create: (_) => ChecklistNotifier()),
       ],
@@ -65,6 +65,7 @@ class MyApp extends StatelessWidget {
         "tasks": (_) => TasksView(),
         "login": (_) => Login(),
         "dashboard": (_) => ProjectDetailView(),
+        "collaborators": (_) => CollaboratorsView(),
       },
       supportedLocales: [
         const Locale('en', ''),
