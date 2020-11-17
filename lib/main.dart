@@ -66,6 +66,7 @@ class MyApp extends StatelessWidget {
         "login": (_) => Login(),
         "dashboard": (_) => ProjectDetailView(),
         "collaborators": (_) => CollaboratorsView(),
+        
       },
       supportedLocales: [
         const Locale('en', ''),

@@ -73,14 +73,14 @@ class Project with ChangeNotifier {
         'openTasks' : openTasks,
         'completedTasks' : completedTasks,
         'colour': colour,
-        'collaborators': [],
+        'collaborators': collaborators,
         'created': created,
         'startDate': startDate,
         'endDate': endDate,
         'lastEdited': lastEdited,
         'budget': budget,
         'expenses': [],
-        'tasks' : [],
+        
       };
 
 // creating a Trip object from a firebase snapshot
@@ -92,8 +92,8 @@ class Project with ChangeNotifier {
         completedTasks = snapshot['completedTasks'],
         //goals = null,
         colour = snapshot['colour'],
-        tasks = null,
-        collaborators = null,
+        
+        collaborators = snapshot['collaborators'] ?? null,
         created = snapshot['created'].toDate(),
         //lastEdited = snapshot['lastEdited'].toDate(),
         //startDate = snapshot['startDate'].toDate(),
@@ -110,7 +110,6 @@ class Project with ChangeNotifier {
     openTasks = data['openTasks'] ?? 0;
     completedTasks = data['completedTasks'] ?? 0;
     colour = data['colour'] ?? null;
-    tasks = data['tasks'] ?? null;
     collaborators = data['collaborators'] ?? null;
     created = data['created'].toDate();
     lastEdited = data['lastEdited'].toDate();

@@ -5,7 +5,7 @@ import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
 import 'package:flutter_app_mindful_lifting/widgets/shared/shared_methods.dart';
 import 'package:provider/provider.dart';
 
-class CollapsingListTitle extends StatefulWidget {
+class CollapsingListTile extends StatefulWidget {
   final String title;
   final IconData icon;
   final AnimationController animationController;
@@ -13,7 +13,7 @@ class CollapsingListTitle extends StatefulWidget {
   final Function onTap;
   final TextStyle textStyle;
 
-  CollapsingListTitle(
+  CollapsingListTile(
       {@required this.title,
       @required this.icon,
       @required this.animationController,
@@ -22,10 +22,10 @@ class CollapsingListTitle extends StatefulWidget {
       @required this.onTap});
 
   @override
-  _CollapsingListTitleState createState() => _CollapsingListTitleState();
+  _CollapsingListTileState createState() => _CollapsingListTileState();
 }
 
-class _CollapsingListTitleState extends State<CollapsingListTitle> {
+class _CollapsingListTileState extends State<CollapsingListTile> {
   Animation<double> _widthAnimation;
 
   @override

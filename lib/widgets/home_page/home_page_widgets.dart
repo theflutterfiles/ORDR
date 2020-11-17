@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/models/Project.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
+import 'package:flutter_app_mindful_lifting/notifiers/menu_drawer_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/project_notifier.dart';
 import 'package:flutter_app_mindful_lifting/screens/add_project_views/add_project_modal.dart';
 import 'package:flutter_app_mindful_lifting/screens/individual_project_views/ProjectView.dart';
@@ -82,29 +83,26 @@ class ProjectsList extends StatefulWidget {
 }
 
 class _ProjectsListState extends State<ProjectsList> {
-
-@override
+  @override
   void initState() {
-   ProjectNotifier _projectNotifier =
+    ProjectNotifier _projectNotifier =
         Provider.of<ProjectNotifier>(context, listen: false);
-   AuthNotifier _authNotifier = Provider.of<AuthNotifier>(context, listen: false);
-   String uid = _authNotifier.user.uid;
-   
-        ProjectApi projectApi = new ProjectApi();
-        projectApi.getProjects(_projectNotifier, uid);
-        
+    AuthNotifier _authNotifier =
+        Provider.of<AuthNotifier>(context, listen: false);
+    String uid = _authNotifier.user.uid;
 
-        super.initState();
+    ProjectApi projectApi = new ProjectApi();
+    projectApi.getProjects(_projectNotifier, uid);
+
+    super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
-    ProjectNotifier _projectNotifier =
-        Provider.of<ProjectNotifier>(context);
+    ProjectNotifier _projectNotifier = Provider.of<ProjectNotifier>(context);
 
     return Stack(
       children: <Widget>[
@@ -129,11 +127,14 @@ class _ProjectsListState extends State<ProjectsList> {
                       child: InkWell(
                         child: ListTile(
                           onTap: () {
-                            _projectNotifier.currentProject = _projectNotifier.projectList[index];
-                            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
-                               return ProjectDetailView();
-                            }
-                           ));
+                            _projectNotifier.currentProject =
+                                _projectNotifier.projectList[index];
+                                MenuDrawerNorifier menuDrawerNorifier = Provider.of<MenuDrawerNorifier>(context, listen: false);
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) {
+                              return ProjectDetailView();
+                            }));
+                            menuDrawerNorifier.setCurrentDrawer(1);
                           },
                           leading: Container(
                             padding: EdgeInsets.only(right: 12.0),

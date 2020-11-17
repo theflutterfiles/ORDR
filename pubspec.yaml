@@ -38,7 +38,10 @@ dependencies:
   flutter_hsvcolor_picker: ^0.0.1
   percent_indicator: ^2.1.7+4
   custom_radio_grouped_button: ^1.0.6+1
+  auto_size_text: ^2.1.0
   slimy_card: ^1.0.4
+  alphabet_list_scroll_view: ^1.0.6
+  flutter_slidable: ^0.5.7
   flutter_localizations:
     sdk: flutter
 

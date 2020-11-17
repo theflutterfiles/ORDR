@@ -1,20 +1,16 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/project_notifier.dart';
-import 'package:flutter_app_mindful_lifting/notifiers/task_notifier.dart';
 import 'package:flutter_app_mindful_lifting/screens/add_task_views/add_task_modal.dart';
-import 'package:flutter_app_mindful_lifting/services/task_api.dart';
 import 'package:flutter_app_mindful_lifting/styles/box_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
 import 'package:flutter_app_mindful_lifting/widgets/shared/collapsing_navigation_drawer.dart';
 import 'package:flutter_app_mindful_lifting/widgets/tasks_page/tasks_list_horizontal.dart';
-import 'package:flutter_app_mindful_lifting/widgets/view_project/project_progress_card.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
-import 'package:slimy_card/slimy_card.dart';
+import 'package:slide_popup_dialog/slide_popup_dialog.dart' as slideDialog;
 
 class TasksView extends StatefulWidget {
   @override
@@ -24,9 +20,7 @@ class TasksView extends StatefulWidget {
 class _TasksViewState extends State<TasksView> {
   final scaffoldState = GlobalKey<ScaffoldState>();
 
-  
-
-  void _showBottomSheet(context) {
+  void _showAddTaskBottomSheet(context) {
     scaffoldState.currentState.showBottomSheet((context) => AddTaskModal());
   }
 
@@ -34,8 +28,6 @@ class _TasksViewState extends State<TasksView> {
   Widget build(BuildContext context) {
     ProjectNotifier _projectNotifier =
         Provider.of<ProjectNotifier>(context, listen: false);
-
-    //TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context);
 
     // int _getDaysUntilCompletion() {
     //   int diff = _projectNotifier.currentProject.endDate
@@ -54,7 +46,7 @@ class _TasksViewState extends State<TasksView> {
     bool checked = true;
 
     return Scaffold(
-      //key: scaffoldState,
+      key: scaffoldState,
       backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -78,7 +70,7 @@ class _TasksViewState extends State<TasksView> {
             padding: const EdgeInsets.only(right: 10),
             child: IconButton(
               onPressed: () {
-                _showBottomSheet(context);
+                _showAddTaskBottomSheet(context);
               },
               icon: Icon(
                 Icons.add,
@@ -86,7 +78,9 @@ class _TasksViewState extends State<TasksView> {
                 size: 40.0,
               ),
             ),
+            
           ),
+          
         ],
       ),
       drawer: CollapsingNavigationDrawer("Tasks"),
@@ -145,11 +139,8 @@ class _TasksViewState extends State<TasksView> {
                   ],
                 ),
               ),
-               
               Expanded(child: TasksListHorizontal()),
               
-               
-             
             ],
           ),
           
@@ -157,4 +148,11 @@ class _TasksViewState extends State<TasksView> {
       ),
     );
   }
+
+
+
+
+
+
+  
 }

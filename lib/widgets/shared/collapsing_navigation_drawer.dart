@@ -1,11 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_mindful_lifting/models/account.dart';
 import 'package:flutter_app_mindful_lifting/models/navigation_model.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/menu_drawer_notifier.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'collapsing_list.dart';
 
@@ -80,7 +77,7 @@ class _CollapsingNavigationDrawerState extends State<CollapsingNavigationDrawer>
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.only(left: 5.0, bottom: 20.0),
-                    child: CollapsingListTitle(
+                    child: CollapsingListTile(
                       onTap: () {
                         switch (index) {
                           case 0:
@@ -117,7 +114,7 @@ class _CollapsingNavigationDrawerState extends State<CollapsingNavigationDrawer>
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 108.0, left: 20.0),
-            child: CollapsingListTitle(
+            child: CollapsingListTile(
               isSelected: false,
               icon: Icons.settings,
               title: 'Settings',

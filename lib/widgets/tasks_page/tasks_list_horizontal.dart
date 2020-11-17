@@ -147,7 +147,7 @@ class _TasksListHorizontalState extends State<TasksListHorizontal> {
                                               .user
                                               .uid;
                                       taskNotifier.taskList[itemIndex]
-                                          .checklist[i].checked = true;
+                                          .checklist[i].checked = value;
                                       taskApi.checkListItem(
                                           currentUserUID,
                                           taskNotifier
@@ -157,8 +157,6 @@ class _TasksListHorizontalState extends State<TasksListHorizontal> {
                                           itemIndex,
                                           checked,
                                           i);
-                                          // taskApi.getTasks(taskNotifier, currentUserUID, taskNotifier
-                                          //     .taskList[itemIndex].projectId);
                                     });
                                   },
                                   activeColor: Colors.green,

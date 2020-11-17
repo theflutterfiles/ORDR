@@ -51,9 +51,4 @@ class TaskNotifier with ChangeNotifier {
     _taskList.remove(task);
     notifyListeners();
   }
-
-  void addChecklist(Checklist checklist){
-    
-
-  }
 }
