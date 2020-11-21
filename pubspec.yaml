@@ -42,6 +42,7 @@ dependencies:
   slimy_card: ^1.0.4
   alphabet_list_scroll_view: ^1.0.6
   flutter_slidable: ^0.5.7
+  empty_widget: ^0.0.1
   flutter_localizations:
     sdk: flutter
 

@@ -1,13 +1,18 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/models/Collaborator.dart';
+import 'package:flutter_app_mindful_lifting/models/Project.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/project_notifier.dart';
 import 'package:flutter_app_mindful_lifting/services/project_api.dart';
+import 'package:flutter_app_mindful_lifting/styles/box_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
 import 'package:flutter_app_mindful_lifting/widgets/collaborators/CollaboratorsListView.dart';
+import 'package:flutter_app_mindful_lifting/widgets/collaborators/SlideableWidget.dart';
 import 'package:flutter_app_mindful_lifting/widgets/shared/collapsing_navigation_drawer.dart';
+import 'package:flutter_app_mindful_lifting/widgets/shared/shared_methods.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:slide_popup_dialog/slide_popup_dialog.dart' as slideDialog;
@@ -25,10 +30,43 @@ class _CollaboratorsViewState extends State<CollaboratorsView> {
   TextEditingController numberController = new TextEditingController();
   TextEditingController instagramController = new TextEditingController();
 
+  SlidableController slidableController;
+
+  @override
+  void initState() {
+    ProjectNotifier projectNotifier =
+        Provider.of<ProjectNotifier>(context, listen: false);
+    String uid = Provider.of<AuthNotifier>(context, listen: false).user.uid;
+    ProjectApi projectApi = new ProjectApi();
+    projectApi.getProjects(projectNotifier, uid);
+
+    slidableController = SlidableController(
+      onSlideAnimationChanged: handleSlideAnimationChanged,
+      onSlideIsOpenChanged: handleSlideIsOpenChanged,
+    );
+
+    super.initState();
+  }
+
+  Animation<double> _rotationAnimation;
+  Color _fabColor = Colors.blue;
+
+  void handleSlideAnimationChanged(Animation<double> slideAnimation) {
+    setState(() {
+      _rotationAnimation = slideAnimation;
+    });
+  }
+
+  void handleSlideIsOpenChanged(bool isOpen) {
+    setState(() {
+      _fabColor = isOpen ? Colors.green : Colors.blue;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     ProjectNotifier _projectNotifier =
-        Provider.of<ProjectNotifier>(context, listen: false);
+        Provider.of<ProjectNotifier>(context, listen: true);
 
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
@@ -99,17 +137,101 @@ class _CollaboratorsViewState extends State<CollaboratorsView> {
                         ],
                       ),
                     ),
-                    
                   ],
                 ),
               ),
-              Expanded(child: CollaboratorsListView()),
+              Expanded(
+                child: Container(
+                  width: screenWidth,
+                  height: screenHeight,
+                  child: Consumer<ProjectNotifier>(
+                    builder:
+                        (BuildContext context, projectNotifier, Widget child) {
+                      return AlphabeticListView(
+                          headers: projectNotifier.collabsList
+                              .map((e) => e.name)
+                              .toList(),
+                          itemCount: projectNotifier.collabsList.length,
+                          list: projectNotifier.collabsList,
+                          listKey: "name",
+                          item: (data, index) => Container(
+                              margin: EdgeInsets.only(bottom: 20, left: 20),
+                              decoration: nMbox.copyWith(
+                                borderRadius: BorderRadius.circular(15),
+                                color: AppThemeColours.DashboardWhite,
+                              ),
+                              child: SlideableWidget(
+                                child:
+                                    _buildListTile(Collaborator.fromMap(data)),
+                              )));
+                    },
+                  ),
+                ),
+              ),
             ],
           ),
         ),
       ),
     );
   }
+
+  Widget _buildListTile(Collaborator collaborator) => ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        leading: CircleAvatar(
+          radius: 28,
+          backgroundColor: AppThemeColours.Purple,
+          child: Text(getInitial(string: collaborator.name, limitTo: 1)),
+        ),
+        title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(
+            collaborator.name,
+            style: AppThemes.listText
+                .copyWith(fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: Icon(Icons.email_rounded),
+              ),
+              Text(
+                collaborator.email,
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: Icon(Icons.phone),
+              ),
+              Text(
+                collaborator.number,
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: Icon(Icons.alternate_email),
+              ),
+              Text(
+                collaborator.instagram,
+              ),
+            ],
+          ),
+        ]),
+      );
 
   void _showDialog() {
     slideDialog.showSlideDialog(
@@ -162,7 +284,7 @@ class _CollaboratorsViewState extends State<CollaboratorsView> {
               },
             ),
             TextFormField(
-              controller:  numberController,
+              controller: numberController,
               decoration: InputDecoration(
                 labelText: "Number",
                 labelStyle: TextStyle(color: Colors.grey),

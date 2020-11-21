@@ -1,120 +1,194 @@
-import 'package:alphabet_list_scroll_view/alphabet_list_scroll_view.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/models/Collaborator.dart';
-import 'package:flutter_app_mindful_lifting/notifiers/project_notifier.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
+import 'package:flutter_app_mindful_lifting/widgets/collaborators/space/empty_widget.dart';
 
-class CollaboratorsListView extends StatefulWidget {
+class AlphabeticListView<T extends Collaborator> extends StatefulWidget {
+
+  final int itemCount;
+  final List<String> headers;
+  final ScrollPhysics physics;
+  final List<T> list;
+  final String listKey;
+  final Widget Function(Map data, int index) item;
+  final EdgeInsets padding;
+  final bool shrinkWrap;
+  final Widget child;
+
+  
+  
+AlphabeticListView(
+      {Key key,
+      @required this.headers,
+      @required this.itemCount,
+      this.physics,
+      this.padding,
+      this.shrinkWrap,
+      @required this.list,
+      @required this.listKey,
+      this.item,
+      this.child})
+      : super(key: key);
+
+
   @override
-  _CollaboratorsListViewState createState() => _CollaboratorsListViewState();
+  _AlphabeticalListViewState createState() => _AlphabeticalListViewState();
 }
 
-class _CollaboratorsListViewState extends State<CollaboratorsListView> {
+
+class _AlphabeticalListViewState extends State<AlphabeticListView> {
   
-  List<Collaborator> collabsList = [];
-
-  List<String> strList = [];
-
-  List<Widget> favouriteList = [];
-
-  List<Widget> normalList = [];
-
-  TextEditingController searchController = TextEditingController();
-
-  filterList() {
-    List<Collaborator> collabs =
-        Provider.of<ProjectNotifier>(context, listen: false).collabsList;
+  List<String> _headList = [];
+  List<Map<String, dynamic>> _mapList = [];
+  List<Map<String, dynamic>> _mapListSerach = [];
+  int selectedValue = 0;
     
-    favouriteList = [];
-    normalList = [];
-    strList = [];
-    if (searchController.text.isNotEmpty) {
-      collabs.retainWhere((collab) => collab.name
-          .toLowerCase()
-          .contains(searchController.text.toLowerCase()));
-    }
-    collabs.forEach((collab) {
-      normalList.add(
-        Slidable(
-          actionPane: SlidableDrawerActionPane(),
-          actionExtentRatio: 0.25,
-          secondaryActions: <Widget>[
-            IconSlideAction(
-              iconWidget: Icon(Icons.star),
-              onTap: () {},
-            ),
-            IconSlideAction(
-              iconWidget: Icon(Icons.more_horiz),
-              onTap: () {},
-            ),
-          ],
-          child: ListTile(
-            leading: CircleAvatar(
-              backgroundImage:
-                  NetworkImage("http://placeimg.com/200/200/people"),
-            ),
-            title: Text(collab.name),
-            subtitle: Text(collab.email),
-          ),
-        ),
-      );
-      strList.add(collab.name);
-    });
 
-    setState(() {
-      strList;
-      favouriteList;
-      normalList;
-      strList;
-    });
+  final int firstIndex = 0;
+
+  final Map<int, String> firstValueMap = {0: "-"};
+
+  @override
+  void initState() {
+    super.initState();
+    headListCreate(widget.headers);
+    _mapList = widget.list.map((e) => e.toJson()).toList();
+    _mapListSerach = widget.list.map((e) => e.toJson()).toList();
   }
 
   @override
-  void dispose() {
-    super.dispose();
+  void didUpdateWidget(oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.listKey != widget.listKey) {
+      headListCreate(widget.headers);
+      setState(() {});
+    }
+  }
+
+  void headListCreate(List<String> headers) {
+    _headList = _headersCharacter(headers);
+    _headList.insert(firstValueMap.keys.first, firstValueMap.values.first);
+  }
+
+  List<String> _headersCharacter(List<String> headers) {
+    final firstCharacterArray =
+        headers.map((e) => e.trim()[0]).toSet().toList();
+    firstCharacterArray.sort();
+    return firstCharacterArray;
   }
 
   @override
   Widget build(BuildContext context) {
-    var currentStr = "";
-    return AlphabetListScrollView(
-      strList: strList,
-      highlightTextStyle: TextStyle(
-        color: Colors.yellow,
+    return Row(
+      children: [buildExpandedListView(), buildExpandedRightBody()],
+    );
+  }
+
+  Expanded buildExpandedRightBody() {
+    return Expanded(
+      child: Column(
+        children: <Widget>[Spacer(), buildExpandedRight(), Spacer()],
       ),
-      showPreview: true,
-      itemBuilder: (context, index) {
-        return normalList[index];
-      },
-      indexedHeight: (i) {
-        return 80;
-      },
-      keyboardUsage: true,
-      headerWidgetList: <AlphabetScrollListHeader>[
-        AlphabetScrollListHeader(widgetList: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextFormField(
-              controller: searchController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                suffix: Icon(
-                  Icons.search,
-                  color: Colors.grey,
-                ),
-                labelText: "Search",
-              ),
-            ),
-          )
-        ], icon: Icon(Icons.search), indexedHeaderHeight: (index) => 80),
-        AlphabetScrollListHeader(
-            widgetList: favouriteList,
-            icon: Icon(Icons.star),
-            indexedHeaderHeight: (index) {
-              return 80;
-            }),
+    );
+  }
+
+  Expanded buildExpandedRight() {
+    return Expanded(
+      flex: 2,
+      child: PageView.builder(
+        physics: PageScrollPhysics(),
+        onPageChanged: (value) {
+          listMapParse(value);
+        },
+        controller: PageController(viewportFraction: 0.1),
+        scrollDirection: Axis.vertical,
+        itemCount: _headList.length,
+        itemBuilder: (context, index) {
+          if (index == firstIndex)
+            return buildIconButtonAll(index);
+          else
+            return Center(child: buildText(index));
+        },
+      ),
+    );
+  }
+
+  Expanded buildExpandedListView() {
+    return Expanded(flex: 9, child: buildListView());
+  }
+
+  ListView buildListView() {
+    return ListView(
+      shrinkWrap: widget.shrinkWrap ?? false,
+      padding: widget.padding ?? EdgeInsets.zero,
+      physics: widget.physics ?? NeverScrollableScrollPhysics(),
+      children: [
+        _customChild,
+        ...List.generate(_mapListSerach.length,
+            (index) => widget.item(_mapListSerach[index], index))
+                    // ..._mapListSerach.map((e) => widget.item(e)).toList()
       ],
     );
+  }
+
+  Widget get _customChild =>
+      widget.child ??
+      EmptyWidget.height(
+        value: 0.01,
+      );
+
+  IconButton buildIconButtonAll(int index) {
+
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+
+
+    return IconButton(
+        icon: Icon(
+          Icons.search,
+          color: selectedValue == index ? Colors.pink : Colors.grey,
+          size: selectedValue == index
+              ? screenWidth * 0.055
+              : screenHeight * 0.015,
+        ),
+        onPressed: () => listMapParse(index));
+  }
+
+  Widget buildText(int index) => Container(
+          child: InkWell(
+        onTap: () {
+          listMapParse(index);
+        },
+        child: AutoSizeText(
+          _headList[index],
+          style: selectedValue == index ? boldStyle : normalStyle,
+        ),
+      ));
+
+  TextStyle get boldStyle => AppThemes.heading
+      .copyWith(color: Colors.blue);
+
+  TextStyle get normalStyle => AppThemes.heading;
+
+  void listMapParse(int index) {
+    if (index == firstIndex) {
+      _mapListSerach = _mapList;
+    } else {
+      _mapListSerach = _mapList.where((element) {
+        if (element is Map) {
+          return element.keys.where((subElement) {
+            final _valueFirst = element[subElement].toString();
+            return subElement == widget.listKey &&
+                _valueFirst[firstIndex] == _headList[index];
+          }).isNotEmpty;
+        }
+        return false;
+      }).toList();
+    }
+
+    setState(() {
+      selectedValue = index;
+    });
   }
 }

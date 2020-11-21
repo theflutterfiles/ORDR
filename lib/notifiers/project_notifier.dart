@@ -14,8 +14,7 @@ class ProjectNotifier with ChangeNotifier {
   UnmodifiableListView<Project> get projectList =>
       UnmodifiableListView(_projectList);
 
-  UnmodifiableListView<Collaborator> get collabsList =>
-      UnmodifiableListView(_collabsList);
+  List<Collaborator> get collabsList => _collabsList;
 
   Project get currentProject => _currentProject;
 
