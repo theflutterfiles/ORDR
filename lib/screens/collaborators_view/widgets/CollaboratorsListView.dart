@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/models/Collaborator.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
-import 'package:flutter_app_mindful_lifting/widgets/collaborators/space/empty_widget.dart';
+import 'package:flutter_app_mindful_lifting/screens/collaborators_view/widgets/empty_widget.dart';
 
 class AlphabeticListView<T extends Collaborator> extends StatefulWidget {
 

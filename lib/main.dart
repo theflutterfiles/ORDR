@@ -4,10 +4,10 @@ import 'package:flutter_app_mindful_lifting/notifiers/checklist_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/menu_drawer_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/task_notifier.dart';
 import 'package:flutter_app_mindful_lifting/screens/authenticate/login.dart';
-import 'package:flutter_app_mindful_lifting/screens/individual_project_views/CollaboratorsView.dart';
-import 'package:flutter_app_mindful_lifting/screens/individual_project_views/ProjectView.dart';
-import 'package:flutter_app_mindful_lifting/screens/individual_project_views/TasksView.dart';
+import 'package:flutter_app_mindful_lifting/screens/collaborators_view/CollaboratorsView.dart';
+import 'package:flutter_app_mindful_lifting/screens/dashboard_view/ProjectView.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app_mindful_lifting/screens/dashboard_view/widgets/TasksView.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 

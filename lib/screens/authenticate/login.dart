@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/models/user.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
 import 'package:flutter_app_mindful_lifting/services/auth.dart';
-import 'package:flutter_app_mindful_lifting/shared/loading.dart';
+import 'package:flutter_app_mindful_lifting/widgets/shared/loading.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
 import 'package:provider/provider.dart';
 

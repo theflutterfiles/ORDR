@@ -1,16 +1,15 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/models/Collaborator.dart';
-import 'package:flutter_app_mindful_lifting/models/Project.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/project_notifier.dart';
 import 'package:flutter_app_mindful_lifting/services/project_api.dart';
 import 'package:flutter_app_mindful_lifting/styles/box_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
-import 'package:flutter_app_mindful_lifting/widgets/collaborators/CollaboratorsListView.dart';
-import 'package:flutter_app_mindful_lifting/widgets/collaborators/SlideableWidget.dart';
-import 'package:flutter_app_mindful_lifting/widgets/shared/collapsing_navigation_drawer.dart';
+import 'package:flutter_app_mindful_lifting/screens/collaborators_view/widgets/CollaboratorsListView.dart';
+import 'package:flutter_app_mindful_lifting/screens/collaborators_view/widgets/SlideableWidget.dart';
+import 'package:flutter_app_mindful_lifting/widgets/shared/menu/collapsing_navigation_drawer.dart';
 import 'package:flutter_app_mindful_lifting/widgets/shared/shared_methods.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -145,24 +144,21 @@ class _CollaboratorsViewState extends State<CollaboratorsView> {
                   width: screenWidth,
                   height: screenHeight,
                   child: Consumer<ProjectNotifier>(
-                    builder:
-                        (BuildContext context, projectNotifier, Widget child) {
+                    builder: (BuildContext context, projectNotifier, Widget child) {
                       return AlphabeticListView(
-                          headers: projectNotifier.collabsList
-                              .map((e) => e.name)
-                              .toList(),
+                          headers:
+                              projectNotifier.collabsList.map((e) => e.name).toList(),
                           itemCount: projectNotifier.collabsList.length,
                           list: projectNotifier.collabsList,
                           listKey: "name",
                           item: (data, index) => Container(
-                              margin: EdgeInsets.only(bottom: 20, left: 20),
-                              decoration: nMbox.copyWith(
-                                borderRadius: BorderRadius.circular(15),
-                                color: AppThemeColours.DashboardWhite,
-                              ),
-                              child: SlideableWidget(
+                                margin: EdgeInsets.only(bottom: 20, left: 20),
+                                decoration: nMbox.copyWith(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: AppThemeColours.DashboardWhite,
+                                ),
                                 child:
-                                    _buildListTile(Collaborator.fromMap(data)),
+                                    SlideableWidget(child: _buildListTile(Collaborator.fromMap(data)),
                               )));
                     },
                   ),

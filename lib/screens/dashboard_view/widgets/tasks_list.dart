@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/task_notifier.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
-import 'package:flutter_app_mindful_lifting/widgets/view_project/project_progress_card.dart';
+import 'package:flutter_app_mindful_lifting/screens/dashboard_view/widgets/project_progress_card.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';

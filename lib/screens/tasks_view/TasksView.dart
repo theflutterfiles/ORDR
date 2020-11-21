@@ -1,16 +1,15 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/project_notifier.dart';
-import 'package:flutter_app_mindful_lifting/screens/add_task_views/add_task_modal.dart';
+import 'package:flutter_app_mindful_lifting/screens/modals/add_task_modal.dart';
 import 'package:flutter_app_mindful_lifting/styles/box_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
-import 'package:flutter_app_mindful_lifting/widgets/shared/collapsing_navigation_drawer.dart';
-import 'package:flutter_app_mindful_lifting/widgets/tasks_page/tasks_list_horizontal.dart';
+import 'package:flutter_app_mindful_lifting/screens/tasks_view/widgets/tasks_list_horizontal.dart';
+import 'package:flutter_app_mindful_lifting/widgets/shared/menu/collapsing_navigation_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
-import 'package:slide_popup_dialog/slide_popup_dialog.dart' as slideDialog;
 
 class TasksView extends StatefulWidget {
   @override

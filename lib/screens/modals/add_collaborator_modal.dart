@@ -10,18 +10,18 @@ import 'package:flutter_app_mindful_lifting/notifiers/task_notifier.dart';
 import 'package:flutter_app_mindful_lifting/services/project_api.dart';
 import 'package:flutter_app_mindful_lifting/services/task_api.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
-import 'package:flutter_app_mindful_lifting/widgets/shared/add_task_form_list.dart';
+import 'package:flutter_app_mindful_lifting/screens/tasks_view/widgets/add_task_form_list.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class AddTaskModal extends StatefulWidget {
+class AddCollaboratorModal extends StatefulWidget {
   @override
-  _AddTaskModalState createState() => _AddTaskModalState();
+  _AddCollaboratorModalState createState() => _AddCollaboratorModalState();
 }
 
-class _AddTaskModalState extends State<AddTaskModal> {
+class _AddCollaboratorModalState extends State<AddCollaboratorModal> {
   TextEditingController _dueDateTextController = new TextEditingController();
 
   @override

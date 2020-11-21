@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/models/add_task_model.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
-import 'package:flutter_app_mindful_lifting/widgets/shared/add_task_form_list.dart';
+import 'package:flutter_app_mindful_lifting/screens/tasks_view/widgets/add_task_form_list.dart';
 
 class ModalList extends StatefulWidget {
   @override

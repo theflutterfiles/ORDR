@@ -7,7 +7,7 @@ import 'package:flutter_app_mindful_lifting/notifiers/task_notifier.dart';
 import 'package:flutter_app_mindful_lifting/services/task_api.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
-import 'package:flutter_app_mindful_lifting/widgets/tasks_page/task_card.dart';
+import 'package:flutter_app_mindful_lifting/screens/tasks_view/widgets/task_card.dart';
 import 'package:provider/provider.dart';
 import 'package:slide_popup_dialog/slide_popup_dialog.dart' as slideDialog;
 import 'package:slimy_card/slimy_card.dart';

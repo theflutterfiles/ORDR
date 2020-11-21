@@ -4,11 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/menu_drawer_notifier.dart';
-import 'package:flutter_app_mindful_lifting/services/auth.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
-import 'package:flutter_app_mindful_lifting/widgets/shared/collapsing_navigation_drawer.dart';
+import 'package:flutter_app_mindful_lifting/widgets/shared/menu/collapsing_navigation_drawer.dart';
 import 'package:provider/provider.dart';
-import '../../widgets/home_page/home_page_widgets.dart';
+import 'widgets/home_page_widgets.dart';
 
 class HomePage extends StatelessWidget {
   @override
