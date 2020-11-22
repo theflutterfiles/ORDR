@@ -4,7 +4,6 @@ import 'package:flutter_app_mindful_lifting/models/Collaborator.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/project_notifier.dart';
 import 'package:flutter_app_mindful_lifting/services/project_api.dart';
-import 'package:flutter_app_mindful_lifting/styles/box_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
 import 'package:flutter_app_mindful_lifting/screens/collaborators_view/widgets/CollaboratorsListView.dart';
@@ -64,9 +63,6 @@ class _CollaboratorsViewState extends State<CollaboratorsView> {
 
   @override
   Widget build(BuildContext context) {
-    ProjectNotifier _projectNotifier =
-        Provider.of<ProjectNotifier>(context, listen: true);
-
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
@@ -144,22 +140,23 @@ class _CollaboratorsViewState extends State<CollaboratorsView> {
                   width: screenWidth,
                   height: screenHeight,
                   child: Consumer<ProjectNotifier>(
-                    builder: (BuildContext context, projectNotifier, Widget child) {
+                    builder:
+                        (BuildContext context, projectNotifier, Widget child) {
                       return AlphabeticListView(
-                          headers:
-                              projectNotifier.collabsList.map((e) => e.name).toList(),
+                          headers: projectNotifier.collabsList
+                              .map((e) => e.name)
+                              .toList(),
                           itemCount: projectNotifier.collabsList.length,
                           list: projectNotifier.collabsList,
                           listKey: "name",
-                          item: (data, index) => Container(
-                                margin: EdgeInsets.only(bottom: 20, left: 20),
-                                decoration: nMbox.copyWith(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: AppThemeColours.DashboardWhite,
-                                ),
+                          item: (data, index) => SlideableWidget(
+                                email: Collaborator.fromMap(data).email,
+                                instagram: Collaborator.fromMap(data).instagram,
+                                projectNotifier: projectNotifier,
+                                collaborator: Collaborator.fromMap(data),
                                 child:
-                                    SlideableWidget(child: _buildListTile(Collaborator.fromMap(data)),
-                              )));
+                                    _buildListTile(Collaborator.fromMap(data)),
+                              ));
                     },
                   ),
                 ),
@@ -184,48 +181,53 @@ class _CollaboratorsViewState extends State<CollaboratorsView> {
             style: AppThemes.listText
                 .copyWith(fontWeight: FontWeight.bold, fontSize: 20),
           ),
-          const SizedBox(
+          SizedBox(
             height: 15,
           ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: Icon(Icons.email_rounded),
-              ),
-              Text(
-                collaborator.email,
-              ),
-            ],
-          ),
+          collaborator.email != null
+              ? Row(
+                  children: [
+                    Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: Icon(Icons.email_rounded)),
+                    Text(
+                      collaborator.email ?? "",
+                    )
+                  ],
+                )
+              : SizedBox(height: 0),
           const SizedBox(
             height: 5,
           ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: Icon(Icons.phone),
-              ),
-              Text(
-                collaborator.number,
-              ),
-            ],
-          ),
+          collaborator.number != null
+              ? Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: Icon(Icons.phone),
+                    ),
+                    Text(
+                      collaborator.number ?? "",
+                    ),
+                  ],
+                )
+              : SizedBox(height: 0),
           const SizedBox(
             height: 5,
           ),
-          Row(
+          collaborator.instagram != null
+                    ? Row(
             children: [
               Padding(
                 padding: const EdgeInsets.only(right: 8),
                 child: Icon(Icons.alternate_email),
               ),
               Text(
-                collaborator.instagram,
+                collaborator.instagram ?? "",
               ),
             ],
-          ),
+          ) : SizedBox(height : 0),
+          Divider(color: AppThemeColours.TextFieldLineColor,)
         ]),
       );
 

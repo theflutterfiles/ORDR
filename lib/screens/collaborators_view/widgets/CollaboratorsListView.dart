@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/models/Collaborator.dart';
+import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
 import 'package:flutter_app_mindful_lifting/screens/collaborators_view/widgets/empty_widget.dart';
 
@@ -147,10 +148,8 @@ class _AlphabeticalListViewState extends State<AlphabeticListView> {
     return IconButton(
         icon: Icon(
           Icons.search,
-          color: selectedValue == index ? Colors.pink : Colors.grey,
-          size: selectedValue == index
-              ? screenWidth * 0.055
-              : screenHeight * 0.015,
+          color: selectedValue == index ? Colors.black : Colors.black,
+          size: 30
         ),
         onPressed: () => listMapParse(index));
   }
@@ -167,7 +166,7 @@ class _AlphabeticalListViewState extends State<AlphabeticListView> {
       ));
 
   TextStyle get boldStyle => AppThemes.heading
-      .copyWith(color: Colors.blue);
+      .copyWith(color: AppThemeColours.Purple);
 
   TextStyle get normalStyle => AppThemes.heading;
 
