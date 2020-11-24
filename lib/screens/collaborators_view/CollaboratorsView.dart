@@ -6,8 +6,6 @@ import 'package:flutter_app_mindful_lifting/notifiers/project_notifier.dart';
 import 'package:flutter_app_mindful_lifting/services/project_api.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
-import 'package:flutter_app_mindful_lifting/screens/collaborators_view/widgets/CollaboratorsListView.dart';
-import 'package:flutter_app_mindful_lifting/screens/collaborators_view/widgets/SlideableWidget.dart';
 import 'package:flutter_app_mindful_lifting/widgets/shared/menu/collapsing_navigation_drawer.dart';
 import 'package:flutter_app_mindful_lifting/widgets/shared/shared_methods.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -30,6 +28,9 @@ class _CollaboratorsViewState extends State<CollaboratorsView> {
 
   SlidableController slidableController;
 
+  List<Collaborator> _collabs = List<Collaborator>();
+  List<Collaborator> _collabsForDisplay = List<Collaborator>();
+
   @override
   void initState() {
     ProjectNotifier projectNotifier =
@@ -42,6 +43,9 @@ class _CollaboratorsViewState extends State<CollaboratorsView> {
       onSlideAnimationChanged: handleSlideAnimationChanged,
       onSlideIsOpenChanged: handleSlideIsOpenChanged,
     );
+
+    _collabs = projectNotifier.currentProject.collaborators;
+    _collabsForDisplay = _collabs;
 
     super.initState();
   }
@@ -104,6 +108,19 @@ class _CollaboratorsViewState extends State<CollaboratorsView> {
                   ),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: IconButton(
+                  onPressed: () {
+                    _showDialog();
+                  },
+                  icon: Icon(
+                    Icons.search_rounded,
+                    color: Color(0xFF333333),
+                    size: 35.0,
+                  ),
+                ),
+              ),
             ],
           ),
           drawer: CollapsingNavigationDrawer("Collaborations"),
@@ -122,7 +139,7 @@ class _CollaboratorsViewState extends State<CollaboratorsView> {
                     children: [
                       Container(
                         padding: EdgeInsets.only(
-                            left: 20, right: 20, top: 20, bottom: 30),
+                            left: 20, right: 20, top: 20, bottom: 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -144,18 +161,22 @@ class _CollaboratorsViewState extends State<CollaboratorsView> {
                       ),
                       Expanded(
                         child: Container(
-                            width: screenWidth,
+                            width: screenWidth - 10,
                             height: screenHeight,
                             child: Consumer<ProjectNotifier>(
                               builder: (BuildContext context, value, child) {
                                 return ListView.builder(
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                    return _buildListTile(projectNotifier
-                                        .currentProject.collaborators[index]);
+                                    return index == 0
+                                        ? _searchBar()
+                                        : _buildListTile(projectNotifier
+                                            .currentProject
+                                            .collaborators[index - 1]);
                                   },
                                   itemCount: projectNotifier
-                                      .currentProject.collaborators.length,
+                                          .currentProject.collaborators.length +
+                                      1,
                                 );
                                 // AlphabeticListView(
                                 //   headers: projectNotifier.collabsList
@@ -185,6 +206,39 @@ class _CollaboratorsViewState extends State<CollaboratorsView> {
           ),
         );
       },
+    );
+  }
+
+  _searchBar() {
+    return Container(
+      height: 50,
+      margin: EdgeInsets.only(bottom: 10, left: 16, right: 16),
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: AppThemeColours.LightPurple,
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: Row(children: [
+        Icon(Icons.search_rounded, size: 35),
+        Expanded(
+          child: TextField(
+            decoration: InputDecoration(
+                hintText: "search...", border: InputBorder.none),
+            onChanged: (text) {
+              text = text.toLowerCase();
+              setState(() {
+                ProjectNotifier projectNotifier =
+                    Provider.of<ProjectNotifier>(context, listen: false);
+                projectNotifier.currentProject.collaborators =
+                    _collabs.where((collaborator) {
+                  var collaboratorName = collaborator.name.toLowerCase();
+                  return collaboratorName.contains(text);
+                }).toList();
+              });
+            },
+          ),
+        ),
+      ]),
     );
   }
 
@@ -250,6 +304,7 @@ class _CollaboratorsViewState extends State<CollaboratorsView> {
               : SizedBox(height: 0),
           Divider(
             color: AppThemeColours.TextFieldLineColor,
+            endIndent: 16,
           )
         ]),
       );
@@ -376,7 +431,6 @@ class _CollaboratorsViewState extends State<CollaboratorsView> {
                       projectNotifier.currentProject.id,
                       collab,
                       projectNotifier);
-                  
 
                   Navigator.of(context).pop();
 
