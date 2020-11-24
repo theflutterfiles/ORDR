@@ -10,15 +10,14 @@ class AlphabeticListView<T extends Collaborator> extends StatefulWidget {
   final int itemCount;
   final List<String> headers;
   final ScrollPhysics physics;
-  final List<T> list;
+  final List<Collaborator> list;
   final String listKey;
   final Widget Function(Map data, int index) item;
   final EdgeInsets padding;
   final bool shrinkWrap;
   final Widget child;
 
-  
-  
+
 AlphabeticListView(
       {Key key,
       @required this.headers,

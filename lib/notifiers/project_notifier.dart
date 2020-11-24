@@ -18,6 +18,8 @@ class ProjectNotifier with ChangeNotifier {
 
   Project get currentProject => _currentProject;
 
+  List<Collaborator> get getCollabsList => _collabsList;
+
   set projectList(List<Project> projectList) {
     _projectList = projectList;
     notifyListeners();
@@ -25,6 +27,11 @@ class ProjectNotifier with ChangeNotifier {
 
   set collabsList(List<Collaborator> collabsList) {
     _collabsList = collabsList;
+    notifyListeners();
+  }
+
+   void addCollaborator(Collaborator collaborator) {
+    _collabsList.add(collaborator);
     notifyListeners();
   }
 

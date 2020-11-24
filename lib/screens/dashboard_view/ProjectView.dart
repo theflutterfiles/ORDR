@@ -47,9 +47,6 @@ class _ProjectDetailViewState extends State<ProjectDetailView> {
     
     ProjectNotifier _projectNotifier = Provider.of<ProjectNotifier>(context, listen: true);
 
-    //TaskNotifier taskNotifier = Provider.of<TaskNotifier>(context);
-    
-
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 

@@ -66,105 +66,125 @@ class _CollaboratorsViewState extends State<CollaboratorsView> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        leading: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15),
-          child: Builder(
-            builder: (context) => IconButton(
-              icon: Icon(
-                Icons.menu_rounded,
-                size: 40,
-                color: AppThemeColours.NavigationBarColor,
-              ),
-              color: Colors.black,
-              onPressed: () => Scaffold.of(context).openDrawer(),
-            ),
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: IconButton(
-              onPressed: () {
-                _showDialog();
-              },
-              icon: Icon(
-                Icons.add,
-                color: Color(0xFF333333),
-                size: 40.0,
-              ),
-            ),
-          ),
-        ],
-      ),
-      drawer: CollapsingNavigationDrawer("Collaborations"),
-      drawerDragStartBehavior: DragStartBehavior.start,
-      body: SingleChildScrollView(
-        child: Container(
-          height: screenHeight,
-          width: screenWidth,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(40),
-            color: AppThemeColours.DashboardWhite,
-          ),
-          child: Column(
-            children: [
-              Container(
-                padding:
-                    EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: " Collaborations",
-                            style: GoogleFonts.poppins(
-                              textStyle: AppThemes.display1,
-                              //color: AppThemeColours.Purple,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+    ProjectNotifier projectNotifier =
+        Provider.of<ProjectNotifier>(context, listen: false);
+
+    return Consumer<ProjectNotifier>(
+      builder: (BuildContext context, value, child) {
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.white,
+            leading: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Builder(
+                builder: (context) => IconButton(
+                  icon: Icon(
+                    Icons.menu_rounded,
+                    size: 40,
+                    color: AppThemeColours.NavigationBarColor,
+                  ),
+                  color: Colors.black,
+                  onPressed: () => Scaffold.of(context).openDrawer(),
                 ),
               ),
-              Expanded(
-                child: Container(
-                  width: screenWidth,
-                  height: screenHeight,
-                  child: Consumer<ProjectNotifier>(
-                    builder:
-                        (BuildContext context, projectNotifier, Widget child) {
-                      return AlphabeticListView(
-                          headers: projectNotifier.collabsList
-                              .map((e) => e.name)
-                              .toList(),
-                          itemCount: projectNotifier.collabsList.length,
-                          list: projectNotifier.collabsList,
-                          listKey: "name",
-                          item: (data, index) => SlideableWidget(
-                                email: Collaborator.fromMap(data).email,
-                                instagram: Collaborator.fromMap(data).instagram,
-                                projectNotifier: projectNotifier,
-                                collaborator: Collaborator.fromMap(data),
-                                child:
-                                    _buildListTile(Collaborator.fromMap(data)),
-                              ));
-                    },
+            ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: IconButton(
+                  onPressed: () {
+                    _showDialog();
+                  },
+                  icon: Icon(
+                    Icons.add,
+                    color: Color(0xFF333333),
+                    size: 40.0,
                   ),
                 ),
               ),
             ],
           ),
-        ),
-      ),
+          drawer: CollapsingNavigationDrawer("Collaborations"),
+          drawerDragStartBehavior: DragStartBehavior.start,
+          body: SingleChildScrollView(
+            child: Container(
+              height: screenHeight,
+              width: screenWidth,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(40),
+                color: AppThemeColours.DashboardWhite,
+              ),
+              child: Consumer<ProjectNotifier>(
+                builder: (BuildContext context, notifier, child) {
+                  return Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(
+                            left: 20, right: 20, top: 20, bottom: 30),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: " Collaborations",
+                                    style: GoogleFonts.poppins(
+                                      textStyle: AppThemes.display1,
+                                      //color: AppThemeColours.Purple,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                            width: screenWidth,
+                            height: screenHeight,
+                            child: Consumer<ProjectNotifier>(
+                              builder: (BuildContext context, value, child) {
+                                return ListView.builder(
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return _buildListTile(projectNotifier
+                                        .currentProject.collaborators[index]);
+                                  },
+                                  itemCount: projectNotifier
+                                      .currentProject.collaborators.length,
+                                );
+                                // AlphabeticListView(
+                                //   headers: projectNotifier.collabsList
+                                //       .map((e) => e.name)
+                                //       .toList(),
+                                //   itemCount: projectNotifier.collabsList.length,
+                                //   list: projectNotifier.getCollabsList,
+                                //   listKey: "name",
+                                //   item: (data, index) => SlideableWidget(
+                                //     email: Collaborator.fromMap(data).email,
+                                //     instagram:
+                                //         Collaborator.fromMap(data).instagram,
+                                //     projectNotifier: projectNotifier,
+                                //     collaborator: Collaborator.fromMap(data),
+                                //     child: _buildListTile(
+                                //         Collaborator.fromMap(data)),
+                                //   ),
+                                // );
+                              },
+                            )),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -184,7 +204,7 @@ class _CollaboratorsViewState extends State<CollaboratorsView> {
           SizedBox(
             height: 15,
           ),
-          collaborator.email != null
+          collaborator.email != null || collaborator.email == ""
               ? Row(
                   children: [
                     Padding(
@@ -199,7 +219,7 @@ class _CollaboratorsViewState extends State<CollaboratorsView> {
           const SizedBox(
             height: 5,
           ),
-          collaborator.number != null
+          collaborator.number != null || collaborator.number == ""
               ? Row(
                   children: [
                     Padding(
@@ -215,19 +235,22 @@ class _CollaboratorsViewState extends State<CollaboratorsView> {
           const SizedBox(
             height: 5,
           ),
-          collaborator.instagram != null
-                    ? Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: Icon(Icons.alternate_email),
-              ),
-              Text(
-                collaborator.instagram ?? "",
-              ),
-            ],
-          ) : SizedBox(height : 0),
-          Divider(color: AppThemeColours.TextFieldLineColor,)
+          collaborator.instagram != null || collaborator.instagram == ""
+              ? Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: Icon(Icons.alternate_email),
+                    ),
+                    Text(
+                      collaborator.instagram ?? "",
+                    ),
+                  ],
+                )
+              : SizedBox(height: 0),
+          Divider(
+            color: AppThemeColours.TextFieldLineColor,
+          )
         ]),
       );
 
@@ -329,9 +352,15 @@ class _CollaboratorsViewState extends State<CollaboratorsView> {
                 onPressed: () async {
                   Collaborator collab = new Collaborator();
                   collab.name = nameController.text;
-                  collab.email = emailController.text;
-                  collab.number = numberController.text;
-                  collab.instagram = instagramController.text;
+                  emailController.text.isEmpty
+                      ? collab.email = null
+                      : collab.email = emailController.text;
+                  numberController.text.isEmpty
+                      ? collab.number = null
+                      : collab.number = numberController.text;
+                  instagramController.text.isEmpty
+                      ? collab.instagram = null
+                      : collab.instagram = instagramController.text;
 
                   String currentUserUID =
                       Provider.of<AuthNotifier>(context, listen: false)
@@ -347,8 +376,14 @@ class _CollaboratorsViewState extends State<CollaboratorsView> {
                       projectNotifier.currentProject.id,
                       collab,
                       projectNotifier);
+                  
 
                   Navigator.of(context).pop();
+
+                  nameController.clear();
+                  numberController.clear();
+                  emailController.clear();
+                  instagramController.clear();
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),

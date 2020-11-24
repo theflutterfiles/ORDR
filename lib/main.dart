@@ -7,7 +7,7 @@ import 'package:flutter_app_mindful_lifting/screens/authenticate/login.dart';
 import 'package:flutter_app_mindful_lifting/screens/collaborators_view/CollaboratorsView.dart';
 import 'package:flutter_app_mindful_lifting/screens/dashboard_view/ProjectView.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app_mindful_lifting/screens/dashboard_view/widgets/TasksView.dart';
+import 'package:flutter_app_mindful_lifting/screens/tasks_view/TasksView.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
