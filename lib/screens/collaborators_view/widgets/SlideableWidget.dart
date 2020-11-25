@@ -12,53 +12,56 @@ import 'package:slide_popup_dialog/slide_popup_dialog.dart' as slideDialog;
 
 class SlideableWidget<T> extends StatefulWidget {
   final Widget child;
-  final String instagram;
-  final String email;
   final ProjectNotifier projectNotifier;
   final Collaborator collaborator;
+  final int index;
 
-  const SlideableWidget(
-      {Key key,
-      @required this.child,
-      @required this.email,
-      @required this.projectNotifier,
-      @required this.instagram,
-      @required this.collaborator})
-      : super(key: key);
+  const SlideableWidget({
+    Key key,
+    @required this.child,
+    @required this.projectNotifier,
+    @required this.collaborator,
+    @required this.index
+  }) : super(key: key);
 
   @override
   _SlideableWidgetState<T> createState() => _SlideableWidgetState<T>();
 }
 
 class _SlideableWidgetState<T> extends State<SlideableWidget<T>> {
-  TextEditingController nameController = new TextEditingController();
-  TextEditingController emailController = new TextEditingController();
-  TextEditingController numberController = new TextEditingController();
-  TextEditingController instagramController = new TextEditingController();
-
   @override
   Widget build(BuildContext context) {
+    TextEditingController nameController = TextEditingController()
+      ..text = widget.collaborator.name;
+    TextEditingController emailController = new TextEditingController()
+      ..text = widget.collaborator.email;
+    TextEditingController numberController = new TextEditingController()
+      ..text = widget.collaborator.number;
+    TextEditingController instagramController = new TextEditingController()
+      ..text = widget.collaborator.instagram;
+
     return Slidable(
       actionPane: SlidableDrawerActionPane(),
       child: widget.child,
       actions: [
-        widget.email != null
+        widget.collaborator.email != null
             ? IconSlideAction(
                 caption: 'Email',
                 color: Colors.blue,
                 icon: Icons.email,
                 onTap: () {
-                  _launchEmail(widget.email, widget.projectNotifier);
+                  _launchEmail(
+                      widget.collaborator.email, widget.projectNotifier);
                 },
               )
             : null,
-        widget.instagram != null
+        widget.collaborator.instagram != null
             ? IconSlideAction(
                 caption: 'View Insta',
                 color: Colors.orange,
                 icon: Icons.alternate_email_rounded,
                 onTap: () {
-                  _launchInstagram(widget.instagram);
+                  _launchInstagram(widget.collaborator.instagram);
                 },
               )
             : null,
@@ -77,8 +80,8 @@ class _SlideableWidgetState<T> extends State<SlideableWidget<T>> {
                     children: [
                       Text("Edit Collaborator", style: AppThemes.display1),
                       TextFormField(
-                        initialValue: widget.collaborator.name,
-                        //controller: nameController,
+                        controller: nameController,
+                        //initialValue: widget.collaborator.name,
                         decoration: InputDecoration(
                           labelText: "Name",
                           labelStyle: TextStyle(color: Colors.grey),
@@ -86,7 +89,6 @@ class _SlideableWidgetState<T> extends State<SlideableWidget<T>> {
                             Icons.person_rounded,
                             color: AppThemeColours.TextFieldLineColor,
                           ),
-                          
                         ),
                         keyboardType: TextInputType.text,
                         style: TextStyle(
@@ -101,8 +103,8 @@ class _SlideableWidgetState<T> extends State<SlideableWidget<T>> {
                         },
                       ),
                       TextFormField(
-                        initialValue: widget.collaborator.email,
-                        //controller: emailController,
+                        controller: emailController,
+                        //initialValue: widget.collaborator.email,
                         decoration: InputDecoration(
                           labelText: "Email",
                           labelStyle: TextStyle(color: Colors.grey),
@@ -124,8 +126,8 @@ class _SlideableWidgetState<T> extends State<SlideableWidget<T>> {
                         },
                       ),
                       TextFormField(
-                        initialValue: widget.collaborator.number,
-                        //controller: numberController,
+                        controller: numberController,
+                        //initialValue: widget.collaborator.number,
                         decoration: InputDecoration(
                           labelText: "Number",
                           labelStyle: TextStyle(color: Colors.grey),
@@ -147,8 +149,8 @@ class _SlideableWidgetState<T> extends State<SlideableWidget<T>> {
                         },
                       ),
                       TextFormField(
-                        initialValue: widget.collaborator.instagram,
-                        //controller: instagramController,
+                        controller: instagramController,
+                        //initialValue: widget.collaborator.instagram,
                         decoration: InputDecoration(
                           labelText: "Instagram handle",
                           labelStyle: TextStyle(color: Colors.grey),
@@ -190,10 +192,13 @@ class _SlideableWidgetState<T> extends State<SlideableWidget<T>> {
 
                             ProjectApi projectApi = new ProjectApi();
 
-                            projectApi.addCollaborator(
+                            projectNotifier.deleteCollaborator(widget.index);
+                            projectNotifier.addCollaborator(collab);
+
+                            projectApi.replaceCollaborators(
                                 currentUserUID,
                                 projectNotifier.currentProject.id,
-                                collab,
+                                projectNotifier.currentProject.collaborators,
                                 projectNotifier);
 
                             Navigator.of(context).pop();

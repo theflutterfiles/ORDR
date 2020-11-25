@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_mindful_lifting/models/Collaborator.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/project_notifier.dart';
+import 'package:flutter_app_mindful_lifting/screens/collaborators_view/widgets/SlideableWidget.dart';
 import 'package:flutter_app_mindful_lifting/services/project_api.dart';
 import 'package:flutter_app_mindful_lifting/styles/colour_styles.dart';
 import 'package:flutter_app_mindful_lifting/styles/text_styles.dart';
@@ -29,7 +30,6 @@ class _CollaboratorsViewState extends State<CollaboratorsView> {
   SlidableController slidableController;
 
   List<Collaborator> _collabs = List<Collaborator>();
-  List<Collaborator> _collabsForDisplay = List<Collaborator>();
 
   @override
   void initState() {
@@ -44,8 +44,11 @@ class _CollaboratorsViewState extends State<CollaboratorsView> {
       onSlideIsOpenChanged: handleSlideIsOpenChanged,
     );
 
-    _collabs = projectNotifier.currentProject.collaborators;
-    _collabsForDisplay = _collabs;
+    if(projectNotifier.currentProject.collaborators.length != 0){
+      _collabs = projectNotifier.currentProject.collaborators;
+    }
+    else _collabs = [];
+    
 
     super.initState();
   }
@@ -170,31 +173,17 @@ class _CollaboratorsViewState extends State<CollaboratorsView> {
                                       (BuildContext context, int index) {
                                     return index == 0
                                         ? _searchBar()
-                                        : _buildListTile(projectNotifier
-                                            .currentProject
-                                            .collaborators[index - 1]);
+                                        : _buildListTile(
+                                            projectNotifier.currentProject
+                                                .collaborators[index - 1],
+                                            projectNotifier,
+                                            index - 1,
+                                          );
                                   },
                                   itemCount: projectNotifier
                                           .currentProject.collaborators.length +
                                       1,
                                 );
-                                // AlphabeticListView(
-                                //   headers: projectNotifier.collabsList
-                                //       .map((e) => e.name)
-                                //       .toList(),
-                                //   itemCount: projectNotifier.collabsList.length,
-                                //   list: projectNotifier.getCollabsList,
-                                //   listKey: "name",
-                                //   item: (data, index) => SlideableWidget(
-                                //     email: Collaborator.fromMap(data).email,
-                                //     instagram:
-                                //         Collaborator.fromMap(data).instagram,
-                                //     projectNotifier: projectNotifier,
-                                //     collaborator: Collaborator.fromMap(data),
-                                //     child: _buildListTile(
-                                //         Collaborator.fromMap(data)),
-                                //   ),
-                                // );
                               },
                             )),
                       ),
@@ -242,71 +231,79 @@ class _CollaboratorsViewState extends State<CollaboratorsView> {
     );
   }
 
-  Widget _buildListTile(Collaborator collaborator) => ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        leading: CircleAvatar(
-          radius: 28,
-          backgroundColor: AppThemeColours.Purple,
-          child: Text(getInitial(string: collaborator.name, limitTo: 1)),
-        ),
-        title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(
-            collaborator.name,
-            style: AppThemes.listText
-                .copyWith(fontWeight: FontWeight.bold, fontSize: 20),
+  Widget _buildListTile(
+          Collaborator collaborator, ProjectNotifier projectNotifier, int index) =>
+      SlideableWidget(
+        index: index,
+        collaborator: collaborator,
+        projectNotifier: projectNotifier,
+        child: ListTile(
+          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          leading: CircleAvatar(
+            radius: 28,
+            backgroundColor: AppThemeColours.Purple,
+            child: Text(getInitial(string: collaborator.name, limitTo: 1)),
           ),
-          SizedBox(
-            height: 15,
-          ),
-          collaborator.email != null || collaborator.email == ""
-              ? Row(
-                  children: [
-                    Padding(
+          title:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(
+              collaborator.name,
+              style: AppThemes.listText
+                  .copyWith(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            collaborator.email != null || collaborator.email == ""
+                ? Row(
+                    children: [
+                      Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: Icon(Icons.email_rounded)),
+                      Text(
+                        collaborator.email ?? "",
+                      )
+                    ],
+                  )
+                : SizedBox(height: 0),
+            const SizedBox(
+              height: 5,
+            ),
+            collaborator.number != null || collaborator.number == ""
+                ? Row(
+                    children: [
+                      Padding(
                         padding: const EdgeInsets.only(right: 8),
-                        child: Icon(Icons.email_rounded)),
-                    Text(
-                      collaborator.email ?? "",
-                    )
-                  ],
-                )
-              : SizedBox(height: 0),
-          const SizedBox(
-            height: 5,
-          ),
-          collaborator.number != null || collaborator.number == ""
-              ? Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8),
-                      child: Icon(Icons.phone),
-                    ),
-                    Text(
-                      collaborator.number ?? "",
-                    ),
-                  ],
-                )
-              : SizedBox(height: 0),
-          const SizedBox(
-            height: 5,
-          ),
-          collaborator.instagram != null || collaborator.instagram == ""
-              ? Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8),
-                      child: Icon(Icons.alternate_email),
-                    ),
-                    Text(
-                      collaborator.instagram ?? "",
-                    ),
-                  ],
-                )
-              : SizedBox(height: 0),
-          Divider(
-            color: AppThemeColours.TextFieldLineColor,
-            endIndent: 16,
-          )
-        ]),
+                        child: Icon(Icons.phone),
+                      ),
+                      Text(
+                        collaborator.number ?? "",
+                      ),
+                    ],
+                  )
+                : SizedBox(height: 0),
+            const SizedBox(
+              height: 5,
+            ),
+            collaborator.instagram != null || collaborator.instagram == ""
+                ? Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: Icon(Icons.alternate_email),
+                      ),
+                      Text(
+                        collaborator.instagram ?? "",
+                      ),
+                    ],
+                  )
+                : SizedBox(height: 0),
+            Divider(
+              color: AppThemeColours.TextFieldLineColor,
+              endIndent: 16,
+            )
+          ]),
+        ),
       );
 
   void _showDialog() {

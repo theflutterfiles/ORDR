@@ -32,6 +32,7 @@ class ProjectNotifier with ChangeNotifier {
 
    void addCollaborator(Collaborator collaborator) {
     _collabsList.add(collaborator);
+    //_currentProject.collaborators.add(collaborator);
     notifyListeners();
   }
 
@@ -47,6 +48,11 @@ class ProjectNotifier with ChangeNotifier {
 
   void removeProject(Project project) {
     _projectList.remove(project);
+    notifyListeners();
+  }
+
+  void deleteCollaborator(int index){
+    _currentProject.collaborators.remove(collabsList[index]);
     notifyListeners();
   }
 }

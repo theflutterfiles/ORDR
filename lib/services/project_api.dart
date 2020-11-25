@@ -33,7 +33,6 @@ class ProjectApi {
       _projectList.add(project);
     });
     projectListNotifier.projectList = _projectList;
-    
   }
 
 // getProjectByID(ProjectNotifier projectListNotifier, String uid) async {
@@ -62,7 +61,7 @@ class ProjectApi {
 //       _projectList.add(project);
 //     });
 //     projectListNotifier.projectList = _projectList;
-    
+
 //   }
 
   updateOpenTasks(String projectId, String uid, ProjectNotifier projectNotifier,
@@ -102,8 +101,6 @@ class ProjectApi {
 
   addCollaborator(String uid, String projectID, Collaborator collaborator,
       ProjectNotifier projectNotifier) async {
-
-      
     await Firestore.instance
         .collection("users")
         .document(uid)
@@ -112,9 +109,37 @@ class ProjectApi {
         .updateData({
       'collaborators': FieldValue.arrayUnion([collaborator.toJson()])
     });
-
-    List<Collaborator> _collabList2 = projectNotifier.currentProject.collaborators;
+    List<Collaborator> _collabList2 = [];
+   projectNotifier.currentProject.collaborators.length == 0 ? _collabList2 = [] :
+        _collabList2 = projectNotifier.currentProject.collaborators;
+        
     _collabList2.add(collaborator);
+    _collabList2.sort((a, b) => a.name.compareTo(b.name));
+    projectNotifier.collabsList = _collabList2;
+    projectNotifier.currentProject.collaborators = _collabList2;
+  }
+
+  replaceCollaborators(String uid, String projectID, List<Collaborator> collabs,
+      ProjectNotifier projectNotifier) async {
+    DocumentReference docRef = await Firestore.instance
+        .collection("users")
+        .document(uid)
+        .collection("projects")
+        .document(projectID);
+
+    docRef.updateData({'collaborators': []});
+
+    var forFirebase = [];
+    collabs.forEach((element) {
+      forFirebase.add(element.toJson());
+    });
+
+    docRef.updateData({
+      'collaborators': forFirebase
+    });
+
+    List<Collaborator> _collabList2 =
+        projectNotifier.currentProject.collaborators;
     _collabList2.sort((a, b) => a.name.compareTo(b.name));
     projectNotifier.collabsList = _collabList2;
     projectNotifier.currentProject.collaborators = _collabList2;
