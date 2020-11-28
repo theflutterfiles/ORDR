@@ -3,6 +3,7 @@ import 'package:flutter_app_mindful_lifting/models/Checklist.dart';
 import 'package:flutter_app_mindful_lifting/models/Task.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/auth_notifier.dart';
 import 'package:flutter_app_mindful_lifting/notifiers/task_notifier.dart';
+import 'package:intl/intl.dart';
 
 class TaskApi {
   AuthNotifier authNotifier = new AuthNotifier();
@@ -33,6 +34,20 @@ class TaskApi {
       _taskList.add(task);
     });
     taskNotifier.taskList = _taskList;
+  }
+
+  getDailyTasks(TaskNotifier taskNotifier, DateTime date) async {
+    String dateStr = DateFormat('dd/MM/yyyy').format(date);
+
+    List<Task> taskList = [];
+
+    taskNotifier.taskList.forEach((task) {
+      String taskDate = DateFormat('dd/MM/yyyy').format(task.dueDate);
+      if (taskDate == dateStr) {
+        taskList.add(task);
+      }
+    });
+    taskNotifier.dailyTasks = taskList;
   }
 
   addTask(String uid, String projectID, Task task,

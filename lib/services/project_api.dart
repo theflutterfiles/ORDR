@@ -35,35 +35,6 @@ class ProjectApi {
     projectListNotifier.projectList = _projectList;
   }
 
-// getProjectByID(ProjectNotifier projectListNotifier, String uid) async {
-//     List<Project> _projectList = [];
-
-//     DocumentSnapshot snapshot = await Firestore.instance
-//         .collection("users")
-//         .document(uid)
-//         .collection("projects")
-//         .document(projectListNotifier.currentProject.id)
-//         .get();
-
-//     snapshot.data.forEach((document) {
-//       List<Collaborator> _collabsList = [];
-//       Project project = Project.fromMap(document.data);
-//       document.data['collaborators'].forEach((item) {
-//         Collaborator collaborator = new Collaborator(
-//             name: item['name'],
-//             email: item['email'],
-//             number: item['number'],
-//             instagram: item['instagram']);
-//         _collabsList.add(collaborator);
-//         project.collaborators = _collabsList;
-//         projectListNotifier.collabsList = _collabsList;
-//       });
-//       _projectList.add(project);
-//     });
-//     projectListNotifier.projectList = _projectList;
-
-//   }
-
   updateOpenTasks(String projectId, String uid, ProjectNotifier projectNotifier,
       Project project) async {
     int currentNum = projectNotifier.currentProject.openTasks;
@@ -110,9 +81,10 @@ class ProjectApi {
       'collaborators': FieldValue.arrayUnion([collaborator.toJson()])
     });
     List<Collaborator> _collabList2 = [];
-   projectNotifier.currentProject.collaborators.length == 0 ? _collabList2 = [] :
-        _collabList2 = projectNotifier.currentProject.collaborators;
-        
+    projectNotifier.currentProject.collaborators.length == 0
+        ? _collabList2 = []
+        : _collabList2 = projectNotifier.currentProject.collaborators;
+
     _collabList2.add(collaborator);
     _collabList2.sort((a, b) => a.name.compareTo(b.name));
     projectNotifier.collabsList = _collabList2;
@@ -121,7 +93,7 @@ class ProjectApi {
 
   replaceCollaborators(String uid, String projectID, List<Collaborator> collabs,
       ProjectNotifier projectNotifier) async {
-    DocumentReference docRef = await Firestore.instance
+    DocumentReference docRef = Firestore.instance
         .collection("users")
         .document(uid)
         .collection("projects")
@@ -134,9 +106,7 @@ class ProjectApi {
       forFirebase.add(element.toJson());
     });
 
-    docRef.updateData({
-      'collaborators': forFirebase
-    });
+    docRef.updateData({'collaborators': forFirebase});
 
     List<Collaborator> _collabList2 =
         projectNotifier.currentProject.collaborators;

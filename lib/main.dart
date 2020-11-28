@@ -7,6 +7,7 @@ import 'package:flutter_app_mindful_lifting/screens/authenticate/login.dart';
 import 'package:flutter_app_mindful_lifting/screens/collaborators_view/CollaboratorsView.dart';
 import 'package:flutter_app_mindful_lifting/screens/dashboard_view/ProjectView.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app_mindful_lifting/screens/events_view/EventsView.dart';
 import 'package:flutter_app_mindful_lifting/screens/tasks_view/TasksView.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -66,7 +67,7 @@ class MyApp extends StatelessWidget {
         "login": (_) => Login(),
         "dashboard": (_) => ProjectDetailView(),
         "collaborators": (_) => CollaboratorsView(),
-        
+        "events": (_) => EventsView(),
       },
       supportedLocales: [
         const Locale('en', ''),

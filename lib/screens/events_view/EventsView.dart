@@ -14,17 +14,13 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:slide_popup_dialog/slide_popup_dialog.dart' as slideDialog;
 
-class TasksView extends StatefulWidget {
+class EventsView extends StatefulWidget {
   @override
-  _TasksViewState createState() => _TasksViewState();
+  _EventsViewState createState() => _EventsViewState();
 }
 
-class _TasksViewState extends State<TasksView> {
+class _EventsViewState extends State<EventsView> {
   final scaffoldState = GlobalKey<ScaffoldState>();
-
-  void _showAddTaskBottomSheet(context) {
-    scaffoldState.currentState.showBottomSheet((context) => AddTaskModal());
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +39,6 @@ class _TasksViewState extends State<TasksView> {
 
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-
-    String budget = "\$" + _projectNotifier.currentProject.budget.toString();
-    bool checked = true;
 
     return Scaffold(
       key: scaffoldState,
@@ -71,9 +64,7 @@ class _TasksViewState extends State<TasksView> {
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: IconButton(
-              onPressed: () {
-                _showAddTaskBottomSheet(context);
-              },
+              onPressed: () {},
               icon: Icon(
                 Icons.add,
                 color: Color(0xFF333333),
@@ -118,7 +109,7 @@ class _TasksViewState extends State<TasksView> {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: "Tasks",
+                            text: "Events",
                             style: GoogleFonts.poppins(
                               textStyle: AppThemes.display1,
                               //color: AppThemeColours.Purple,
@@ -127,33 +118,32 @@ class _TasksViewState extends State<TasksView> {
                         ],
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.all(5),
-                      width: 210,
-                      height: 30,
-                      margin: EdgeInsets.all(5),
-                      decoration: nMbox.copyWith(
-                          borderRadius: BorderRadius.circular(20)),
-                      child: LinearPercentIndicator(
-                        width: 200,
-                        lineHeight: 20,
-                        linearStrokeCap: LinearStrokeCap.roundAll,
-                        // center: Text(
-                        //   "50%",
-                        //   style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-                        // ),
-                        backgroundColor: AppThemeColours.LightPurple,
-                        animateFromLastPercent: true,
-                        progressColor: AppThemeColours.Purple,
-                        percent: 50 / 100,
-                        animation: true,
-                      ),
-                    ),
+                    // Container(
+                    //   padding: EdgeInsets.all(5),
+                    //   width: 210,
+                    //   height: 30,
+                    //   margin: EdgeInsets.all(5),
+                    //   decoration: nMbox.copyWith(
+                    //       borderRadius: BorderRadius.circular(20)),
+                    //   child: LinearPercentIndicator(
+                    //     width: 200,
+                    //     lineHeight: 20,
+                    //     linearStrokeCap: LinearStrokeCap.roundAll,
+                    //     // center: Text(
+                    //     //   "50%",
+                    //     //   style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                    //     // ),
+                    //     backgroundColor: AppThemeColours.LightPurple,
+                    //     animateFromLastPercent: true,
+                    //     progressColor: AppThemeColours.Purple,
+                    //     percent: 50 / 100,
+                    //     animation: true,
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
               Calendar(),
-              Expanded(child: TasksListHorizontal()),
             ],
           ),
         ),
@@ -167,9 +157,7 @@ class _TasksViewState extends State<TasksView> {
       child: Padding(
         padding: const EdgeInsets.only(left: 20.0, right: 20),
         child: Column(
-          children: [
-            TasksList(),
-          ],
+          children: [],
         ),
       ),
       barrierColor: Colors.white.withOpacity(0.7),

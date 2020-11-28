@@ -65,7 +65,7 @@ class _TasksListHorizontalState extends State<TasksListHorizontal> {
               return _buildCarouselItem(
                   context, carouselIndex, itemIndex, taskNotifier);
             },
-            itemCount: taskNotifier.taskList.length,
+            itemCount: taskNotifier.dailyTasks.length,
           ),
         ),
       ],
@@ -84,7 +84,7 @@ class _TasksListHorizontalState extends State<TasksListHorizontal> {
       child: SlimyCard(
         bottomCardHeight: 245,
         color: Colors.white,
-        width: screenWidth,
+        width: 380,
         topCardHeight: 180,
         topCardWidget: InkWell(
           child: TaskCard(
@@ -113,17 +113,17 @@ class _TasksListHorizontalState extends State<TasksListHorizontal> {
               Expanded(
                 child: Consumer<TaskNotifier>(
                   builder: (BuildContext context, value, Widget child) {
-                    return taskNotifier.taskList[itemIndex].checklist.length ==
+                    return taskNotifier.dailyTasks[itemIndex].checklist.length ==
                             0
                         ? Container(child: Text("No checklist items yet"))
                         : ListView.builder(
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
                             itemCount: taskNotifier
-                                .taskList[itemIndex].checklist.length,
+                                .dailyTasks[itemIndex].checklist.length,
                             itemBuilder: (BuildContext context, int i) {
                               String completed = taskNotifier
-                                  .taskList[itemIndex].checklist[i].checked
+                                  .dailyTasks[itemIndex].checklist[i].checked
                                   .toString();
                               var checked = completed.toLowerCase() == "true"
                                   ? true
@@ -133,7 +133,7 @@ class _TasksListHorizontalState extends State<TasksListHorizontal> {
                                 builder: (context, setState) =>
                                     CheckboxListTile(
                                   title: Text(taskNotifier
-                                      .taskList[itemIndex].checklist[i].title
+                                      .dailyTasks[itemIndex].checklist[i].title
                                       .toString()),
                                   value: checked,
                                   selected: false,
@@ -146,13 +146,13 @@ class _TasksListHorizontalState extends State<TasksListHorizontal> {
                                                   listen: false)
                                               .user
                                               .uid;
-                                      taskNotifier.taskList[itemIndex]
+                                      taskNotifier.dailyTasks[itemIndex]
                                           .checklist[i].checked = value;
                                       taskApi.checkListItem(
                                           currentUserUID,
                                           taskNotifier
-                                              .taskList[itemIndex].projectId,
-                                          taskNotifier.taskList[itemIndex],
+                                              .dailyTasks[itemIndex].projectId,
+                                          taskNotifier.dailyTasks[itemIndex],
                                           taskNotifier,
                                           itemIndex,
                                           checked,
@@ -223,10 +223,10 @@ class _TasksListHorizontalState extends State<TasksListHorizontal> {
 
                   taskApi.addChecklistItem(
                       currentUserUID,
-                      taskNotifier.taskList[itemIndex].projectId,
-                      taskNotifier.taskList[itemIndex],
+                      taskNotifier.dailyTasks[itemIndex].projectId,
+                      taskNotifier.dailyTasks[itemIndex],
                       checklist,
-                      taskNotifier.taskList[itemIndex].id,
+                      taskNotifier.dailyTasks[itemIndex].id,
                       taskNotifier,
                       itemIndex);
 

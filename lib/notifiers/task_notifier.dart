@@ -7,6 +7,7 @@ import 'package:flutter_app_mindful_lifting/models/Task.dart';
 
 class TaskNotifier with ChangeNotifier {
   List<Task> _taskList = [];
+  List<Task> _dailyTasks = [];
 
   List<Checklist> _checklist = [];
 
@@ -17,7 +18,10 @@ class TaskNotifier with ChangeNotifier {
   int _openTasks = 0;
 
   UnmodifiableListView<Task> get taskList => UnmodifiableListView(_taskList);
-  UnmodifiableListView<Checklist> get checklist => UnmodifiableListView(_checklist);
+  UnmodifiableListView<Checklist> get checklist =>
+      UnmodifiableListView(_checklist);
+
+  List<Task> get dailyTasks => _dailyTasks;
 
   Project get currentProject => _currentProject;
 
@@ -29,6 +33,11 @@ class TaskNotifier with ChangeNotifier {
 
   set taskList(List<Task> taskList) {
     _taskList = taskList;
+    notifyListeners();
+  }
+
+  set dailyTasks(List<Task> dailyTasks) {
+    _dailyTasks = dailyTasks;
     notifyListeners();
   }
 

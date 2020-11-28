@@ -96,6 +96,10 @@ class _CollapsingNavigationDrawerState extends State<CollapsingNavigationDrawer>
                             currentDrawer.setCurrentDrawer(5);
                             Navigator.popAndPushNamed(context, "tasks");
                             break;
+                          case 6:
+                            currentDrawer.setCurrentDrawer(6);
+                            Navigator.popAndPushNamed(context, "events");
+                            break;
                         }
                       },
                       isSelected: currentSelectedIndex == index,

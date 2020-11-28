@@ -15,4 +15,5 @@ List<NavigationModel> navigationItems = [
   NavigationModel(icon: Icons.monetization_on_rounded, title: "Expenses"),
   NavigationModel(icon: Icons.person_pin, title: "Collab"),
   NavigationModel(icon: Icons.check_circle, title: "Tasks"),
+  NavigationModel(icon: Icons.date_range_rounded, title: "Events"),
 ];

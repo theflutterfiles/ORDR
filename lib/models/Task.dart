@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_app_mindful_lifting/models/Checklist.dart';
 
 class Task {
   //info

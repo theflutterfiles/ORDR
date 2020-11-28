@@ -65,7 +65,7 @@ class _TaskCardState extends State<TaskCard> {
                             children: [
                               TextSpan(
                                 text:
-                                    taskNotifier.taskList[widget.index].title +
+                                    taskNotifier.dailyTasks[widget.index].title +
                                         "\n\n",
                                 style: GoogleFonts.poppins(
                                     textStyle: AppThemes.display1
@@ -73,7 +73,7 @@ class _TaskCardState extends State<TaskCard> {
                               ),
                               TextSpan(
                                 text:
-                                    "Due: ${DateFormat('dd MMM yyyy').format(taskNotifier.taskList[widget.index].dueDate).toString()}",
+                                    "Due: ${DateFormat('dd MMM yyyy').format(taskNotifier.dailyTasks[widget.index].dueDate).toString()}",
                                 style: TextStyle(
                                     fontSize: 15,
                                     color: AppThemeColours.TextFieldLineColor),
@@ -97,6 +97,39 @@ class _TaskCardState extends State<TaskCard> {
               Column(
                 children: [
                   Container(
+                    width: 100,
+                    alignment: Alignment.bottomRight,
+                    child: Container(
+                      alignment: Alignment.bottomLeft,
+                      padding: EdgeInsets.all(5),
+                      width: 50,
+                      height: 50,
+                      margin: EdgeInsets.all(5),
+                      decoration: nMbox.copyWith(shape: BoxShape.circle),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          //borderRadius: BorderRadius.circular(10),
+                          color: (taskNotifier.dailyTasks[widget.index].status ==
+                                  false)
+                              ? Colors.white
+                              : AppThemeColours.DoneGreen,
+                        ),
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.check,
+                            color:
+                                (taskNotifier.dailyTasks[widget.index].status ==
+                                        false)
+                                    ? Colors.grey
+                                    : Colors.white,
+                          ),
+                          onPressed: () {},
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
                     padding: EdgeInsets.all(5),
                     width: 100,
                     height: 40,
@@ -107,13 +140,13 @@ class _TaskCardState extends State<TaskCard> {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: (taskNotifier.taskList[widget.index].status) ==
+                        color: (taskNotifier.dailyTasks[widget.index].status) ==
                                 false
                             ? AppThemeColours.Yellow
                             : AppThemeColours.DoneGreen,
                       ),
                       child: Text(
-                        (taskNotifier.taskList[widget.index].status) == false
+                        (taskNotifier.dailyTasks[widget.index].status) == false
                             ? "Open"
                             : "Done",
                         style: TextStyle(
@@ -134,18 +167,18 @@ class _TaskCardState extends State<TaskCard> {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: (taskNotifier.taskList[widget.index].priority ==
+                        color: (taskNotifier.dailyTasks[widget.index].priority ==
                                 "low")
                             ? Colors.green
-                            : (taskNotifier.taskList[widget.index].priority ==
+                            : (taskNotifier.dailyTasks[widget.index].priority ==
                                     "medium")
                                 ? Colors.orange
                                 : Colors.red,
                       ),
                       child: Text(
-                        (taskNotifier.taskList[widget.index].priority == "low")
+                        (taskNotifier.dailyTasks[widget.index].priority == "low")
                             ? "Low"
-                            : (taskNotifier.taskList[widget.index].priority ==
+                            : (taskNotifier.dailyTasks[widget.index].priority ==
                                     "medium")
                                 ? "Medium"
                                 : "High",
@@ -164,7 +197,7 @@ class _TaskCardState extends State<TaskCard> {
           //   padding: EdgeInsets.only(left: 20, top: 25),
           //   alignment: Alignment.topLeft,
           //   child: Text(
-          //     taskNotifier.taskList[index].description,
+          //     taskNotifier.dailyTasks[index].description,
           //   ),
           // ),
         ],
@@ -220,10 +253,10 @@ class _TaskCardState extends State<TaskCard> {
 
                   // taskApi.addChecklistItem(
                   //     currentUserUID,
-                  //     taskNotifier.taskList[itemIndex].projectId,
-                  //     taskNotifier.taskList[itemIndex],
+                  //     taskNotifier.dailyTasks[itemIndex].projectId,
+                  //     taskNotifier.dailyTasks[itemIndex],
                   //     checklist,
-                  //     taskNotifier.taskList[itemIndex].id,
+                  //     taskNotifier.dailyTasks[itemIndex].id,
                   //     taskNotifier,
                   //     itemIndex);
 
